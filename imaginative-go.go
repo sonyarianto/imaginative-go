@@ -25,6 +25,18 @@ func about(w http.ResponseWriter, r *http.Request) {
     templates.ExecuteTemplate(w, "about.html", data)
 }
 
+func defaultHome(w http.ResponseWriter, r *http.Request) {
+    // because of / match everything route that not defined include / itself
+    // so we have to check it
+    if r.URL.Path != "/" {
+        http.NotFound(w, r)
+        return
+    }
+
+    var templates = template.Must(template.ParseFiles("templates/phantom/static_home.html"))
+    templates.ExecuteTemplate(w, "static_home.html", nil)
+}
+
 func home(w http.ResponseWriter, r *http.Request) {
     // because of / match everything route that not defined include / itself
     // so we have to check it
@@ -193,12 +205,14 @@ func GetOutboundIP() net.IP {
 var localIpString = GetOutboundIP().String()
 
 func main() {
+    // allocates and returns a new ServeMux
     mux := http.NewServeMux()
     
-    mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
-    mux.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images"))))
+    // registers the handler for the given pattern. If a handler already exists for pattern, Handle panics
+    mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/phantom/assets"))))
+    mux.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("templates/phantom/images"))))
     
-    mux.HandleFunc("/", home)
+    mux.HandleFunc("/", defaultHome)
     mux.HandleFunc("/mongo-select-rows", mongodbSelectRows)
     mux.HandleFunc("/generic", genericPage)
     mux.HandleFunc("/elements", elementsPage)
