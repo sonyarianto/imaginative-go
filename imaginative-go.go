@@ -34,17 +34,10 @@ func defaultHome(w http.ResponseWriter, r *http.Request) {
     }
 
     var templates = template.Must(template.ParseFiles("templates/phantom/static_home.html"))
-    templates.ExecuteTemplate(w, "static_home.html", nil)
+    templates.ExecuteTemplate(w, "static_home.html", map[string]string{"browserTitle": browserTitle})
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
-    // because of / match everything route that not defined include / itself
-    // so we have to check it
-    if r.URL.Path != "/" {
-        http.NotFound(w, r)
-        return
-    }
-
+func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     // prepare the function for template
     funcMap := template.FuncMap{
         // the name "inc" is what the function will be called in the template text.
@@ -203,16 +196,19 @@ func GetOutboundIP() net.IP {
 }
 
 var localIpString = GetOutboundIP().String()
+var browserTitle = "Imaginative Go"
 
 func main() {
     // allocates and returns a new ServeMux
     mux := http.NewServeMux()
     
     // registers the handler for the given pattern. If a handler already exists for pattern, Handle panics
-    mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/phantom/assets"))))
-    mux.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("templates/phantom/images"))))
+    mux.Handle("/assets-phantom/", http.StripPrefix("/assets-phantom/", http.FileServer(http.Dir("templates/phantom/assets"))))
+    mux.Handle("/images-phantom/", http.StripPrefix("/images-phantom/", http.FileServer(http.Dir("templates/phantom/images"))))
     
+    // registers the handler function for the given pattern
     mux.HandleFunc("/", defaultHome)
+    mux.HandleFunc("/mysql-select-rows", mysqlSelectRows)
     mux.HandleFunc("/mongo-select-rows", mongodbSelectRows)
     mux.HandleFunc("/generic", genericPage)
     mux.HandleFunc("/elements", elementsPage)
