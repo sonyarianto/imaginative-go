@@ -58,12 +58,12 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     }
 
     type Data struct {
-        Category []Category,
-        browserTitle string
+        Category []Category
+        BrowserTitle string
     }
 
     // prepare the database connection
-    db, err := sql.Open("mysql", "root:mysqlpass99!@tcp(192.168.0.128:3306)/go_db")
+    db, err := sql.Open("mysql", "root:mysqlpass99!@tcp(" + localIpString + ":3306)/go_db")
     if err != nil {
         panic(err.Error())
     }
@@ -99,7 +99,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err)
     }
 
-    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData, browserTitle: browserTitle})
+    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData, BrowserTitle: browserTitle})
 }
 
 func mongodbSelectRows(w http.ResponseWriter, r *http.Request) {
