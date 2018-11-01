@@ -36,4 +36,4 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 - We use beautiful theme called [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
 ## Contributor
-Sony AK - sony@sony-ak.com
+Sony Arianto Kurniawan - sony@sony-ak.com
