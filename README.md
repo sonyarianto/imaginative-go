@@ -17,6 +17,19 @@ cd imaginative-go
 sudo docker-compose up
 ```
 
+After that go to your browser and type
+```
+http://localhost:9899
+```
+or
+```
+http://<YOUR_LOCAL_IP_ADDRESS>:9899
+```
+or
+```
+http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
+```
+
 ## Credits
 - We use beautiful theme called [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
