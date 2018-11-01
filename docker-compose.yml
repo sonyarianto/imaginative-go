@@ -1,6 +1,7 @@
 version: '3'
 services:
   go:
+    container_name: go_imaginative_go
     build: ./golang
     volumes:
       - ./src:/go/src/imaginative-go
@@ -8,3 +9,20 @@ services:
     command: go run imaginative-go.go
     ports:
       - "9899:9899"
+  mysql:
+    container_name: mysql_imaginative_go
+    #restart: always
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: mysqlpass99!
+      #MYSQL_USER: mysql
+      #MYSQL_PASS: mysqlpass99!
+      #MYSQL_ROOT_HOST: 192.168.0.128
+    ports:
+      - "9898:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+#volumes:
+#  mysql_data:
+  
