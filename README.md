@@ -8,7 +8,12 @@ Imaginative Go is a self-hosted website that contains real world code example us
 Docker is used since it will create additional service to mimic realistic web sample. Imaginative Go is using MySQL and MongoDB with pre-populated data. It's useful to show code that doing query to those database service (SQL and noSQL)
 
 ## Usage
-```bash
+#### Linux/MacOS
+Just do this.
+
+```
+git clone https://github.com/sonyarianto/imaginative-go.git
+cd imaginative-go
 sudo docker-compose up
 ```
 
