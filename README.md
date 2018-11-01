@@ -2,10 +2,12 @@
 Imaginative Go is a self-hosted website that contains real world code example using real world beautiful layout to make code sample realistic!
 
 ## Requirements
-- Docker Engine
-- Docker Compose
+- Docker Engine (version 17.03.0 or later)
+- Docker Compose (version 1.22.0 or later)
 
-Docker is used since it will create additional service to mimic realistic web sample. Imaginative Go is using MySQL and MongoDB with pre-populated data. It's useful to show code that doing query to those database service (SQL and noSQL)
+Docker is used since it will create additional service to mimic realistic web sample. Imaginative Go is using MySQL and MongoDB with pre-populated data. It's useful to show code that doing query to those database service (SQL and noSQL).
+
+For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Usage
 #### Linux/MacOS
