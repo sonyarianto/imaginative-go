@@ -1,0 +1,10 @@
+version: '3'
+services:
+  go:
+    build: ./golang
+    volumes:
+      - ./src:/go/src/imaginative-go
+    working_dir: /go/src/imaginative-go
+    command: go run imaginative-go.go
+    ports:
+      - "9899:9899"

@@ -216,5 +216,5 @@ func main() {
     mux.HandleFunc("/get-query", getQueryHandler)
     mux.HandleFunc("/mysql-select-multi-rows", mysqlSelectMultiRowsHandler)
     
-    log.Fatal(http.ListenAndServe(":8888", mux))
+    log.Fatal(http.ListenAndServe(":9899", mux))
 }
