@@ -47,7 +47,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     }
 
     // prepare the template
-    var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("index.html"))
+    var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_rows.html"))
 
     // prepare the structure
     type Category struct {
@@ -58,7 +58,8 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     }
 
     type Data struct {
-        Category []Category
+        Category []Category,
+        browserTitle string
     }
 
     // prepare the database connection
@@ -98,7 +99,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err)
     }
 
-    templates.ExecuteTemplate(w, "index.html", Data{Category: rowsData})
+    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData, browserTitle: browserTitle})
 }
 
 func mongodbSelectRows(w http.ResponseWriter, r *http.Request) {
