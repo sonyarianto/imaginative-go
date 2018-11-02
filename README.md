@@ -32,6 +32,11 @@ or
 http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
 
+## Docker Images Used
+- mysql:latest
+- mongodb:latest
+- adminer
+
 ## Credits
 - We use beautiful theme called [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 

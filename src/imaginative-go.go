@@ -34,7 +34,7 @@ func defaultHome(w http.ResponseWriter, r *http.Request) {
     }
 
     var templates = template.Must(template.ParseFiles("templates/phantom/static_home.html"))
-    templates.ExecuteTemplate(w, "static_home.html", map[string]string{"browserTitle": browserTitle})
+    templates.ExecuteTemplate(w, "static_home.html", nil)
 }
 
 func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +59,6 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
 
     type Data struct {
         Category []Category
-        BrowserTitle string
     }
 
     // prepare the database connection
@@ -99,7 +98,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err)
     }
 
-    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData, BrowserTitle: browserTitle})
+    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData})
 }
 
 func mongodbSelectRows(w http.ResponseWriter, r *http.Request) {
@@ -197,7 +196,6 @@ func GetOutboundIP() net.IP {
 }
 
 var localIpString = GetOutboundIP().String()
-var browserTitle = "Imaginative Go"
 
 func main() {
     // allocates and returns a new ServeMux

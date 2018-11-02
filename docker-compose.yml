@@ -12,17 +12,18 @@ services:
   mysql:
     container_name: mysql_imaginative_go
     #restart: always
-    image: mysql:latest
+    build: ./mysqld
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: mysqlpass99!
-      #MYSQL_USER: mysql
-      #MYSQL_PASS: mysqlpass99!
-      #MYSQL_ROOT_HOST: 192.168.0.128
+      MYSQL_ROOT_PASSWORD: mysqlpassword
+      MYSQL_DATABASE: go_db
     ports:
       - "9898:3306"
-    volumes:
-      - ./mysql-data:/var/lib/mysql
-#volumes:
-#  mysql_data:
+  adminer:
+    image: adminer
+    #restart: always
+    ports:
+      - 9896:8080
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
   
