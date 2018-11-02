@@ -1,4 +1,4 @@
-# Imaginative Go
+# Imaginative Go (ALPHA)
 Imaginative Go is a self-hosted website that contains real world code example using real world beautiful layout to make code sample realistic!
 
 ## Requirements
