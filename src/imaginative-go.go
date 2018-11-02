@@ -26,8 +26,7 @@ func about(w http.ResponseWriter, r *http.Request) {
 }
 
 func defaultHome(w http.ResponseWriter, r *http.Request) {
-    // because of / match everything route that not defined include / itself
-    // so we have to check it
+    // because of / match everything route that not defined include / itself, so we have to check it
     if r.URL.Path != "/" {
         http.NotFound(w, r)
         return
@@ -62,12 +61,11 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     }
 
     // prepare the database connection
-    db, err := sql.Open("mysql", "root:mysqlpass99!@tcp(" + localIpString + ":3306)/go_db")
+    db, err := sql.Open("mysql", mysqlUsername + ":" + mysqlPassword + "@" + mysqlProtocol + "(" + mysqlHost + ":" + mysqlPort + ")/" + mysqlDatabaseName)
     if err != nil {
         panic(err.Error())
     }
     defer db.Close()
-
 
     // prepare the SQL (using Query)
     rows, err := db.Query("SELECT id, `name`, slug, short_description FROM content_category ORDER BY `name` ASC")
@@ -195,7 +193,13 @@ func GetOutboundIP() net.IP {
     return localAddr.IP
 }
 
-var localIpString = GetOutboundIP().String()
+var localIpString string = GetOutboundIP().String()
+var mysqlHost string = "mysql"
+var mysqlUsername string = "root"
+var mysqlPassword string = "mysqlpassword"
+var mysqlProtocol string = "tcp"
+var mysqlDatabaseName string = "go_db"
+var mysqlPort string = "3306"
 
 func main() {
     // allocates and returns a new ServeMux
