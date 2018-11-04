@@ -35,12 +35,12 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ## Docker Images Used
 - mysql:latest
 - mongodb:latest
-- adminer
+- adminer (port exposed 8989) (host: mysql, username: root, password: mysqlpassword)
 
 ## Credits
 ### Themes
 - [Editorial](https://html5up.net/editorial) from [HTML5 UP](https://html5up.net)
 - [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
-## Contributor
+## Contributors
 Sony Arianto Kurniawan - sony@sony-ak.com - original author
