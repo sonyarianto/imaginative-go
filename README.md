@@ -41,6 +41,9 @@ or
 http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
 
+## Screen Shot
+
+
 ## Docker Images Used
 - mysql:latest
 - mongodb:latest
