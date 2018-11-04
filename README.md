@@ -43,4 +43,4 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 - [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
 ## Contributors
-Sony Arianto Kurniawan - sony@sony-ak.com - original author
+Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
