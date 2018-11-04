@@ -42,7 +42,7 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
 
 ## Screen Shot
-
+![Imaginative Go - Screenshot 1](/src/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
 
 ## Docker Images Used
 - mysql:latest
