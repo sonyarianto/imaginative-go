@@ -55,4 +55,7 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
 
 ## Screen Shot
+### Home Page
 ![Imaginative Go - Screenshot 1](/src/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
+### Sample Code List
+![Imaginative Go - Screenshot 2](/src/assets/images/screenshot2.png?raw=true "Imaginative Go - Screenshot 2")
