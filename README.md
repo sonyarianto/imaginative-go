@@ -38,8 +38,9 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 - adminer
 
 ## Credits
-- We use beautiful theme called [Editorial](https://html5up.net/editorial) from [HTML5 UP](https://html5up.net)
-- We use beautiful theme called [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
+### Themes
+- [Editorial](https://html5up.net/editorial) from [HTML5 UP](https://html5up.net)
+- [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
 ## Contributor
-Sony Arianto Kurniawan - sony@sony-ak.com
+Sony Arianto Kurniawan - sony@sony-ak.com - original author
