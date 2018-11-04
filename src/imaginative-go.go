@@ -8,12 +8,34 @@ import (
     "database/sql"
     "context"
     "net"
+    "io/ioutil"
     _ "github.com/go-sql-driver/mysql"
     "github.com/mongodb/mongo-go-driver/mongo"
 )
 
-func hello(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "Hello world!")
+func defaultHome(w http.ResponseWriter, r *http.Request) {
+    // because of / match everything route that not defined include / itself, so we have to check it
+    if r.URL.Path != "/" {
+        http.NotFound(w, r)
+        return
+    }
+
+    var templates = template.Must(template.ParseFiles("templates/editorial/index_static.html"))
+    templates.ExecuteTemplate(w, "index_static.html", nil)
+}
+
+func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
+    io.WriteString(w, "Hello World! You can see the code on function handler called helloWorldWeb on file imaginative-go.go")
+}
+// end of helloWorldWeb
+
+func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request) {
+    b, err := ioutil.ReadFile("imaginative-go.go")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    log.Println(string(b)) // print the content as a 'string'
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
@@ -25,18 +47,7 @@ func about(w http.ResponseWriter, r *http.Request) {
     templates.ExecuteTemplate(w, "about.html", data)
 }
 
-func defaultHome(w http.ResponseWriter, r *http.Request) {
-    // because of / match everything route that not defined include / itself, so we have to check it
-    if r.URL.Path != "/" {
-        http.NotFound(w, r)
-        return
-    }
-
-    var templates = template.Must(template.ParseFiles("templates/phantom/static_home.html"))
-    templates.ExecuteTemplate(w, "static_home.html", nil)
-}
-
-func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
+func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request) {
     // prepare the function for template
     funcMap := template.FuncMap{
         // the name "inc" is what the function will be called in the template text.
@@ -46,7 +57,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
     }
 
     // prepare the template
-    var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_rows.html"))
+    var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_multiple_rows.html"))
 
     // prepare the structure
     type Category struct {
@@ -82,7 +93,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
         // prepare the variable
         var category Category
 
-        // scan every row
+        // scan each row
         err := rows.Scan(&category.InternalId, &category.Name, &category.Slug, &category.ShortDescription)
         if err != nil {
             log.Fatal(err)
@@ -96,7 +107,7 @@ func mysqlSelectRows(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err)
     }
 
-    templates.ExecuteTemplate(w, "mysql_select_rows.html", Data{Category: rowsData})
+    templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
 }
 
 func mongodbSelectRows(w http.ResponseWriter, r *http.Request) {
@@ -206,12 +217,17 @@ func main() {
     mux := http.NewServeMux()
     
     // registers the handler for the given pattern. If a handler already exists for pattern, Handle panics
+    mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
     mux.Handle("/assets-phantom/", http.StripPrefix("/assets-phantom/", http.FileServer(http.Dir("templates/phantom/assets"))))
     mux.Handle("/images-phantom/", http.StripPrefix("/images-phantom/", http.FileServer(http.Dir("templates/phantom/images"))))
+    mux.Handle("/assets-editorial/", http.StripPrefix("/assets-editorial/", http.FileServer(http.Dir("templates/editorial/assets"))))
+    mux.Handle("/images-editorial/", http.StripPrefix("/images-editorial/", http.FileServer(http.Dir("templates/editorial/images"))))
     
     // registers the handler function for the given pattern
     mux.HandleFunc("/", defaultHome)
-    mux.HandleFunc("/mysql-select-rows", mysqlSelectRows)
+    mux.HandleFunc("/hello-world", helloWorldWeb)
+    mux.HandleFunc("/display-imaginative-go-source", displayImaginativeGoSource)
+    mux.HandleFunc("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
     mux.HandleFunc("/mongo-select-rows", mongodbSelectRows)
     mux.HandleFunc("/generic", genericPage)
     mux.HandleFunc("/elements", elementsPage)
