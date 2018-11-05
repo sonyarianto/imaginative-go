@@ -8,7 +8,7 @@ import (
     "database/sql"
     "context"
     "net"
-    "io/ioutil"
+    //"io/ioutil"
     _ "github.com/go-sql-driver/mysql"
     "github.com/mongodb/mongo-go-driver/mongo"
 )
@@ -24,15 +24,20 @@ func defaultHome(w http.ResponseWriter, r *http.Request) {
     templates.ExecuteTemplate(w, "index_static.html", nil)
 }
 
-func seeCode(w http.ResponseWriter, r *http.Request) {
-    starts, ok := r.URL.Query()["start"]
-    
-    if !ok || len(starts[0]) < 1 {
-        io.WriteString(w, "start parameter is missing")
-        return
-    }
+func original(w http.ResponseWriter, r *http.Request) {
+    var templates = template.Must(template.ParseFiles("templates/editorial/index.html"))
+    templates.ExecuteTemplate(w, "index.html", nil)
+}
 
-    start := starts[0];
+func seeCode(w http.ResponseWriter, r *http.Request) {
+    // starts, ok := r.URL.Query()["start"]
+    
+    // if !ok || len(starts[0]) < 1 {
+    //     io.WriteString(w, "start parameter is missing")
+    //     return
+    // }
+
+    // start := starts[0];
 }
 
 func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
@@ -41,17 +46,15 @@ func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
 // end of helloWorldWeb
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request) {
-    b, err := ioutil.ReadFile("imaginative-go.go")
-    if err != nil {
-        log.Fatal(err)
-    }
+    // b, err := ioutil.ReadFile("imaginative-go.go")
+    // if err != nil {
+    //     log.Fatal(err)
+    // }
 
-    log.Println(string(b))
+    // log.Println(string(b))
 
-    match, _ := regexp.MatchString("p([a-z]+)ch", string(b))
-    fmt.Println(match)
-
-
+    // match, _ := regexp.MatchString("p([a-z]+)ch", string(b))
+    // fmt.Println(match)
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
@@ -241,6 +244,7 @@ func main() {
     
     // registers the handler function for the given pattern
     mux.HandleFunc("/", defaultHome)
+    mux.HandleFunc("/original", original)
     mux.HandleFunc("/see-code", seeCode)
     mux.HandleFunc("/hello-world", helloWorldWeb)
     mux.HandleFunc("/display-imaginative-go-source", displayImaginativeGoSource)

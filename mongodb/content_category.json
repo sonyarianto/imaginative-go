@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Rust",
+    "slug": "rust",
+    "short_description": "Resource for learning Rust language"
+  },
+  {
+    "name": "Go",
+    "slug": "go",
+    "short_description": "Resource for learning Go language"
+  },
+  {
+    "name": "PHP",
+    "slug": "php",
+    "short_description": "Resource for learning PHP language"
+  }
+]

@@ -78,9 +78,10 @@
 				$sidebar.addClass('inactive');
 			});
 
-			breakpoints.on('>large', function() {
-				$sidebar.removeClass('inactive');
-			});
+			// commented by Sony AK
+			// breakpoints.on('>large', function() {
+			// 	$sidebar.removeClass('inactive');
+			// });
 
 		// Hack: Workaround for Chrome/Android scrollbar position bug.
 			if (browser.os == 'android'
