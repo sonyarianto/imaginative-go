@@ -23,18 +23,10 @@ services:
     container_name: mongodb_imaginative_go
     #restart: always
     build: ./mongodb
-  mongodb:
-    container_name: mongodb_imaginative_go
-    image: mongo:latest
-    #restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
-  mongodb-data-seed:
-    container_name: mongodb_data_seed_imaginative_go
-    build: ./mongodb
-    links:
-      - mongodb
+      MONGO_INITDB_DATABASE: go_db
   adminer:
     container_name: adminer_imaginative_go
     image: adminer

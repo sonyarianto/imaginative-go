@@ -1,4 +1,8 @@
-[
+db.auth('root', 'mysqlpassword')
+
+db = db.getSiblingDB('go_db')
+
+db.content_category.insertMany(
   {
     "name": "Rust",
     "slug": "rust",
@@ -14,4 +18,4 @@
     "slug": "php",
     "short_description": "Resource for learning PHP language"
   }
-]
+)
