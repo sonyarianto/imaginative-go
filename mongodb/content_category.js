@@ -1,6 +1,6 @@
 db.auth('root', 'mysqlpassword')
 
-db = db.getSiblingDB('go_db')
+db.getSiblingDB('go_db').createUser({user:'root', pwd:'mongodbpassword', roles:[{role:'readWrite', db:'go_db'}]})
 
 db.content_category.insertMany(
   [
