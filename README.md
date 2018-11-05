@@ -53,8 +53,8 @@ sudo docker-compose up --build --force-recreate
 ```
 
 ## Docker Images Used
-- mysql:latest
-- mongodb:latest
+- mysql:latest (see docker-compose.yml for default credential)
+- mongodb:latest (see docker-compose.yml for default credential)
 - adminer (port exposed 8989) (host: mysql, username: root, password: mysqlpassword)
 
 ## Credits
@@ -63,8 +63,8 @@ sudo docker-compose up --build --force-recreate
 - [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
 
 ## Contributors
-Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
-Prasetyama Hidayat - prasetyama@gmail.com
+- Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
+- Prasetyama Hidayat - prasetyama@gmail.com
 
 ## Screen Shot
 ### Home Page
