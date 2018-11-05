@@ -40,7 +40,7 @@ func seeCode(w http.ResponseWriter, r *http.Request) {
     // start := starts[0];
 }
 
-func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
+func helloWorld(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "Hello World!")
 }
 // end of helloWorldWeb
@@ -247,7 +247,7 @@ func main() {
     mux.HandleFunc("/generic-page", genericPage)
     mux.HandleFunc("/elements-page", elementsPage)
     mux.HandleFunc("/see-code", seeCode)
-    mux.HandleFunc("/hello-world", helloWorldWeb)
+    mux.HandleFunc("/hello-world", helloWorld)
     mux.HandleFunc("/display-imaginative-go-source", displayImaginativeGoSource)
     mux.HandleFunc("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
     mux.HandleFunc("/mongo-select-rows", mongodbSelectRows)
