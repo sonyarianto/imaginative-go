@@ -20,8 +20,8 @@ func defaultHome(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    var templates = template.Must(template.ParseFiles("templates/editorial/index_static.html"))
-    templates.ExecuteTemplate(w, "index_static.html", nil)
+    var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
+    templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
 }
 
 func original(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +41,7 @@ func seeCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "Hello World! You can see the code on function handler called helloWorldWeb on file imaginative-go.go")
+    io.WriteString(w, "Hello World!")
 }
 // end of helloWorldWeb
 
@@ -152,13 +152,13 @@ func mongodbSelectRows(w http.ResponseWriter, r *http.Request) {
 }
 
 func genericPage(w http.ResponseWriter, r *http.Request) {
-    var templates = template.Must(template.ParseFiles("generic.html"))
-    templates.ExecuteTemplate(w, "generic.html", nil)
+    var templates = template.Must(template.ParseFiles("templates/editorial/generic_imaginative_go.html"))
+    templates.ExecuteTemplate(w, "generic_imaginative_go.html", nil)
 }
 
 func elementsPage(w http.ResponseWriter, r *http.Request) {
-    var templates = template.Must(template.ParseFiles("elements.html"))
-    templates.ExecuteTemplate(w, "elements.html", nil)
+    var templates = template.Must(template.ParseFiles("templates/editorial/elements_imaginative_go.html"))
+    templates.ExecuteTemplate(w, "elements_imaginative_go.html", nil)
 }
 
 func getQueryHandler(w http.ResponseWriter, r *http.Request) {
@@ -244,14 +244,13 @@ func main() {
     
     // registers the handler function for the given pattern
     mux.HandleFunc("/", defaultHome)
-    mux.HandleFunc("/original", original)
+    mux.HandleFunc("/generic-page", genericPage)
+    mux.HandleFunc("/elements-page", elementsPage)
     mux.HandleFunc("/see-code", seeCode)
     mux.HandleFunc("/hello-world", helloWorldWeb)
     mux.HandleFunc("/display-imaginative-go-source", displayImaginativeGoSource)
     mux.HandleFunc("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
     mux.HandleFunc("/mongo-select-rows", mongodbSelectRows)
-    mux.HandleFunc("/generic", genericPage)
-    mux.HandleFunc("/elements", elementsPage)
     mux.HandleFunc("/get-query", getQueryHandler)
     mux.HandleFunc("/mysql-select-multi-rows", mysqlSelectMultiRowsHandler)
     
