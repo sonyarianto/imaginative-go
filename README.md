@@ -64,6 +64,7 @@ sudo docker-compose up --build --force-recreate
 
 ## Contributors
 Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
+Prasetyama Hidayat - prasetyama@gmail.com
 
 ## Screen Shot
 ### Home Page
