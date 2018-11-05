@@ -43,6 +43,8 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 #### Tips
 To recreate all containers you can type
 ```
+sudo docker container stop mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
+
 sudo docker container rm mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
 ```
 and after that type
