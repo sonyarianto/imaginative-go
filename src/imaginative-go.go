@@ -24,6 +24,17 @@ func defaultHome(w http.ResponseWriter, r *http.Request) {
     templates.ExecuteTemplate(w, "index_static.html", nil)
 }
 
+func seeCode(w http.ResponseWriter, r *http.Request) {
+    starts, ok := r.URL.Query()["start"]
+    
+    if !ok || len(starts[0]) < 1 {
+        io.WriteString(w, "start parameter is missing")
+        return
+    }
+
+    start := starts[0];
+}
+
 func helloWorldWeb(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "Hello World! You can see the code on function handler called helloWorldWeb on file imaginative-go.go")
 }
@@ -35,7 +46,12 @@ func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request) {
         log.Fatal(err)
     }
 
-    log.Println(string(b)) // print the content as a 'string'
+    log.Println(string(b))
+
+    match, _ := regexp.MatchString("p([a-z]+)ch", string(b))
+    fmt.Println(match)
+
+
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
@@ -225,6 +241,7 @@ func main() {
     
     // registers the handler function for the given pattern
     mux.HandleFunc("/", defaultHome)
+    mux.HandleFunc("/see-code", seeCode)
     mux.HandleFunc("/hello-world", helloWorldWeb)
     mux.HandleFunc("/display-imaginative-go-source", displayImaginativeGoSource)
     mux.HandleFunc("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
