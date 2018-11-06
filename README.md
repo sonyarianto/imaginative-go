@@ -16,12 +16,10 @@ We believe that when learning programming language is by directly implement the 
 
 Docker is used since it will create additional service to mimic realistic web sample. Imaginative Go is using MySQL and MongoDB with pre-populated data. It's useful to show code that doing query to those database service (SQL and noSQL).
 
-For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/)
+For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/).
 
 ## Usage
 #### Linux/MacOS
-Just do this.
-
 ```
 git clone https://github.com/sonyarianto/imaginative-go.git
 cd imaginative-go
