@@ -40,7 +40,7 @@ or
 ```
 http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
-#### Tips
+#### Note 1
 To recreate all containers you can type
 ```
 sudo docker container stop mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
@@ -52,10 +52,28 @@ after that, type
 sudo docker-compose up --build --force-recreate
 ```
 
+#### Note 2
+You can access the MySQL table using Adminer, go to this address
+```
+http://localhost:8989
+```
+
+#### Note 3
+MySQL and MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
+```
+sudo docker ps -f "name=mysql_imaginative_go" -f "name=mongodb_imaginative_go"
+```
+Sample output is like below
+```
+CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                                NAMES
+fffe82669408        imaginative-go_mongodb   "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        0.0.0.0:32774->27017/tcp             mongodb_imaginative_go
+5efabed778f7        imaginative-go_mysql     "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        33060/tcp, 0.0.0.0:32773->3306/tcp   mysql_imaginative_go
+```
+
 ## Docker Images Used
-- mysql:latest (see docker-compose.yml for default credential)
-- mongodb:latest (see docker-compose.yml for default credential)
-- adminer (port exposed 8989) (host: mysql, username: root, password: mysqlpassword)
+- mysql:latest (see docker-compose.yml for default credential, port exposed to host is using random port, see on docker ps command)
+- mongodb:latest (see docker-compose.yml for default credential, port exposed to host is using random port, see on docker ps command)
+- adminer (see docker-compose.yml for default mysql credential, port exposed to host at 8989)
 
 ## Credits
 ### Themes
