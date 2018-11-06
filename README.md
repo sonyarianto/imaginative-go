@@ -25,7 +25,7 @@ Just do this.
 ```
 git clone https://github.com/sonyarianto/imaginative-go.git
 cd imaginative-go
-sudo docker-compose up
+sudo docker-compose up -d
 ```
 
 After that, go to your browser and type
@@ -41,14 +41,11 @@ or
 http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
 #### Note 1
-To clean, build and recreate all containers you can type
+To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type lie below
 ```
 docker-compose down && docker-compose pull && docker-compose build --no-cache && docker-compose up -d --build --force-recreate
 ```
-after that, type
-```
-docker-compose up --build --force-recreate
-```
+Above command will make sure you will get create and run fresh all containers needed to run Imaginative Go web project. This is useful after you are doing `git pull` on Imaginative Go repository.
 
 #### Note 2
 You can access the MySQL table using Adminer, go to this address
