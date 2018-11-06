@@ -1,7 +1,7 @@
 version: '3'
 services:
   go:
-    container_name: go_imaginative_go
+    container_name: go-imaginative-go
     build: ./golang
     volumes:
       - ./src:/go/src/imaginative-go
@@ -12,9 +12,10 @@ services:
     depends_on:
       - mysql
       - mongodb
+    networks:
+      - network-imaginative-go
   mysql:
-    container_name: mysql_imaginative_go
-    #restart: always
+    container_name: mysql-imaginative-go
     build: ./mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -22,24 +23,29 @@ services:
       MYSQL_DATABASE: go_db
     ports:
       - "3306"
+    networks:
+      - network-imaginative-go
   mongodb:
-    container_name: mongodb_imaginative_go
-    #restart: always
+    container_name: mongodb-imaginative-go
     build: ./mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
-      #MONGO_INITDB_DATABASE: go_db
+      MONGO_INITDB_DATABASE: go_db
     ports:
       - "27017"
+    networks:
+      - network-imaginative-go
   adminer:
-    container_name: adminer_imaginative_go
+    container_name: adminer-imaginative-go
     image: adminer
-    #restart: always
     ports:
       - 9898:8080
     environment:
       ADMINER_DEFAULT_SERVER: mysql
     depends_on:
       - mysql
-  
+    networks:
+      - network-imaginative-go
+networks:
+  network-imaginative-go:

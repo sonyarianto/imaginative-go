@@ -1,3 +1,5 @@
 db.auth('root', 'mongodbpassword')
 
-db.getSiblingDB('go_db').createUser({user:'root', pwd:'mongodbpassword', roles:[{role:'userAdminAnyDatabase', db:'go_db'}]})
+db.getSiblingDB('admin')
+
+db.createUser({user:'root', pwd:'mongodbpassword', roles:[{role:'userAdmin', db:'go_db'}, {role:'readWrite', db:'go_db'}]})
