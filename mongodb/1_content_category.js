@@ -1,4 +1,4 @@
-db.auth('root', 'mysqlpassword')
+db.auth('root', 'mongodbpassword')
 
 db.getSiblingDB('go_db')
 

@@ -11,6 +11,7 @@ services:
       - "9899:9899"
     depends_on:
       - mysql
+      - mongodb
   mysql:
     container_name: mysql_imaginative_go
     #restart: always
@@ -19,6 +20,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysqlpassword
       MYSQL_DATABASE: go_db
+    ports:
+      - "3306"
   mongodb:
     container_name: mongodb_imaginative_go
     #restart: always
@@ -26,7 +29,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
-      MONGO_INITDB_DATABASE: go_db
+      #MONGO_INITDB_DATABASE: go_db
+    ports:
+      - "27017"
   adminer:
     container_name: adminer_imaginative_go
     image: adminer
