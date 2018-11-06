@@ -66,9 +66,9 @@ CONTAINER ID        IMAGE                    COMMAND                  CREATED   
 ```
 
 ## Docker Images Used
-- `mysql:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on docker ps command)
-- `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on docker ps command)
-- `adminer` (see `docker-compose.yml` for default mysql credential, port exposed to host at 8989)
+- `mysql:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
+- `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
+- `adminer` (see `docker-compose.yml` for default credential to MySQL database, port exposed to host at 8989)
 
 ## Credits
 ### Themes
@@ -79,7 +79,7 @@ CONTAINER ID        IMAGE                    COMMAND                  CREATED   
 - Sony Arianto Kurniawan - sony@sony-ak.com - original author, project maintainer
 - Prasetyama Hidayat - prasetyama@gmail.com
 
-## Screen Shot
+## Screen Shots
 ### Home Page
 ![Imaginative Go - Screenshot 1](/src/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
 ### Sample Code List
