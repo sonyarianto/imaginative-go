@@ -32,12 +32,14 @@ http://localhost:9899
 ```
 or
 ```
-http://<YOUR_LOCAL_IP_ADDRESS>:9899
+http://<LOCAL_IP_ADDRESS>:9899
 ```
 or
 ```
-http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
+http://<DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
+`DOCKER_MACHINE_IP_ADDRESS` usually applied for those who run Docker on Windows other than Windows 10 Pro edition.
+
 #### Note 1
 To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type lie below
 ```
