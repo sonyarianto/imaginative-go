@@ -56,13 +56,13 @@ http://localhost:8989
 #### Note 3
 MySQL and MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
 ```
-docker ps -f "name=mysql_imaginative_go" -f "name=mongodb_imaginative_go"
+docker ps -f "name=mysql-imaginative-go" -f "name=mongodb-imaginative-go"
 ```
 Sample output is like below
 ```
 CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                                NAMES
-fffe82669408        imaginative-go_mongodb   "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        0.0.0.0:32774->27017/tcp             mongodb_imaginative_go
-5efabed778f7        imaginative-go_mysql     "docker-entrypoint.s…"   3 minutes ago       Up 3 minutes        33060/tcp, 0.0.0.0:32773->3306/tcp   mysql_imaginative_go
+8932a72252b0        imaginative-go_mongodb   "docker-entrypoint.s…"   20 minutes ago      Up 20 minutes       0.0.0.0:32818->27017/tcp             mongodb-imaginative-go
+6516ccc7418d        imaginative-go_mysql     "docker-entrypoint.s…"   20 minutes ago      Up 20 minutes       33060/tcp, 0.0.0.0:32817->3306/tcp   mysql-imaginative-go
 ```
 
 ## Docker Images Used
