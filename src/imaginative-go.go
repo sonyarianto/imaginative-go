@@ -8,7 +8,8 @@ import (
     "database/sql"
     "context"
     "net"
-    //"io/ioutil"
+    "strings"
+    "io/ioutil"
     _ "github.com/go-sql-driver/mysql"
     "github.com/mongodb/mongo-go-driver/mongo"
 )
@@ -30,31 +31,55 @@ func original(w http.ResponseWriter, r *http.Request) {
 }
 
 func seeCode(w http.ResponseWriter, r *http.Request) {
-    // starts, ok := r.URL.Query()["start"]
+    // get the fn parameter (to define starting function name)
+    fns, fnOK := r.URL.Query()["fn"]
     
-    // if !ok || len(starts[0]) < 1 {
-    //     io.WriteString(w, "start parameter is missing")
-    //     return
-    // }
+    if !fnOK || len(fns[0]) < 1 {
+        io.WriteString(w, "fn parameter is missing!")
+        return
+    }
 
-    // start := starts[0];
+    // define the variables
+    start := "func " + fns[0]
+    end := "// end of " + fns[0]
+
+    // read the source code
+    rawSourceCode, err := ioutil.ReadFile("imaginative-go.go")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    sourceCode := string(rawSourceCode)
+
+    // start searching for function start
+    startIndex := strings.Index(sourceCode, start)
+    if startIndex > -1 {
+        // start searching for function end -- TODO help us with regex please
+        endIndex := strings.Index(sourceCode, end)
+        if endIndex > -1 {
+            io.WriteString(w, sourceCode[startIndex:endIndex])    
+        } else {
+            io.WriteString(w, "function " + start + " ending not found!")
+            return    
+        }
+    } else {
+        io.WriteString(w, "function " + start + " not found!")
+        return
+    } 
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
     io.WriteString(w, "Hello World!")
 }
-// end of helloWorldWeb
+// end of helloWorld
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request) {
-    // b, err := ioutil.ReadFile("imaginative-go.go")
-    // if err != nil {
-    //     log.Fatal(err)
-    // }
+    b, err := ioutil.ReadFile("imaginative-go.go")
+    if err != nil {
+        log.Fatal(err)
+    }
 
-    // log.Println(string(b))
-
-    // match, _ := regexp.MatchString("p([a-z]+)ch", string(b))
-    // fmt.Println(match)
+    log.Println(string(b))
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
