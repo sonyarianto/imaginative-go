@@ -5,7 +5,7 @@ Imaginative Go is a free code sample in the form of Go web application.
 We believe that when learning programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since this sample just will give you an idea how to achieve something in Go language.
 
 ## Why Imaginative Go?
-- Ideas about achieve something with Go lang
+- Ideas about achieve something with Go language
 - Plenty of working code samples
 - Easy to run (only with Docker)
 - You can contribute
@@ -28,7 +28,7 @@ cd imaginative-go
 sudo docker-compose up
 ```
 
-After that go to your browser and type
+After that, go to your browser and type
 ```
 http://localhost:9899
 ```
@@ -47,7 +47,7 @@ sudo docker container stop mysql_imaginative_go go_imaginative_go adminer_imagin
 
 sudo docker container rm mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
 ```
-and after that type
+after that, type
 ```
 sudo docker-compose up --build --force-recreate
 ```
