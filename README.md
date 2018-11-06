@@ -43,7 +43,7 @@ http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 #### Note 1
 To clean, build and recreate all containers you can type
 ```
-docker-compose rm && docker-compose down && docker-compose pull && docker-compose build --no-cache && docker-compose up -d --build --force-recreate
+docker-compose down && docker-compose pull && docker-compose build --no-cache && docker-compose up -d --build --force-recreate
 ```
 after that, type
 ```
