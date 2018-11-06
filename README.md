@@ -7,7 +7,7 @@ We believe that when learning programming language is by directly implement the 
 ## Why Imaginative Go?
 - Ideas about achieve something with Go language
 - Plenty of working code samples
-- Easy to run (only with Docker)
+- Easy to run (with or without Docker, personally I prefer with Docker)
 - You can contribute
 
 ## Requirements
