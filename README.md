@@ -41,15 +41,13 @@ or
 http://<YOUR_DOCKER_MACHINE_IP_ADDRESS>:9899
 ```
 #### Note 1
-To recreate all containers you can type
+To clean, build and recreate all containers you can type
 ```
-sudo docker container stop mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
-
-sudo docker container rm mysql_imaginative_go go_imaginative_go adminer_imaginative_go mongodb_imaginative_go
+docker-compose rm && docker-compose down && docker-compose pull && docker-compose build --no-cache && docker-compose up -d --build --force-recreate
 ```
 after that, type
 ```
-sudo docker-compose up --build --force-recreate
+docker-compose up --build --force-recreate
 ```
 
 #### Note 2
@@ -61,7 +59,7 @@ http://localhost:8989
 #### Note 3
 MySQL and MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
 ```
-sudo docker ps -f "name=mysql_imaginative_go" -f "name=mongodb_imaginative_go"
+docker ps -f "name=mysql_imaginative_go" -f "name=mongodb_imaginative_go"
 ```
 Sample output is like below
 ```
