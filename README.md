@@ -25,7 +25,7 @@ Just do this.
 ```
 git clone https://github.com/sonyarianto/imaginative-go.git
 cd imaginative-go
-sudo docker-compose up -d
+docker-compose up -d
 ```
 
 After that, go to your browser and type
