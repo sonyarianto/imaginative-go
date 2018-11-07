@@ -51,13 +51,14 @@ func seeCode(w http.ResponseWriter, r *http.Request) {
 
     sourceCode := string(rawSourceCode)
 
-    // start searching for function start
+    // start searching for function start  -- TODO help us with regex please
     startIndex := strings.Index(sourceCode, start)
+    endIndex := strings.Index(sourceCode, end)
     if startIndex > -1 {
         // start searching for function end -- TODO help us with regex please
         endIndex := strings.Index(sourceCode, end)
         if endIndex > -1 {
-            io.WriteString(w, sourceCode[startIndex:endIndex])    
+            //io.WriteString(w, sourceCode[startIndex:endIndex])
         } else {
             io.WriteString(w, "function " + start + " ending not found!")
             return    
@@ -65,7 +66,11 @@ func seeCode(w http.ResponseWriter, r *http.Request) {
     } else {
         io.WriteString(w, "function " + start + " not found!")
         return
-    } 
+    }
+
+    // send to template
+    var templates = template.Must(template.ParseFiles("templates/editorial/see_code_imaginative_go.html"))
+    templates.ExecuteTemplate(w, "see_code_imaginative_go.html", map[string]interface{}{"sourceCode": sourceCode[startIndex:endIndex]})
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
