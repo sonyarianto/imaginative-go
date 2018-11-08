@@ -32,7 +32,7 @@ http://localhost:9899
 ```
 
 #### Note 1
-To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type lie below
+To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type like below
 ```
 docker-compose down && docker-compose pull && docker-compose build --no-cache && docker-compose up -d --build --force-recreate
 ```
