@@ -34,7 +34,7 @@ http://localhost:9899
 ```
 
 > **Note 1**
-
+> 
 > To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type like below
 > ```
 > sudo docker-compose down && sudo docker-compose pull && sudo docker-compose build --no-cache && sudo docker-compose up -d --build --force-recreate
@@ -42,14 +42,14 @@ http://localhost:9899
 > Above command will make sure you will get create and run fresh all containers needed to run Imaginative Go web project. This is useful after you are doing `git pull` on Imaginative Go repository.
 
 > **Note 2**
-
+> 
 > You can access the MySQL table using Adminer container that available on the following address.
 > ```
 > http://localhost:8989
 > ```
 
 > **Note 3**
-
+> 
 > MySQL and MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
 > ```
 > sudo docker ps -f "name=mysql-imaginative-go" -f "name=mongodb-imaginative-go"
