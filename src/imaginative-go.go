@@ -69,12 +69,12 @@ func seeCode(w http.ResponseWriter, r *http.Request) {
     }
 
     // send to template
-    var templates = template.Must(template.ParseFiles("templates/editorial/see_code_imaginative_go.html"))
+    var templates = template.Must(template.ParseGlob("templates/editorial/*.html"))
     templates.ExecuteTemplate(w, "see_code_imaginative_go.html", map[string]interface{}{"sourceCode": sourceCode[startIndex:endIndex]})
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "Hello World!")
+    io.WriteString(w, "hello, world")
 }
 // end of helloWorld
 
