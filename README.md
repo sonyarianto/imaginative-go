@@ -18,6 +18,8 @@ Docker is used since it will create additional service to mimic realistic web sa
 
 For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/).
 
+> **NOTE:** `sudo` used throughout this doc, since mainly we use Linux/MacOS
+
 ## Usage
 #### Linux/MacOS
 ```
