@@ -1,9 +1,9 @@
 package main
 
 import (
-    "bytes"
+	"bytes"
 	"fmt"
-    "github.com/alecthomas/chroma/formatters/html"
+	"github.com/alecthomas/chroma/formatters/html"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
 	"strings"
@@ -24,7 +24,7 @@ func main() {
 	formatter := html.New(html.WithLineNumbers())
 
 	var buff bytes.Buffer
-	
+
 	formatter.Format(&buff, style, iterator)
 
 	niceSourceCode := buff.String()

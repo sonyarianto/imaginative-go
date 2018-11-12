@@ -4,37 +4,40 @@ package main
 // docker/golang/Dockerfile so next time if you recreate all containers
 // it will be installed
 import (
-	"context"
+	"bytes"
+    "context"
 	"database/sql"
+	"github.com/alecthomas/chroma/formatters/html"
+	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/chroma/styles"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	"html/template"
+	"text/template"
 	"io"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"strings"
-    "https://github.com/alecthomas/chroma"
 )
 
-// This is handle / path
+// Handle / path
 func defaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Prepare the template for home page
-    var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
+	var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
 
 	// Execute template
-    templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
+	templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
 }
 
-// This is handle /see-code path
+// Handle /see-code path
 func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Get the fn parameter (to define starting function name)
 	fns, fnOK := r.URL.Query()["fn"]
 
 	// Check the fn parameter
-    if !fnOK || len(fns[0]) < 1 {
+	if !fnOK || len(fns[0]) < 1 {
 		io.WriteString(w, "fn parameter is missing!")
 		return
 	}
@@ -42,7 +45,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Start marker
 	start := "func " + fns[0]
 	// End marker
-    end := "// end of " + fns[0]
+	end := "// End of " + fns[0]
 
 	// Read the source code (imaginative-go.go)
 	sourceCode, err := ioutil.ReadFile("imaginative-go.go")
@@ -50,7 +53,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		log.Fatal(err)
 	}
 
-    dataSourceCode := string(sourceCode)
+	dataSourceCode := string(sourceCode)
 
 	// Start searching for function start  -- TODO help us with regex please
 	startIndex := strings.Index(dataSourceCode, start)
@@ -58,22 +61,39 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if startIndex > -1 {
 		// Function name found
 
-        // Start searching for function end -- TODO help us with regex please
+		// Start searching for function end -- TODO help us with regex please
 		endIndex := strings.Index(dataSourceCode, end)
 		if endIndex > -1 {
-		      // Do nothing when found
-        } else {
+			// Do nothing when found
+		} else {
 			// Function end marker not found
-            io.WriteString(w, "function "+start+" ending not found!")
+			io.WriteString(w, "function "+start+" ending not found!")
 			return
 		}
 	} else {
 		// Function start marker not found
-        io.WriteString(w, "function "+start+" not found!")
+		io.WriteString(w, "function "+start+" not found!")
 		return
 	}
 
-    // Read the source code (src/examples/[fn].go)
+    // We got the source code string on imaginative-go.go
+    dataSourceCode = dataSourceCode[startIndex:endIndex]
+
+    // Start doing syntax highlight on it
+    lexer := lexers.Get("go")
+    iterator, _ := lexer.Tokenise(nil, dataSourceCode)
+    style := styles.Get("github")
+    formatter := html.New(html.WithLineNumbers())
+
+    var buffDataSourceCode bytes.Buffer
+
+    formatter.Format(&buffDataSourceCode, style, iterator)
+
+    niceSourceCode := buffDataSourceCode.String()
+    niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
+    niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
+
+	// Read the source code (src/examples/[fn].go) (stand alone code version)
     saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
     if err != nil {
         log.Fatal(err)
@@ -81,18 +101,31 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
     dataSaSourceCode := string(saSourceCode)
 
+    // Start doing syntax highlight on it
+    lexer = lexers.Get("go")
+    iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
+    style = styles.Get("github")
+    formatter = html.New(html.WithLineNumbers())
+
+    var buffDataSaSourceCode bytes.Buffer
+
+    formatter.Format(&buffDataSaSourceCode, style, iterator)
+
+    niceSaSourceCode := buffDataSaSourceCode.String()
+    niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
+    niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
+
 	// Prepare templates
 	var templates = template.Must(template.ParseGlob("templates/editorial/*.html"))
-	
-    // Execute template
-    templates.ExecuteTemplate(w, fns[0] + ".html", map[string]interface{}{"sourceCode": dataSourceCode[startIndex:endIndex], "standAloneSourceCode": dataSaSourceCode, "id": fns[0]})
+
+	// Execute template
+	templates.ExecuteTemplate(w, fns[0]+".html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
 }
 
+// Handle /hello-world path
 func helloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	io.WriteString(w, "hello, world")
-}
-
-// end of helloWorld
+} // End of helloWorld
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	b, err := ioutil.ReadFile("imaginative-go.go")
@@ -275,6 +308,7 @@ func GetOutboundIP() net.IP {
 	return localAddr.IP
 }
 
+// Some global vars
 var localIpString string = GetOutboundIP().String()
 var mysqlHost string = "mysql"
 var mysqlUsername string = "root"
@@ -284,16 +318,16 @@ var mysqlDatabaseName string = "go_db"
 var mysqlPort string = "3306"
 
 func main() {
-	// allocates and returns a new ServeMux
 	mux := httprouter.New()
 
+	// Serve static files
 	mux.ServeFiles("/assets/*filepath", http.Dir("assets/"))
 	mux.ServeFiles("/assets-phantom/*filepath", http.Dir("templates/phantom/assets/"))
 	mux.ServeFiles("/images-phantom/*filepath", http.Dir("templates/phantom/images/"))
 	mux.ServeFiles("/assets-editorial/*filepath", http.Dir("templates/editorial/assets/"))
 	mux.ServeFiles("/images-editorial/*filepath", http.Dir("templates/editorial/images/"))
 
-	// registers the handler function for the given pattern
+	// Registers the handler function for the given pattern
 	mux.GET("/", defaultHome)
 	mux.GET("/generic-page", genericPage)
 	mux.GET("/elements-page", elementsPage)
@@ -305,5 +339,6 @@ func main() {
 	mux.GET("/get-query", getQueryHandler)
 	mux.GET("/mysql-select-multi-rows", mysqlSelectMultiRowsHandler)
 
+	// Start listen and serve
 	log.Fatal(http.ListenAndServe(":9899", mux))
 }
