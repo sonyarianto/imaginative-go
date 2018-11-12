@@ -1,5 +1,4 @@
 # Imaginative Go (Work in Progress)
-## What is Imaginative Go?
 Imaginative Go is a collection of free code samples in the form of Go web application.
 
 We believe that when learning programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.
