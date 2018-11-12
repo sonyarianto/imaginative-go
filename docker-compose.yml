@@ -2,7 +2,7 @@ version: '3'
 services:
   go:
     container_name: go-imaginative-go
-    build: ./golang
+    build: ./docker/golang
     volumes:
       - ./src:/go/src/imaginative-go
     working_dir: /go/src/imaginative-go
@@ -16,7 +16,7 @@ services:
       - network-imaginative-go
   mysql:
     container_name: mysql-imaginative-go
-    build: ./mysql
+    build: ./docker/mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: mysqlpassword
@@ -25,9 +25,11 @@ services:
       - "3306"
     networks:
       - network-imaginative-go
+    volumes:
+      - mysql_volumes:/var/lib/mysql
   mongodb:
     container_name: mongodb-imaginative-go
-    build: ./mongodb
+    build: ./docker/mongodb
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
@@ -36,6 +38,8 @@ services:
       - "27017"
     networks:
       - network-imaginative-go
+    volumes:
+      - mongodb_volumes:/data/db
   adminer:
     container_name: adminer-imaginative-go
     image: adminer
@@ -49,3 +53,6 @@ services:
       - network-imaginative-go
 networks:
   network-imaginative-go:
+volumes:
+  mysql_volumes:
+  mongodb_volumes:
