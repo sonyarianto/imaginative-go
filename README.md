@@ -66,10 +66,10 @@ http://localhost:9899
 - `adminer` (see `docker-compose.yml` for default credential to MySQL database, port exposed to host at 8989)
 
 ## Third Party Packages Used
-- github.com/go-sql-driver/mysql
-- github.com/julienschmidt/httprouter
-- github.com/mongodb/mongo-go-driver/mongo
-- github.com/alecthomas/chroma
+- [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
+- [github.com/julienschmidt/httprouter](https://github.com/julienschmidt/httprouter)
+- [github.com/mongodb/mongo-go-driver/mongo](https://github.com/mongodb/mongo-go-driver/mongo)
+- [github.com/alecthomas/chroma](https://github.com/alecthomas/chroma)
 
 ## Credits
 ### Themes
