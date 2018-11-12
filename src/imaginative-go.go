@@ -16,6 +16,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+    "https://github.com/alecthomas/chroma"
 )
 
 // This is handle / path
@@ -43,7 +44,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// End marker
     end := "// end of " + fns[0]
 
-	// Read the source code
+	// Read the source code (imaginative-go.go)
 	sourceCode, err := ioutil.ReadFile("imaginative-go.go")
 	if err != nil {
 		log.Fatal(err)
@@ -72,9 +73,19 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		return
 	}
 
-	// send to template
+    // Read the source code (src/examples/[fn].go)
+    saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    dataSaSourceCode := string(saSourceCode)
+
+	// Prepare templates
 	var templates = template.Must(template.ParseGlob("templates/editorial/*.html"))
-	templates.ExecuteTemplate(w, "see_code_imaginative_go.html", map[string]interface{}{"sourceCode": sourceCode[startIndex:endIndex]})
+	
+    // Execute template
+    templates.ExecuteTemplate(w, fns[0] + ".html", map[string]interface{}{"sourceCode": dataSourceCode[startIndex:endIndex], "standAloneSourceCode": dataSaSourceCode, "id": fns[0]})
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

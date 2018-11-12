@@ -8,3 +8,12 @@ RUN go install -v github.com/mongodb/mongo-go-driver/mongo
 
 RUN go get -d -v github.com/julienschmidt/httprouter
 RUN go install -v github.com/julienschmidt/httprouter
+
+RUN go get -d -v github.com/alecthomas/chroma/formatters/html
+RUN go install -v github.com/alecthomas/chroma/formatters/html
+
+RUN go get -d -v github.com/alecthomas/chroma/lexers
+RUN go install -v github.com/alecthomas/chroma/lexers
+
+RUN go get -d -v github.com/alecthomas/chroma/styles
+RUN go install -v github.com/alecthomas/chroma/styles
