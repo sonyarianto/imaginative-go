@@ -70,7 +70,9 @@ http://localhost:9899
 - [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)
 - [github.com/julienschmidt/httprouter](https://github.com/julienschmidt/httprouter)
 - [github.com/mongodb/mongo-go-driver/mongo](https://github.com/mongodb/mongo-go-driver/mongo)
-- [github.com/alecthomas/chroma](https://github.com/alecthomas/chroma)
+- [github.com/alecthomas/chroma/formatters/html](https://github.com/alecthomas/chroma/formatters/html)
+- [github.com/alecthomas/chroma/lexers](https://github.com/alecthomas/chroma/lexers)
+- [github.com/alecthomas/chroma/styles](https://github.com/alecthomas/chroma/styles)
 
 ## Credits
 ### Themes
