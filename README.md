@@ -14,7 +14,7 @@ We believe that the best way to learn new programming language is by directly im
 - Docker Engine (version 17.03.0 or later)
 - Docker Compose (version 1.22.0 or later)
 
-Docker is used since it will create additional service to mimic realistic web sample. Imaginative Go is using MySQL and MongoDB with pre-populated data. It's useful to show code that doing query to those database service (SQL and noSQL).
+Docker is used since it will create additional service to mimic realistic web sample, such as query to database (SQL/NoSQL). Imaginative Go is using MySQL and MongoDB container with pre-populated data.
 
 For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/).
 
