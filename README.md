@@ -1,7 +1,7 @@
 # Imaginative Go (Work in Progress)
 Imaginative Go is a collection of free code samples in the form of Go web application.
 
-We believe that when learning programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.
+We believe that the best way to learn new programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.
 
 ## Why Imaginative Go?
 - Ideas about achieve something with Go language
@@ -64,6 +64,12 @@ http://localhost:9899
 - `mysql:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
 - `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
 - `adminer` (see `docker-compose.yml` for default credential to MySQL database, port exposed to host at 8989)
+
+## Third Party Packages Used
+- github.com/go-sql-driver/mysql
+- github.com/julienschmidt/httprouter
+- github.com/mongodb/mongo-go-driver/mongo
+- github.com/alecthomas/chroma
 
 ## Credits
 ### Themes
