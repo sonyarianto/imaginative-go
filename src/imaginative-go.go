@@ -24,9 +24,6 @@ import (
 
 // Handle / path
 func defaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// Prepare the template for home page
-	//var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
-    
 	// Execute template
 	templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
 }
@@ -114,16 +111,6 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     niceSaSourceCode := buffDataSaSourceCode.String()
     niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
     niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
-
-    // Prepare custom function for our code to make it unescaped string on the template
-    // funcMap := template.FuncMap{
-    //     "toHTML": func(s string) template.HTML {
-    //         return template.HTML(s)
-    //     },
-    // }
-
-	// Prepare templates
-	//var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
 
 	// Execute template
 	templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
@@ -331,13 +318,14 @@ var mysqlProtocol string = "tcp"
 var mysqlDatabaseName string = "go_db"
 var mysqlPort string = "3306"
 
+// Define function for template
 var funcMap = template.FuncMap{
                 "toHTML": func(s string) template.HTML {
                     return template.HTML(s)
                 },
             }
 
-// Prepare templates
+// Prepare all templates
 var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
 
 func main() {
