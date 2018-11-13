@@ -13,7 +13,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	"text/template"
+	"html/template"
 	"io"
 	"io/ioutil"
 	"log"
@@ -115,8 +115,15 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
     niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
+    // Prepare custom function for our code to make it unescaped string on the template
+    funcMap := template.FuncMap{
+        "toHTML": func(s string) template.HTML {
+            return template.HTML(s)
+        },
+    }
+
 	// Prepare templates
-	var templates = template.Must(template.ParseGlob("templates/editorial/*.html"))
+	var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
 
 	// Execute template
 	templates.ExecuteTemplate(w, fns[0]+".html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
