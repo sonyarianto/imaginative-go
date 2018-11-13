@@ -237,16 +237,6 @@ func mongodbSelectRows(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 	templates.ExecuteTemplate(w, "mongodb_select_rows.html", nil)
 }
 
-func genericPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var templates = template.Must(template.ParseFiles("templates/editorial/generic_imaginative_go.html"))
-	templates.ExecuteTemplate(w, "generic_imaginative_go.html", nil)
-}
-
-func elementsPage(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var templates = template.Must(template.ParseFiles("templates/editorial/elements_imaginative_go.html"))
-	templates.ExecuteTemplate(w, "elements_imaginative_go.html", nil)
-}
-
 func getQueryHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	keys, ok := r.URL.Query()["key"]
 
@@ -340,8 +330,6 @@ func main() {
 
 	// Registers the handler function for the given pattern
 	mux.GET("/", defaultHome)
-	mux.GET("/generic-page", genericPage)
-	mux.GET("/elements-page", elementsPage)
 	mux.GET("/see-code", seeCode)
 	mux.GET("/hello-world", helloWorld)
     mux.GET("/hello-world-2", helloWorld2)
