@@ -5,238 +5,26 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Imaginative Go</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/assets-editorial/css/main.css" />
-	</head>
+	{{template "_head.html"}}
 	<body class="is-preload">
-		
-		<!-- Wrapper -->
-		<div id="wrapper">
-			
-			<!-- Main -->
-			<div id="main">
-				<div class="inner">
-					<!-- Header -->
-					<header id="header">
-						<a href="/" class="logo"><strong>Imaginative Go</strong> by Contributors Team</a>
-						<!-- <ul class="icons">
-							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
-						</ul> -->
-					</header>
-
-					<!-- Banner -->
-					<section id="banner">
-						<div class="content">
-							<header>
-								<h1>Hi, I’m Imaginative Go</h1>
-								<p>A free code sample in the form of Go web application</p>
-							</header>
-							<p>We believe that when learning programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language. We don't use any framework and forgive us if the code still not efficient or optimal, since this sample just will give you an idea how to achieve something in Go language.</p>
-							<!-- <ul class="actions">
-								<li><a href="#" class="button big">Learn More</a></li>
-							</ul> -->
-						</div>
-						<span class="image object">
-							<img src="/assets/images/golang.jpg" alt="" />
-						</span>
-					</section>
-
-					<!-- Section -->
-					<section>
-						<header class="major">
-							<h2>Why Imaginative Go?</h2>
-						</header>
-						<div class="features">
-							<article>
-								<span class="icon fa-lightbulb-o"></span>
-								<div class="content">
-									<h3>Ideas about achieve something with Go lang</h3>
-									<p>We hope that is project will give you some ideas about how to achieve something with Go programming language by looking into the code inside this imaginative web application project.</p>
-								</div>
-							</article>
-							<article>
-								<span class="icon fa-code"></span>
-								<div class="content">
-									<h3>Plenty of working code samples</h3>
-									<p>Actually now still small amount of sample included hahaha, but don't worry we will add it over time. Just sit back and relax, drink your coffee.</p>
-								</div>
-							</article>
-							<article>
-								<span class="icon fa-bolt"></span>
-								<div class="content">
-									<h3>Easy to run (only with Docker)</h3>
-									<p>We design it to be simple. You only need Docker to run this application. Even you don't need Go installed on your system. But you can also run with your local setup if you want.</p>
-								</div>
-							</article>
-							<article>
-								<span class="icon fa-users"></span>
-								<div class="content">
-									<h3>You can contribute</h3>
-									<p>Any contribution are appreciated. Even you can help us with your request, code or ideas. Just do pull request on our <a target="_blank" href="https://github.com/sonyarianto/imaginative-go">GitHub</a> repository.</p>
-								</div>
-							</article>
-						</div>
-					</section>
-
-					<!-- Section -->
-					<section>
-						<header class="major">
-							<h2>Samples</h2>
-						</header>
-						<div class="posts">
-							<article>
-								<h3>The standard hello world ritual</h3>
-								<p>This is a must ritual on any programming language.</p>
-								<ul class="actions">
-									<li><a href="/hello-world" class="button">Result</a></li><li><a href="/see-code?fn=helloWorld" class="button">Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Another hello world</h3>
-								<p>This time display HTML as Content Type. You will see how to set content type.</p>
-								<ul class="actions">
-									<li><a href="/hello-world-html" class="button">Result</a></li><li><a href="/see-code?fn=helloWorldHtml" class="button">Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Load a HTML template</h3>
-								<p>This time display HTML as Content Type. You will see how to set content type.</p>
-								<ul class="actions">
-									<li><a href="/hello-world-html" class="button">Result</a></li><li><a href="/see-code?fn=helloWorldHtml" class="button">Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Display imaginative-go.go source code</h3>
-								<p>It will show you the full source code of imaginative-go.go to observe.</p>
-								<ul class="actions">
-									<li><a href="/hello-world" class="button">See Result</a></li><li><a href="/see-code?fn=helloWorld" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Query multiple rows from MySQL table</h3>
-								<p>This sample will show query to MySQL table and display it on template using loop.</p>
-								<ul class="actions">
-									<li><a href="/mysql-select-multiple-rows" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Load and display text file source</h3>
-								<p>This sample will load file imaginative-go.go (yes this source code) and display it to a template.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Display current IP address</h3>
-								<p>This sample will show how to display current used IP address.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Handle request POST</h3>
-								<p>This sample will show basic operation to handle POST request.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>Handle request GET</h3>
-								<p>This sample will show basic operation to handle POST request.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-							<article>
-								<h3>How to do ORM in Go with GORM</h3>
-								<p>This sample will show basic operation to handle POST request.</p>
-								<ul class="actions">
-									<li><a href="#" class="button">See Result</a></li><li><a href="/see-code?start=&end=" class="button">See Code</a></li>
-								</ul>
-							</article>
-						</div>
-					</section>
-
-				</div>
-			</div>
-
-			<!-- Sidebar -->
-			<div id="sidebar" class="inactive">
-				<div class="inner">
-
-					<!-- Search -->
-					<section id="search" class="alt">
-						<form method="post" action="#">
-							<input type="text" name="query" id="query" placeholder="Search" />
-						</form>
-					</section>
-
-					<!-- Menu -->
-					<nav id="menu">
-						<header class="major">
-							<h2>Menu</h2>
-						</header>
-						<ul>
-							<li><a href="/">Homepage</a></li>
-							<li><a href="/generic-page">Generic Page</a></li>
-							<li><a href="/elements-page">Elements Page</a></li>
-							<li>
-								<span class="opener">Contains Submenu</span>
-								<ul>
-									<li><a href="#">Sub Item 1</a></li>
-									<li><a href="#">Sub Item 2</a></li>
-									<li><a href="#">Sub Item 3</a></li>
-									<li><a href="#">Sub Item 4</a></li>
-								</ul>
-							</li>
-						</ul>
-					</nav>
-
-				</div>
-			</div>
-
-		</div>
-		
-		<!-- Footer -->
 		<div id="wrapper">
 			<div id="main">
 				<div class="inner">
-					<!-- Section -->
-					<section>
-						<header class="major">
-							<h2>Get in touch</h2>
-						</header>
-						<p>If you have any ideas, just do pull request on our GitHub or any e-mail below.</p>
-						<ul class="contact">
-							<li class="fa-envelope-o"><a href="mailto:sony@sony-ak.com">sony@sony-ak.com</a></li>
-							<li class="fa-github"><a href="https://github.com/sonyarianto/imaginative-go">https://github.com/sonyarianto/imaginative-go</a></li>
-							<!-- <li class="fa-phone">(000) 000-0000</li>
-							<li class="fa-home">1234 Somewhere Road #8254<br />
-							Nashville, TN 00000-0000</li> -->
-						</ul>
-					</section>
+					{{template "_header.html"}}
 
-					<!-- Footer -->
-					<footer id="footer">
-						<p class="copyright">&copy; 2018 Sony Arianto Kurniawan. All rights reserved. Home Template using <a target="_blank" href="https://html5up.net/editorial">Editorial</a> from <a target="_blank" href="https://html5up.net">HTML5 UP</a></p>
-					</footer>
+					{{template "_home_banner.html"}}					
+
+					{{template "_home_why_imaginative_go_section.html"}}
+
+					{{template "_home_list_of_samples_section.html"}}
 				</div>
 			</div>
+
+			{{template "_sidebar.html"}}
 		</div>
+		
+		{{template "_footer.html"}}
 
-		<!-- Scripts -->
-			<script src="/assets-editorial/js/jquery.min.js"></script>
-			<script src="/assets-editorial/js/browser.min.js"></script>
-			<script src="/assets-editorial/js/breakpoints.min.js"></script>
-			<script src="/assets-editorial/js/util.js"></script>
-			<script src="/assets-editorial/js/main.js"></script>
-
+		{{template "_footer_js.html"}}
 	</body>
 </html>

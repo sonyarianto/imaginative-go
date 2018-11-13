@@ -25,8 +25,8 @@ import (
 // Handle / path
 func defaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Prepare the template for home page
-	var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
-
+	//var templates = template.Must(template.ParseFiles("templates/editorial/index_imaginative_go.html"))
+    
 	// Execute template
 	templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
 }
@@ -116,23 +116,30 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
     // Prepare custom function for our code to make it unescaped string on the template
-    funcMap := template.FuncMap{
-        "toHTML": func(s string) template.HTML {
-            return template.HTML(s)
-        },
-    }
+    // funcMap := template.FuncMap{
+    //     "toHTML": func(s string) template.HTML {
+    //         return template.HTML(s)
+    //     },
+    // }
 
 	// Prepare templates
-	var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
+	//var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
 
 	// Execute template
-	templates.ExecuteTemplate(w, fns[0]+".html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
+	templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
 }
 
 // Handle /hello-world path
 func helloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	io.WriteString(w, "hello, world")
 } // End of helloWorld
+
+// Handle /hello-world-2 path
+func helloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+    io.WriteString(w, "<h1>hello, world<h1>")
+} // End of helloWorld2
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	b, err := ioutil.ReadFile("imaginative-go.go")
@@ -324,6 +331,15 @@ var mysqlProtocol string = "tcp"
 var mysqlDatabaseName string = "go_db"
 var mysqlPort string = "3306"
 
+var funcMap = template.FuncMap{
+                "toHTML": func(s string) template.HTML {
+                    return template.HTML(s)
+                },
+            }
+
+// Prepare templates
+var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
+
 func main() {
 	mux := httprouter.New()
 
@@ -340,6 +356,7 @@ func main() {
 	mux.GET("/elements-page", elementsPage)
 	mux.GET("/see-code", seeCode)
 	mux.GET("/hello-world", helloWorld)
+    mux.GET("/hello-world-2", helloWorld2)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)
