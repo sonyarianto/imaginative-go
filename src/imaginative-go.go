@@ -80,7 +80,9 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     lexer := lexers.Get("go")
     iterator, _ := lexer.Tokenise(nil, dataSourceCode)
     style := styles.Get("github")
-    formatter := html.New(html.WithLineNumbers())
+    
+    // Do this if you want line number, formatter := html.New(html.WithLineNumbers())
+    formatter := html.New()
 
     var buffDataSourceCode bytes.Buffer
 
@@ -102,7 +104,9 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     lexer = lexers.Get("go")
     iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
     style = styles.Get("github")
-    formatter = html.New(html.WithLineNumbers())
+    
+    // Do this if you want line number, formatter = html.New(html.WithLineNumbers())
+    formatter = html.New()
 
     var buffDataSaSourceCode bytes.Buffer
 
