@@ -89,7 +89,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     formatter.Format(&buffDataSourceCode, style, iterator)
 
     niceSourceCode := buffDataSourceCode.String()
-    niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
+    niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
     niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Read the source code (src/examples/[fn].go) (stand alone code version)
@@ -113,7 +113,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
     formatter.Format(&buffDataSaSourceCode, style, iterator)
 
     niceSaSourceCode := buffDataSaSourceCode.String()
-    niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff"><code>`, -1)
+    niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
     niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Execute template
