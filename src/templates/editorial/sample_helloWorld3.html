@@ -1,0 +1,25 @@
+<section>
+	<header class="main">
+		<h1>Another hello world (again)</h1>
+	</header>
+
+	<!-- Content -->
+	<h2 id="content">Scenario</h2>
+	<p>This is standard hello world that not for web purpose.</p>
+
+	{{if not .sourceCode}}
+	<h3>Source code on imaginative-go.go</h3>
+	<div class="row">
+		{{toHTML .sourceCode}}
+	</div>
+	{{end}}
+
+	<p>And below is stand alone example, you can try yourself locally.</p>
+
+	<h3>Full stand alone source code {{.id}}.go</h3>
+	<div class="row">
+		{{toHTML .standAloneSourceCode}}
+	</div>
+
+	<p>Run above code by type <code>go run helloWorld3.go</code> from your console.</p>
+</section>

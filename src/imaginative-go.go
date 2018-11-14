@@ -56,12 +56,15 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	startIndex := strings.Index(dataSourceCode, start)
 	endIndex := strings.Index(dataSourceCode, end)
 	if startIndex > -1 {
-		// Function name found
+		// Function name start marker found
 
 		// Start searching for function end -- TODO help us with regex please
-		endIndex := strings.Index(dataSourceCode, end)
+		endIndex = strings.Index(dataSourceCode, end)
 		if endIndex > -1 {
-			// Do nothing when found
+			// Function name (one block) found
+
+			// We got the source code string on imaginative-go.go
+    		dataSourceCode = dataSourceCode[startIndex:endIndex]
 		} else {
 			// Function end marker not found
 			io.WriteString(w, "function "+start+" ending not found!")
@@ -69,12 +72,11 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		}
 	} else {
 		// Function start marker not found
-		io.WriteString(w, "function "+start+" not found!")
-		return
+		//io.WriteString(w, "function "+start+" not found!")
+		//return
+		dataSourceCode = ""
+		endIndex = 0
 	}
-
-    // We got the source code string on imaginative-go.go
-    dataSourceCode = dataSourceCode[startIndex:endIndex]
 
     // Start doing syntax highlight on it
     lexer := lexers.Get("go")
