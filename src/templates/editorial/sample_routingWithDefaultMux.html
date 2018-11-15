@@ -1,11 +1,11 @@
 <section>
 	<header class="main">
-		<h1>Another hello world (again)</h1>
+		<h1>Create routing with default net/http multiplexer a.k.a mux</h1>
 	</header>
 
 	<!-- Content -->
 	<h2 id="content">Scenario</h2>
-	<p>This is standard hello world that not for web purpose.</p>
+	<p>We will create simple mini website with three paths / /service1 and /service2</p>
 
 	{{if not .sourceCode}}
 	<p>Source code on file <code>imaginative-go.go</code></p>
@@ -21,5 +21,5 @@
 		{{toHTML .standAloneSourceCode}}
 	</div>
 
-	<p>Run above code by type <code>go run {{.id}}.go</code> from your console.</p>
+	<p>Run above code by type <code>go run {{.id}}.go</code> from your console and then go to your browser at <code>http://localhost:3000/hello-world</code></p>
 </section>
