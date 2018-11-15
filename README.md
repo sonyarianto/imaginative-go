@@ -88,3 +88,8 @@ http://localhost:9899
 ![Imaginative Go - Screenshot 1](/src/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
 ### Sample Code List
 ![Imaginative Go - Screenshot 2](/src/assets/images/screenshot2.png?raw=true "Imaginative Go - Screenshot 2")
+
+## License
+This project is licensed under the MIT License.
+
+License can be found [here](https://github.com/sonyarianto/imaginative-go/blob/master/LICENSE).
