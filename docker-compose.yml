@@ -12,6 +12,7 @@ services:
     depends_on:
       - mysql
       - mongodb
+    restart: always
     networks:
       - network-imaginative-go
   mysql:
@@ -21,10 +22,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysqlpassword
       MYSQL_DATABASE: go_db
-    ports:
-      - "3306"
     networks:
       - network-imaginative-go
+    restart: always
     volumes:
       - mysql_volumes:/var/lib/mysql
   mongodb:
@@ -34,10 +34,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
       MONGO_INITDB_DATABASE: go_db
-    ports:
-      - "27017"
     networks:
       - network-imaginative-go
+    restart: always
     volumes:
       - mongodb_volumes:/data/db
   adminer:
@@ -51,6 +50,7 @@ services:
       - mysql
     networks:
       - network-imaginative-go
+    restart: always
 networks:
   network-imaginative-go:
 volumes:
