@@ -23,13 +23,13 @@ import (
 )
 
 // Handle / path
-func defaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func DefaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Execute template
 	templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
 }
 
 // Handle /see-code path
-func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Get the fn parameter (to define starting function name)
 	fns, fnOK := r.URL.Query()["fn"]
 
@@ -123,12 +123,12 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 // Handle /hello-world path
-func helloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func SampleHelloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	io.WriteString(w, "hello, world")
 } // End of helloWorld
 
 // Handle /hello-world-2 path
-func helloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func SampleHelloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	io.WriteString(w, "<h1>hello, world<h1>")
@@ -335,10 +335,10 @@ func main() {
 	mux.ServeFiles("/images-editorial/*filepath", http.Dir("templates/editorial/images/"))
 
 	// Registers the handler function for the given pattern
-	mux.GET("/", defaultHome)
-	mux.GET("/see-code", seeCode)
-	mux.GET("/hello-world", helloWorld)
-	mux.GET("/hello-world-2", helloWorld2)
+	mux.GET("/", DefaultHome)
+	mux.GET("/see-code", SeeCode)
+	mux.GET("/hello-world", SampleHelloWorld)
+	mux.GET("/hello-world-2", SampleHelloWorld2)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)
