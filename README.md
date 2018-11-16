@@ -1,4 +1,7 @@
 # Imaginative Go
+
+[![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go)
+
 ### Status: WORK IN PROGRESS
 Imaginative Go is a collection of free code samples in the form of Go web application.
 
