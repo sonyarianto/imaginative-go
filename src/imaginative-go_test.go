@@ -36,7 +36,7 @@ func TestSampleHelloWorld(t *testing.T) {
 		t.Error("Expected response code to be 200")
     }
 
-    expected := `hello, worlds`
+    expected := `hello, world`
 	if !strings.Contains(rr.Body.String(), expected) {
 		t.Error("Response body does not match")
     }
