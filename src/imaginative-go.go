@@ -5,7 +5,7 @@ package main
 // it will be installed
 import (
 	"bytes"
-    "context"
+	"context"
 	"database/sql"
 	"github.com/alecthomas/chroma/formatters/html"
 	"github.com/alecthomas/chroma/lexers"
@@ -64,7 +64,7 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			// Function name (one block) found
 
 			// We got the source code string on imaginative-go.go
-    		dataSourceCode = dataSourceCode[startIndex:endIndex]
+			dataSourceCode = dataSourceCode[startIndex:endIndex]
 		} else {
 			// Function end marker not found
 			io.WriteString(w, "function "+start+" ending not found!")
@@ -78,45 +78,45 @@ func seeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		endIndex = 0
 	}
 
-    // Start doing syntax highlight on it
-    lexer := lexers.Get("go")
-    iterator, _ := lexer.Tokenise(nil, dataSourceCode)
-    style := styles.Get("github")
-    
-    // Do this if you want line number, formatter := html.New(html.WithLineNumbers())
-    formatter := html.New()
+	// Start doing syntax highlight on it
+	lexer := lexers.Get("go")
+	iterator, _ := lexer.Tokenise(nil, dataSourceCode)
+	style := styles.Get("github")
 
-    var buffDataSourceCode bytes.Buffer
+	// Do this if you want line number, formatter := html.New(html.WithLineNumbers())
+	formatter := html.New()
 
-    formatter.Format(&buffDataSourceCode, style, iterator)
+	var buffDataSourceCode bytes.Buffer
 
-    niceSourceCode := buffDataSourceCode.String()
-    niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-    niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
+	formatter.Format(&buffDataSourceCode, style, iterator)
+
+	niceSourceCode := buffDataSourceCode.String()
+	niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
+	niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Read the source code (src/examples/[fn].go) (stand alone code version)
-    saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
-    if err != nil {
-        log.Fatal(err)
-    }
+	saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    dataSaSourceCode := string(saSourceCode)
+	dataSaSourceCode := string(saSourceCode)
 
-    // Start doing syntax highlight on it
-    lexer = lexers.Get("go")
-    iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
-    style = styles.Get("github")
-    
-    // Do this if you want line number, formatter = html.New(html.WithLineNumbers())
-    formatter = html.New()
+	// Start doing syntax highlight on it
+	lexer = lexers.Get("go")
+	iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
+	style = styles.Get("github")
 
-    var buffDataSaSourceCode bytes.Buffer
+	// Do this if you want line number, formatter = html.New(html.WithLineNumbers())
+	formatter = html.New()
 
-    formatter.Format(&buffDataSaSourceCode, style, iterator)
+	var buffDataSaSourceCode bytes.Buffer
 
-    niceSaSourceCode := buffDataSaSourceCode.String()
-    niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-    niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
+	formatter.Format(&buffDataSaSourceCode, style, iterator)
+
+	niceSaSourceCode := buffDataSaSourceCode.String()
+	niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
+	niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Execute template
 	templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
@@ -129,9 +129,9 @@ func helloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 // Handle /hello-world-2 path
 func helloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-    io.WriteString(w, "<h1>hello, world<h1>")
+	io.WriteString(w, "<h1>hello, world<h1>")
 } // End of helloWorld2
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -316,10 +316,10 @@ var mysqlPort string = "3306"
 
 // Define function for template
 var funcMap = template.FuncMap{
-                "toHTML": func(s string) template.HTML {
-                    return template.HTML(s)
-                },
-            }
+	"toHTML": func(s string) template.HTML {
+		return template.HTML(s)
+	},
+}
 
 // Prepare all templates
 var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
@@ -338,7 +338,7 @@ func main() {
 	mux.GET("/", defaultHome)
 	mux.GET("/see-code", seeCode)
 	mux.GET("/hello-world", helloWorld)
-    mux.GET("/hello-world-2", helloWorld2)
+	mux.GET("/hello-world-2", helloWorld2)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)

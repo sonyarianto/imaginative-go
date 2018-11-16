@@ -21,8 +21,9 @@
 					{{template "sample_helloWorld3.html" .}}
 					{{else if eq .id "routingWithDefaultMux"}}
 					{{template "sample_routingWithDefaultMux.html" .}}
+					{{else if eq .id "routingWithHttpRouterMux"}}
+					{{template "sample_routingWithHttpRouterMux.html" .}}
 					{{end}}
-					
 				</div>
 			</div>
 

@@ -1,0 +1,25 @@
+<section>
+	<header class="main">
+		<h1>Create routing with httprouter mux</h1>
+	</header>
+
+	<!-- Content -->
+	<h2 id="content">Scenario</h2>
+	<p>We will create simple mini website with two paths <code>/</code> and <code>/this/:number</code>. It demonstrate the variable passed on routing pattern. You can extend it to your needs.</p>
+
+	{{if not .sourceCode}}
+	<p>Source code on file <code>imaginative-go.go</code></p>
+	<div class="row">
+		{{toHTML .sourceCode}}
+	</div>
+	{{end}}
+
+	<p>And below is stand alone example, you can try yourself locally.</p>
+
+	<p>File {{.id}}.go</p>
+	<div class="row">
+		{{toHTML .standAloneSourceCode}}
+	</div>
+
+	<p>Run above code by type <code>go run {{.id}}.go</code> from your console and then go to your browser at <code>http://localhost:3000/this/5</code></p>
+</section>
