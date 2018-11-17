@@ -125,14 +125,14 @@ func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // Handle /hello-world path
 func SampleHelloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	io.WriteString(w, "hello, world")
-} // End of helloWorld
+} // End of SampleHelloWorld
 
 // Handle /hello-world-2 path
 func SampleHelloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	io.WriteString(w, "<h1>hello, world<h1>")
-} // End of helloWorld2
+} // End of SampleHelloWorld2
 
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	b, err := ioutil.ReadFile("imaginative-go.go")
