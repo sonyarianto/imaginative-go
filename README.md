@@ -4,15 +4,18 @@
 
 Imaginative Go is a website that created with Go lang. It contains many go lang working samples that for web and non-web application. It demonstrate what Go lang can achieve. You can contribute!
 
-We believe that the best way to learn new programming language is by directly implement the knowledge into a project. This imaginative project will show doing web application in Go language as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.
+> I believe that the best way to learn new programming language is by directly implement the knowledge into a project.<br>
+> -- Sony Arianto Kurniawan, Imaginative Go Project Maintainer
+
+This imaginative project will show doing web application in Go lang as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since it just give you an idea how to achieve something in Go lang.
 
 ## Why Imaginative Go?
 - Ideas about achieve something with Go language
-- Plenty of working code samples
-- Easy to run (with or without Docker, personally I prefer with Docker)
+- Plenty of working code samples (awwww, currently still not plenty, relaxxx mann)
+- Easy to run in local (with Docker)
 - You can contribute
 
-## Requirements
+## Requirements (Optional)
 - Docker Engine (version 17.03.0 or later)
 - Docker Compose (version 1.22.0 or later)
 
