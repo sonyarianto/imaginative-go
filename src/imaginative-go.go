@@ -20,12 +20,43 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 // Handle / path
-func DefaultHome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Execute template
-	templates.ExecuteTemplate(w, "index_imaginative_go.html", nil)
+	templates.ExecuteTemplate(w, "imaginative-go.html", nil)
+}
+
+// Handle /content path
+func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	content, err := ioutil.ReadFile("templates/sample_hello_world.md")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//HTMLFlags and Renderer
+	htmlFlags := blackfriday.CommonHTMLFlags         //UseXHTML | Smartypants | SmartypantsFractions | SmartypantsDashes | SmartypantsLatexDashes
+	htmlFlags |= blackfriday.FootnoteReturnLinks     //Generate a link at the end of a footnote to return to the source
+	htmlFlags |= blackfriday.SmartypantsAngledQuotes //Enable angled double quotes (with Smartypants) for double quotes rendering
+	htmlFlags |= blackfriday.SmartypantsQuotesNBSP   //Enable French guillemets 損 (with Smartypants)
+	renderer := blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{Flags: htmlFlags, Title: "", CSS: ""})
+
+	//Extensions
+	extFlags := blackfriday.CommonExtensions //NoIntraEmphasis | Tables | FencedCode | Autolink | Strikethrough | SpaceHeadings | HeadingIDs | BackslashLineBreak | DefinitionLists
+	extFlags |= blackfriday.Footnotes        //Pandoc-style footnotes
+	extFlags |= blackfriday.HeadingIDs       //specify heading IDs  with {#id}
+	extFlags |= blackfriday.Titleblock       //Titleblock ala pandoc
+	extFlags |= blackfriday.DefinitionLists  //Render definition lists
+	
+	output := blackfriday.Run(content, blackfriday.WithExtensions(extFlags), blackfriday.WithRenderer(renderer))
+	output2 := string(output)
+
+	//log.Println(output2)
+
+	// Execute templates
+	templates.ExecuteTemplate(w, "imaginative-go-see-code.html", output2)
 }
 
 // Handle /see-code path
@@ -322,23 +353,24 @@ var funcMap = template.FuncMap{
 }
 
 // Prepare all templates
-var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/editorial/*.html"))
+var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
 
 func main() {
 	mux := httprouter.New()
 
 	// Serve static files
 	mux.ServeFiles("/assets/*filepath", http.Dir("assets/"))
-	mux.ServeFiles("/assets-phantom/*filepath", http.Dir("templates/phantom/assets/"))
-	mux.ServeFiles("/images-phantom/*filepath", http.Dir("templates/phantom/images/"))
-	mux.ServeFiles("/assets-editorial/*filepath", http.Dir("templates/editorial/assets/"))
-	mux.ServeFiles("/images-editorial/*filepath", http.Dir("templates/editorial/images/"))
+	//mux.ServeFiles("/assets-phantom/*filepath", http.Dir("templates/phantom/assets/"))
+	//mux.ServeFiles("/images-phantom/*filepath", http.Dir("templates/phantom/images/"))
+	//mux.ServeFiles("/assets-editorial/*filepath", http.Dir("templates/editorial/assets/"))
+	//mux.ServeFiles("/images-editorial/*filepath", http.Dir("templates/editorial/images/"))
 
 	// Registers the handler function for the given pattern
-	mux.GET("/", DefaultHome)
-	mux.GET("/see-code", SeeCode)
-	mux.GET("/hello-world", SampleHelloWorld)
-	mux.GET("/hello-world-2", SampleHelloWorld2)
+	mux.GET("/", HomeHandler)
+	mux.GET("/content", ContentHandler)
+	mux.GET("/see-code/:slug", SeeCode)
+	mux.GET("/result/hello-world", SampleHelloWorld)
+	mux.GET("/result/hello-world-2", SampleHelloWorld2)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)
