@@ -26,7 +26,7 @@ import (
 // Handle / path
 func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Execute template
-	templates.ExecuteTemplate(w, "imaginative-go.html", nil)
+	templates.ExecuteTemplate(w, "index.html", nil)
 }
 
 // Handle /content path

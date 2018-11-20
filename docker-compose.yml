@@ -10,8 +10,11 @@ services:
     ports:
       - "9899:9899"
     depends_on:
-      - mysql
       - mongodb
+      - mysql
+    links:
+      - mongodb
+      - mysql      
     networks:
       - network-imaginative-go
   mysql:
@@ -48,6 +51,8 @@ services:
     environment:
       ADMINER_DEFAULT_SERVER: mysql
     depends_on:
+      - mysql
+    links:
       - mysql
     networks:
       - network-imaginative-go
