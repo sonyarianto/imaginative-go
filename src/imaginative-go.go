@@ -21,42 +21,99 @@ import (
 	"net/http"
 	"strings"
 	"gopkg.in/russross/blackfriday.v2"
+	"github.com/alecthomas/chroma"
 )
+
+type ChromaRenderer struct {
+  html  *blackfriday.HTMLRenderer
+  theme string
+}
+
+// RenderNode is called with the node being traversed.
+func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, 
+	entering bool) blackfriday.WalkStatus {
+  switch node.Type {
+  // We only care about the pre tag.
+  case blackfriday.CodeBlock:
+    // Set up a lexer.
+    var lexer chroma.Lexer
+
+    // Read the language from the annotation.
+    lang := string(node.CodeBlockData.Info)
+    if lang != "" {
+      lexer = lexers.Get(lang)
+    } else {
+      // Analyze when no language annotation is given.
+      lexer = lexers.Analyse(string(node.Literal))
+    }
+
+    // If no annotation was found and couldn't be analyzed, fallback.
+    if lexer == nil {
+      lexer = lexers.Fallback
+    }
+
+    // Set a syntax highlighting theme
+    style := styles.Get(r.theme)
+    if style == nil {
+      style = styles.Fallback
+    }
+
+    // Apply highlighting with Chroma.
+    iterator, err := lexer.Tokenise(nil, string(node.Literal))
+    if err != nil {
+      panic(err)
+    }
+
+    // An HTML formatter for the tokenized results.
+    formatter := html.New()
+
+    // Write out the highlighted code to the io.Writer.
+    err = formatter.Format(w, style, iterator)
+    if err != nil {
+      panic(err)
+    }
+
+    // Move on to the next node.
+    return blackfriday.GoToNext
+  }
+
+  // Didn't match the CodeBlock type, render it as is.
+  return r.html.RenderNode(w, node, entering)
+}
+
+func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
+
+func NewChromaRenderer(theme string) *ChromaRenderer {
+  return &ChromaRenderer{
+    html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
+    theme: theme,
+  }
+}
 
 // Handle / path
 func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
+	
 	// Execute template
-	templates.ExecuteTemplate(w, "index.html", nil)
+	templates.ExecuteTemplate(w, "_base.html", nil)
 }
 
 // Handle /content path
 func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	content, err := ioutil.ReadFile("templates/sample_hello_world.md")
+	content, err := ioutil.ReadFile("data/sample_hello_world.md")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	//HTMLFlags and Renderer
-	htmlFlags := blackfriday.CommonHTMLFlags         //UseXHTML | Smartypants | SmartypantsFractions | SmartypantsDashes | SmartypantsLatexDashes
-	htmlFlags |= blackfriday.FootnoteReturnLinks     //Generate a link at the end of a footnote to return to the source
-	htmlFlags |= blackfriday.SmartypantsAngledQuotes //Enable angled double quotes (with Smartypants) for double quotes rendering
-	htmlFlags |= blackfriday.SmartypantsQuotesNBSP   //Enable French guillemets 損 (with Smartypants)
-	renderer := blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{Flags: htmlFlags, Title: "", CSS: ""})
-
-	//Extensions
-	extFlags := blackfriday.CommonExtensions //NoIntraEmphasis | Tables | FencedCode | Autolink | Strikethrough | SpaceHeadings | HeadingIDs | BackslashLineBreak | DefinitionLists
-	extFlags |= blackfriday.Footnotes        //Pandoc-style footnotes
-	extFlags |= blackfriday.HeadingIDs       //specify heading IDs  with {#id}
-	extFlags |= blackfriday.Titleblock       //Titleblock ala pandoc
-	extFlags |= blackfriday.DefinitionLists  //Render definition lists
-	
-	output := blackfriday.Run(content, blackfriday.WithExtensions(extFlags), blackfriday.WithRenderer(renderer))
+	cr := NewChromaRenderer("perldoc")
+	output := blackfriday.Run(content, blackfriday.WithRenderer(cr))
 	output2 := string(output)
 
-	//log.Println(output2)
+	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read_sample.html"))
 
 	// Execute templates
-	templates.ExecuteTemplate(w, "imaginative-go-see-code.html", output2)
+	templates.ExecuteTemplate(w, "_base.html", output2)
 }
 
 // Handle /see-code path
@@ -150,7 +207,7 @@ func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Execute template
-	templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
+	//templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
 }
 
 // Handle /hello-world path
@@ -353,7 +410,7 @@ var funcMap = template.FuncMap{
 }
 
 // Prepare all templates
-var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
+//var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
 
 func main() {
 	mux := httprouter.New()

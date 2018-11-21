@@ -4,7 +4,7 @@
 
 It will show how to do hello world in web.
 
-File: `src\examples\hello_world.go`
+`src\examples\hello_world.go`
 
 ```go
 package main
