@@ -2,7 +2,11 @@
 
 ## Scenario
 
-It will show how to do hello world in web.
+It will show how to do "hello, world" in Go. There is web and non-web sample for this.
+
+### Sample 1
+
+This will only display `hello, world` on your console after you do `go run hello_world_2.go`.
 
 `src\examples\hello_world.go`
 

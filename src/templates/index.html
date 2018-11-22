@@ -1,6 +1,6 @@
 {{template "_base.html" .}}
 
-{{block "_content" .}}
+{{- block "_content" .}}
 <div class="imgo-container">
   <div class="rows">
     <div class="row">
@@ -12,19 +12,20 @@
         <p>So let's start with code samples.</p>
         <h2>Samples</h2>
         <blockquote><strong>NOTES:</strong><br>
-          All sample codes shown here are located on <code>src/examples</code> directory.<br>
+          All sample codes shown here are located on <code>src/examples</code> directory in the repository.<br>
           You can also see web code at file <code>imaginative-go.go</code> on <code>src</code> directory.<br>
           You can fork this website on your local and build with Docker.
         </blockquote>
+        {{- block "_list_of_sample_home" .}}
         <div class="rows imgo-sample-start">
           <div class="row">
             <div class="content">
-              <p class="imgo-title"><a href="see-code/hello-world"><strong>The standard Hello World ritual</strong></a></p>
-              <p>The description of the code sample, should be clear, concise and user can decide want to click or not.</p>
-              <div class="buttons">
+              <p class="imgo-title"><a href="see-code/hello-world"><strong>Hello World</strong></a></p>
+              <p>Hello World is the standard ritual for us when learning new programming language. It's good for you mind and soul hahaha!</p>
+              <!-- <div class="buttons">
                 <a class="button is-small is-link" href="hello-world">See Result</a>
                 <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
-              </div>
+              </div> -->
               <div class="tags">
                 <span class="tag">beginner</span>
                 <span class="tag">hello world</span>
@@ -33,8 +34,9 @@
           </div>
           <hr/>
         </div>
+        {{- end}}
       </div>
     </div>
   </div>
 </div>
-{{end}}
+{{- end}}
