@@ -24,6 +24,7 @@ import (
 	"strings"
 )
 
+// Prepare struct for syntax highlighter.
 type ChromaRenderer struct {
 	html  *blackfriday.HTMLRenderer
 	theme string
