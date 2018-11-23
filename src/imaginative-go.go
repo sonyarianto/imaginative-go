@@ -304,13 +304,13 @@ func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httproute
 }
 
 func mongodbSelectRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var templates = template.Must(template.ParseFiles("mongodb_select_rows.html"))
+	//var templates = template.Must(template.ParseFiles("mongodb_select_rows.html"))
 
 	// client, _ := mongo.Connect(context.Background(), "mongodb://localhost:27017", nil)
 	// db := client.Database("go_db")
 	// collection := db.Collection("content_category")
 
-	client, err := mongo.NewClient("mongodb://@localhost:27017")
+	client, err := mongo.NewClient("mongodb://root:mongodbpassword@mongodb:27017")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -328,7 +328,7 @@ func mongodbSelectRows(w http.ResponseWriter, r *http.Request, _ httprouter.Para
 
 	//collection.InsertOne(nil, map[string]string{"name": "C", "slug": "c", "short_description": "Resource for learning C language"})
 
-	templates.ExecuteTemplate(w, "mongodb_select_rows.html", nil)
+	//templates.ExecuteTemplate(w, "mongodb_select_rows.html", nil)
 }
 
 func getQueryHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

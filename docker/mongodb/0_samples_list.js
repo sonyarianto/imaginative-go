@@ -2,13 +2,14 @@ db.auth('root', 'mongodbpassword')
 
 db.getSiblingDB('go_db')
 
-db.code_samples_list.insertMany(
+db.sample_content.insertMany(
   [
 	  {
-	    "title": "The standard hello world ritual",
-	    "slug": "hello-world",
-	    "short_description": "This is a must ritual on any programming language.",
-	    "result_available": true
+	    title: "Hello World",
+	    slug: "hello-world",
+	    short_description: "Hello World is the standard ritual for us when learning new programming language. It's good for you mind and soul hahaha!",
+	    tags: ["beginner", "hello world"],
+	    content_file: "hello-world.md"
 	  }
   ]
 )
