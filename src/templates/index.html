@@ -18,10 +18,11 @@
         </blockquote>
         {{- block "_list_of_sample_home" .}}
         <div class="rows imgo-sample-start">
+          {{- range .SampleList}}
           <div class="row">
             <div class="content">
-              <p class="imgo-title"><a href="see-code/hello-world"><strong>Hello World</strong></a></p>
-              <p>Hello World is the standard ritual for us when learning new programming language. It's good for you mind and soul hahaha!</p>
+              <p class="imgo-title"><a href="read/{{.Slug}}"><strong>{{.Title}}</strong></a></p>
+              <p>{{.ShortDescription}}</p>
               <!-- <div class="buttons">
                 <a class="button is-small is-link" href="hello-world">See Result</a>
                 <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
@@ -33,6 +34,7 @@
             </div>
           </div>
           <hr/>
+          {{- end}}
         </div>
         {{- end}}
       </div>

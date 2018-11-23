@@ -14,6 +14,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/mongo"
+	"github.com/mongodb/mongo-go-driver/bson"
+	//"github.com/mongodb/mongo-go-driver/bson/objectid"
 	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
 	"io"
@@ -23,6 +25,14 @@ import (
 	"net/http"
 	"strings"
 )
+
+type Content struct {
+	ID          string    `json:"id"`
+	Title string `json:"title"`
+	Slug string `json:"slug"`
+	ShortDescription string `json:"short_description"`
+	ContentFile string `json:"content_file"`
+}
 
 // Prepare struct for syntax highlighter.
 type ChromaRenderer struct {
@@ -93,10 +103,55 @@ func NewChromaRenderer(theme string) *ChromaRenderer {
 
 // Handle / path.
 func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	// Parse templates.
 	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
 
+	// Prepare database.
+	client, err := mongo.NewClient("mongodb://root:mongodbpassword@mongodb:27017")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Connect to database.
+	err = client.Connect(context.TODO())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Select a database.
+	db := client.Database("go_db")
+
+	// Do the query to a collection on database.
+	c, err := db.Collection("sample_content").Find(context.TODO(), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer c.Close(context.TODO())
+
+	rowsData := make([]Content, 0)
+
+	// Start looping on the query result.
+	for c.Next(context.TODO()) {
+		elem := bson.NewDocument()
+
+		if err = c.Decode(elem); err != nil {
+			log.Fatal(err)
+		}
+
+		queryResult := Content{
+			ID:          elem.Lookup("_id").ObjectID().Hex(),
+			Title:   elem.Lookup("title").StringValue(),
+			Slug:  elem.Lookup("slug").StringValue(),
+			ShortDescription:        elem.Lookup("short_description").StringValue(),
+			ContentFile: elem.Lookup("content_file").StringValue(),
+		}
+
+		rowsData = append(rowsData, queryResult)
+	}
+
 	// Execute template.
-	templates.ExecuteTemplate(w, "_base.html", nil)
+	templates.ExecuteTemplate(w, "_base.html", map[string]interface{}{"SampleList": rowsData})
 }
 
 // Handle /content path.
