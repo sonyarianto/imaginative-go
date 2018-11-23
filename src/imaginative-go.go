@@ -32,6 +32,7 @@ type Content struct {
 	Slug string `json:"slug"`
 	ShortDescription string `json:"short_description"`
 	ContentFile string `json:"content_file"`
+	Tags []string `json:"tags"`
 }
 
 // Prepare struct for syntax highlighter.
@@ -145,6 +146,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			Slug:  elem.Lookup("slug").StringValue(),
 			ShortDescription:        elem.Lookup("short_description").StringValue(),
 			ContentFile: elem.Lookup("content_file").StringValue(),
+			Tags: elem.Lookup("tags"),
 		}
 
 		rowsData = append(rowsData, queryResult)

@@ -28,8 +28,10 @@
                 <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
               </div> -->
               <div class="tags">
-                <span class="tag">beginner</span>
-                <span class="tag">hello world</span>
+                {{- range .Tags}}
+                <span class="tag">{{.}}</span>
+                {{- end}}
+<!--                 <span class="tag">hello world</span> -->
               </div>
             </div>
           </div>
