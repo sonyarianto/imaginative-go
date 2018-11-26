@@ -13,8 +13,9 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
-	"github.com/mongodb/mongo-go-driver/mongo"
-	"github.com/mongodb/mongo-go-driver/bson"
+    "github.com/mongodb/mongo-go-driver/mongo"
+	"github.com/mongodb/mongo-go-driver/x/bsonx"
+	//"github.com/mongodb/mongo-go-driver/bson"
 	//"github.com/mongodb/mongo-go-driver/bson/objectid"
 	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
@@ -26,13 +27,17 @@ import (
 	"strings"
 )
 
+type Tag struct {
+    Tag string `bson:"tag"`
+}
+
 type Content struct {
-	ID          string    `json:"id"`
-	Title string `json:"title"`
-	Slug string `json:"slug"`
-	ShortDescription string `json:"short_description"`
-	ContentFile string `json:"content_file"`
-	Tags []string `json:"tags"`
+	ID          string    `bson:"id"`
+	Title bsonx.Val `bson:"title"`
+	Slug string `bson:"slug"`
+	ShortDescription string `bson:"short_description"`
+	ContentFile string `bson:"content_file"`
+	//Tags []string `json:"tags"`
 }
 
 // Prepare struct for syntax highlighter.
@@ -132,22 +137,35 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	rowsData := make([]Content, 0)
 
+    doc := bsonx.Doc{}
 	// Start looping on the query result.
 	for c.Next(context.TODO()) {
-		elem := bson.NewDocument()
+		doc = doc[:0]
+        err := c.Decode(doc)
 
-		if err = c.Decode(elem); err != nil {
-			log.Fatal(err)
-		}
+        if err != nil {
+        log.Fatal(err)
+    }
 
-		queryResult := Content{
-			ID:          elem.Lookup("_id").ObjectID().Hex(),
-			Title:   elem.Lookup("title").StringValue(),
-			Slug:  elem.Lookup("slug").StringValue(),
-			ShortDescription:        elem.Lookup("short_description").StringValue(),
-			ContentFile: elem.Lookup("content_file").StringValue(),
-			Tags: elem.Lookup("tags"),
-		}
+        title, err := doc.LookupErr("title")
+
+        queryResult := Content{
+            Title: title,
+        }
+        // elem := bson.Doc{}
+
+		// if err = c.Decode(elem); err != nil {
+		// 	log.Fatal(err)
+		// }
+
+		// queryResult := Content{
+		// 	ID:          elem.Lookup("_id").ObjectID().Hex(),
+		// 	Title:   elem.Lookup("title").StringValue(),
+		// 	Slug:  elem.Lookup("slug").StringValue(),
+		// 	ShortDescription:        elem.Lookup("short_description").StringValue(),
+		// 	ContentFile: elem.Lookup("content_file").StringValue(),
+		// 	//Tags: elem.Lookup("tags"),
+		// }
 
 		rowsData = append(rowsData, queryResult)
 	}

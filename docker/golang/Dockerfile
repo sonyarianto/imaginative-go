@@ -6,6 +6,9 @@ RUN go install -v github.com/go-sql-driver/mysql
 RUN go get -d -v github.com/mongodb/mongo-go-driver/mongo
 RUN go install -v github.com/mongodb/mongo-go-driver/mongo
 
+RUN go get -d -v github.com/mongodb/mongo-go-driver/bson
+RUN go install -v github.com/mongodb/mongo-go-driver/bson
+
 RUN go get -d -v github.com/julienschmidt/httprouter
 RUN go install -v github.com/julienschmidt/httprouter
 
