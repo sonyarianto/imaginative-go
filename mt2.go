@@ -16,9 +16,9 @@ type Content struct {
 	Title            string `bson:"title"`
 	Slug             string `bson:"slug"`
 	ShortDescription string `bson:"short_description"`
-	ContentFile      string `bson:"content_file"`
+	ContentFile      string `bson:"content_file,omitempty"`
 	//Tags bsonx.Arr `json:"tags"`
-	Tags []Tag `bson:"tags"`
+	//Tags []Tag `bson:"tags"`
 }
 
 func main() {
@@ -58,41 +58,41 @@ func main() {
 		}
 
 		//title, err := doc.LookupErr("title")
-		id := doc.Lookup("_id").ObjectID().Hex()
-		title := doc.Lookup("title").StringValue()
-		shortDescription := doc.Lookup("short_description").StringValue()
-		slug := doc.Lookup("slug").StringValue()
-		contentFile := doc.Lookup("content_file").StringValue()
+		// id := doc.Lookup("_id").ObjectID().Hex()
+		// title := doc.Lookup("title").StringValue()
+		// shortDescription := doc.Lookup("short_description").StringValue()
+		// slug := doc.Lookup("slug").StringValue()
+		// contentFile := doc.Lookup("content_file").StringValue()
 		
 		//tags := doc.Lookup("tags").Array()
-		tags := doc.Lookup("tags")
+		// tags := doc.Lookup("tags")
 
-		log.Println(tags)
+		//log.Println(tags)
 
-		arr := tags.Array()
+// 		arr := tags.Array()
 
-		for _, val := range arr {
-			//require.Equal(t, bson.TypeEmbeddedDocument, val.Type())
-				subdoc := val.Document()
+// 		for _, val := range arr {
+// 			//require.Equal(t, bson.TypeEmbeddedDocument, val.Type())
+// 				subdoc := val.Document()
 
-				//require.Equal(t, 1, len(subdoc))
-				tag := subdoc.Lookup("tag")
+// 				//require.Equal(t, 1, len(subdoc))
+// 				tag := subdoc.Lookup("tag")
 
-				log.Println(tag)
-//require.NoError(t, err)
-		}
+// 				log.Println(tag)
+// //require.NoError(t, err)
+// 		}
 
 		//haha := [...]Tag{Tag: "beginner"}
 
-		queryResult := Content{
-			Id:               id,
-			Title:            title,
-			ShortDescription: shortDescription,
-			Slug:             slug,
-			ContentFile:      contentFile,
-			//Tags:             tags,
-			Tags:             []Tag{Tag{Tag: "beginner"}},
-		}
+		// queryResult := Content{
+		// 	Id:               id,
+		// 	Title:            title,
+		// 	ShortDescription: shortDescription,
+		// 	Slug:             slug,
+		// 	ContentFile:      contentFile,
+		// 	//Tags:             tags,
+		// 	//Tags:             []Tag{Tag{Tag: "beginner"}},
+		// }
 		// elem := bson.Doc{}
 
 		// if err = c.Decode(elem); err != nil {

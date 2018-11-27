@@ -18,18 +18,19 @@
         </blockquote>
         {{- block "_list_of_sample_home" .}}
         <div class="rows imgo-sample-start">
-          {{- range .SampleList}}
+          {{- range .Content}}
           <div class="row">
             <div class="content">
-              <p class="imgo-title"><a href="read/{{.Slug}}"><strong>{{.Title}}</strong></a></p>
+              <p class="imgo-title"><a href="content/{{.Slug}}"><strong>{{.Title}}</strong></a></p>
               <p>{{.ShortDescription}}</p>
-              <!-- <div class="buttons">
+              {{- /*<div class="buttons">
                 <a class="button is-small is-link" href="hello-world">See Result</a>
                 <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
-              </div> -->
+              </div>*/}}
               <div class="tags">
-                <span class="tag">beginner</span>
-                <span class="tag">hello world</span>
+                {{- range .Tags}}
+                <span class="tag">{{.Tag}}</span>
+                {{- end}}
               </div>
             </div>
           </div>

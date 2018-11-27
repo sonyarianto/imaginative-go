@@ -13,10 +13,8 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
-    "github.com/mongodb/mongo-go-driver/mongo"
-	"github.com/mongodb/mongo-go-driver/x/bsonx"
-	//"github.com/mongodb/mongo-go-driver/bson"
-	//"github.com/mongodb/mongo-go-driver/bson/objectid"
+	"github.com/mongodb/mongo-go-driver/bson/objectid"
+	"github.com/mongodb/mongo-go-driver/mongo"
 	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
 	"io"
@@ -28,16 +26,16 @@ import (
 )
 
 type Tag struct {
-    Tag string `bson:"tag"`
+	Tag string `bson:"tag" json:"tag"`
 }
 
 type Content struct {
-	ID          string    `bson:"id"`
-	Title bsonx.Val `bson:"title"`
-	Slug string `bson:"slug"`
-	ShortDescription string `bson:"short_description"`
-	ContentFile string `bson:"content_file"`
-	//Tags []string `json:"tags"`
+	ID               objectid.ObjectID `bson:"_id" json:"_id"`
+	Title            string            `bson:"title" json:"title"`
+	Slug             string            `bson:"slug" json:"slug"`
+	ShortDescription string            `bson:"short_description" json:"short_description"`
+	ContentFile      string            `bson:"content_file" json:"content_file"`
+	Tags             []Tag             `json:"tags" json:"tags"`
 }
 
 // Prepare struct for syntax highlighter.
@@ -119,7 +117,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	// Connect to database.
-	err = client.Connect(context.TODO())
+	err = client.Connect(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -128,50 +126,37 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	db := client.Database("go_db")
 
 	// Do the query to a collection on database.
-	c, err := db.Collection("sample_content").Find(context.TODO(), nil)
+	c, err := db.Collection("sample_content").Find(nil, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	defer c.Close(context.TODO())
+	defer c.Close(nil)
 
-	rowsData := make([]Content, 0)
+	var content []Content
 
-    doc := bsonx.Doc{}
 	// Start looping on the query result.
 	for c.Next(context.TODO()) {
-		doc = doc[:0]
-        err := c.Decode(doc)
+		eachContent := Content{}
 
-        if err != nil {
-        log.Fatal(err)
-    }
+		err := c.Decode(&eachContent)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-        title, err := doc.LookupErr("title")
-
-        queryResult := Content{
-            Title: title,
-        }
-        // elem := bson.Doc{}
-
-		// if err = c.Decode(elem); err != nil {
-		// 	log.Fatal(err)
-		// }
-
-		// queryResult := Content{
-		// 	ID:          elem.Lookup("_id").ObjectID().Hex(),
-		// 	Title:   elem.Lookup("title").StringValue(),
-		// 	Slug:  elem.Lookup("slug").StringValue(),
-		// 	ShortDescription:        elem.Lookup("short_description").StringValue(),
-		// 	ContentFile: elem.Lookup("content_file").StringValue(),
-		// 	//Tags: elem.Lookup("tags"),
-		// }
-
-		rowsData = append(rowsData, queryResult)
+		content = append(content, eachContent)
 	}
 
+	// Prepare data structure for data passed to template.
+	type TemplateData struct {
+		Content []Content
+	}
+
+	templateData := TemplateData{Content: content}
+
 	// Execute template.
-	templates.ExecuteTemplate(w, "_base.html", map[string]interface{}{"SampleList": rowsData})
+	//templates.ExecuteTemplate(w, "_base.html", map[string]interface{}{"Content": content})
+	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
 // Handle /content path.
