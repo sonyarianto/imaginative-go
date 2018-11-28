@@ -11,25 +11,25 @@ services:
       - "9899:9899"
     depends_on:
       - mongodb
-      - mysql
+      # - mysql
     links:
       - mongodb
-      - mysql      
+      # - mysql      
     networks:
       - network-imaginative-go
-  mysql:
-    container_name: mysql-imaginative-go
-    build: ./docker/mysql
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: mysqlpassword
-      MYSQL_DATABASE: go_db
-    ports:
-      - "3306"
-    networks:
-      - network-imaginative-go
-    volumes:
-      - mysql_volumes:/var/lib/mysql
+  # mysql:
+  #   container_name: mysql-imaginative-go
+  #   build: ./docker/mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: mysqlpassword
+  #     MYSQL_DATABASE: go_db
+  #   ports:
+  #     - "3306"
+  #   networks:
+  #     - network-imaginative-go
+  #   volumes:
+  #     - mysql_volumes:/var/lib/mysql
   mongodb:
     container_name: mongodb-imaginative-go
     build: ./docker/mongodb
@@ -42,7 +42,7 @@ services:
     networks:
       - network-imaginative-go
     volumes:
-      - mongodb_volumes:/data/db
+      - volume-mongodb-imaginative-go:/data/db
   adminer:
     container_name: adminer-imaginative-go
     image: adminer
@@ -59,5 +59,5 @@ services:
 networks:
   network-imaginative-go:
 volumes:
-  mysql_volumes:
-  mongodb_volumes:
+  # mysql_volumes:
+  volume-mongodb-imaginative-go:

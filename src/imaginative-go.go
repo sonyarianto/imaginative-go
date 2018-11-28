@@ -159,6 +159,15 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
+func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	slug := ps.ByName("slug")
+
+	// get param
+	// select to database by slug (select one only)
+	// get and load the markdown file sample document
+	// pass it to template
+}
+
 // Handle /content path.
 func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	content, err := ioutil.ReadFile("data/sample_hello_world.md")
@@ -484,6 +493,7 @@ func main() {
 
 	// Registers the handler function for the given pattern
 	mux.GET("/", HomeHandler)
+	mux.GET("/read/:slug", ReadContent)
 	mux.GET("/content", ContentHandler)
 	mux.GET("/see-code/:slug", SeeCode)
 	mux.GET("/result/hello-world", SampleHelloWorld)
