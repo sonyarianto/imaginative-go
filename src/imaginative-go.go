@@ -23,8 +23,8 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"strings"
 	"os"
+	"strings"
 )
 
 type Tag struct {
@@ -127,7 +127,7 @@ func MongoDBConnect() *mongo.Database {
 }
 
 // Handle / path.
-func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Do the connection and select database.
 	db := MongoDBConnect()
 
@@ -521,13 +521,9 @@ func main() {
 
 	// Serve static files
 	mux.ServeFiles("/assets/*filepath", http.Dir("assets/"))
-	//mux.ServeFiles("/assets-phantom/*filepath", http.Dir("templates/phantom/assets/"))
-	//mux.ServeFiles("/images-phantom/*filepath", http.Dir("templates/phantom/images/"))
-	//mux.ServeFiles("/assets-editorial/*filepath", http.Dir("templates/editorial/assets/"))
-	//mux.ServeFiles("/images-editorial/*filepath", http.Dir("templates/editorial/images/"))
 
 	// Registers the handler function for the given pattern
-	mux.GET("/", HomeHandler)
+	mux.GET("/", Home)
 	mux.GET("/content/:slug", ReadContent)
 	mux.GET("/content", ContentHandler)
 	mux.GET("/see-code/:slug", SeeCode)
