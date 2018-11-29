@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/russross/blackfriday.v2"
 	"net/http"
 	"net/http/httptest"
 	"strings"

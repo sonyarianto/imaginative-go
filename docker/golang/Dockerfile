@@ -1,5 +1,7 @@
 FROM golang:latest
 
+ENV GOPATH /go
+
 RUN go get -d -u -v github.com/go-sql-driver/mysql
 RUN go install -v github.com/go-sql-driver/mysql
 
