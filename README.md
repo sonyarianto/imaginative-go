@@ -40,36 +40,26 @@ http://localhost:9899
 
 > **Note 1**
 > 
-> To clean containers (stop and remove), clean network (remove), pull, build (with no cache) and bring up all containers you can type like below
+> To clean containers (stop and remove), remove volume, clean network (remove), pull, build (with no cache) and bring up all containers you can type like below
 > ```
-> sudo docker-compose down && sudo docker-compose pull && sudo docker-compose build --no-cache && sudo docker-compose up -d --build --force-recreate
+> sudo docker-compose down && sudo docker volume rm imaginative-go_volume-mongodb-imaginative-go && sudo docker-compose pull && sudo docker-compose build && sudo docker-compose up -d --build --force-recreate
 > ```
-> Above command will make sure you will get create and run fresh all containers needed to run Imaginative Go web project. This is useful after you are doing `git pull` on Imaginative Go repository.
+> Above command will make sure you will create and run fresh all containers needed to run Imaginative Go web project. This is usualy useful after you are doing `git pull` on Imaginative Go repository.
 
 > **Note 2**
 > 
-> You can access the MySQL table using Adminer container that available on the following address.
+> MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
 > ```
-> http://localhost:8989
-> ```
-
-> **Note 3**
-> 
-> MySQL and MongoDB expose random port to host machine. You can see it by typing this after all containers are running.
-> ```
-> sudo docker ps -f "name=mysql-imaginative-go" -f "name=mongodb-imaginative-go"
+> sudo docker ps -f "name=mongodb-imaginative-go"
 > ```
 > Sample output is like below
 > ```
 > CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                                NAMES
-> d2fc69f08c6a        imaginative-go_mysql     "docker-entrypoint.s…"   About an hour ago   Up About an hour    33060/tcp, 0.0.0.0:32781->3306/tcp   mysql-imaginative-go
 > f0c2c2166487        imaginative-go_mongodb   "docker-entrypoint.s…"   About an hour ago   Up About an hour    0.0.0.0:32782->27017/tcp             mongodb-imaginative-go
 > ```
 
 ## Docker Images Used
-- `mysql:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
 - `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
-- `adminer` (see `docker-compose.yml` for default credential to MySQL database, port exposed to host at 8989)
 
 ## Third Party Packages Used
 - [github.com/go-sql-driver/mysql](https://github.com/go-sql-driver/mysql)

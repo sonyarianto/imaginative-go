@@ -23,6 +23,7 @@ import (
 	"net"
 	"net/http"
 	"strings"
+	"os"
 )
 
 type Tag struct {
@@ -111,7 +112,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
 
 	// Prepare database.
-	client, err := mongo.NewClient("mongodb://root:mongodbpassword@mongodb:27017")
+	client, err := mongo.NewClient(os.Getenv("IGO_MONGODB_URI"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -123,7 +124,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	}
 
 	// Select a database.
-	db := client.Database("go_db")
+	db := client.Database(os.Getenv("IGO_MONGODB_DATABASE"))
 
 	// Do the query to a collection on database.
 	c, err := db.Collection("sample_content").Find(nil, nil)
@@ -160,7 +161,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	slug := ps.ByName("slug")
+	//slug := ps.ByName("slug")
 
 	// get param
 	// select to database by slug (select one only)
