@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/objectid"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	"log"
@@ -21,7 +22,7 @@ type Content struct {
 
 func main() {
 	// Prepare database.
-	client, err := mongo.NewClient("mongodb://root:mongodbpassword@localhost:32768")
+	client, err := mongo.NewClient("mongodb://root:mongodbpassword@localhost:32771")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,10 +34,10 @@ func main() {
 	}
 
 	// Select a database.
-	db := client.Database("go_db")
+	db := client.Database("db-imaginative-go")
 
 	// Do the query to a collection on database.
-	c, err := db.Collection("sample_content").Find(nil, nil)
+	c, err := db.Collection("sample_content").Find(nil, bson.D{{"slug", "hello-world"}})
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -13,6 +13,7 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
+	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/objectid"
 	"github.com/mongodb/mongo-go-driver/mongo"
 	"gopkg.in/russross/blackfriday.v2"
@@ -106,11 +107,7 @@ func NewChromaRenderer(theme string) *ChromaRenderer {
 	}
 }
 
-// Handle / path.
-func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// Parse templates.
-	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
-
+func MongoDBConnect() *mongo.Database {
 	// Prepare database.
 	client, err := mongo.NewClient(os.Getenv("IGO_MONGODB_URI"))
 	if err != nil {
@@ -126,8 +123,16 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Select a database.
 	db := client.Database(os.Getenv("IGO_MONGODB_DATABASE"))
 
+	return db
+}
+
+// Handle / path.
+func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	// Do the connection and select database.
+	db := MongoDBConnect()
+
 	// Do the query to a collection on database.
-	c, err := db.Collection("sample_content").Find(nil, nil)
+	c, err := db.Collection("sample_content").Find(nil, bson.D{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -155,23 +160,52 @@ func HomeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	templateData := TemplateData{Content: content}
 
+	// Parse templates.
+	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
+
 	// Execute template.
-	//templates.ExecuteTemplate(w, "_base.html", map[string]interface{}{"Content": content})
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
 func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	//slug := ps.ByName("slug")
+	// Get the parameter.
+	slug := ps.ByName("slug")
 
-	// get param
-	// select to database by slug (select one only)
-	// get and load the markdown file sample document
-	// pass it to template
+	// Do the connection and select database.
+	db := MongoDBConnect()
+
+	result := Content{}
+
+	// Do the query to a collection on database.
+	db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result)
+
+	// Get content file (in markdown format).
+	fileContent, err := ioutil.ReadFile("data/content/" + result.ContentFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Prepare renderer.
+	cr := NewChromaRenderer("perldoc")
+	content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
+
+	// Prepare data structure for data passed to template.
+	type TemplateData struct {
+		Content string
+	}
+
+	templateData := TemplateData{Content: content}
+
+	// Parse templates.
+	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
+
+	// Execute template.
+	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
 // Handle /content path.
 func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	content, err := ioutil.ReadFile("data/sample_hello_world.md")
+	content, err := ioutil.ReadFile("data/content/sample_hello_world.md")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -180,7 +214,7 @@ func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params)
 	output := blackfriday.Run(content, blackfriday.WithRenderer(cr))
 	output2 := string(output)
 
-	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read_sample.html"))
+	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
 
 	// Execute templates
 	templates.ExecuteTemplate(w, "_base.html", output2)
@@ -494,7 +528,7 @@ func main() {
 
 	// Registers the handler function for the given pattern
 	mux.GET("/", HomeHandler)
-	mux.GET("/read/:slug", ReadContent)
+	mux.GET("/content/:slug", ReadContent)
 	mux.GET("/content", ContentHandler)
 	mux.GET("/see-code/:slug", SeeCode)
 	mux.GET("/result/hello-world", SampleHelloWorld)
