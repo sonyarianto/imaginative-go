@@ -18,5 +18,8 @@ RUN go install -v github.com/alecthomas/chroma/lexers
 RUN go get -d -u -v github.com/alecthomas/chroma/styles
 RUN go install -v github.com/alecthomas/chroma/styles
 
+RUN go get -d -u -v github.com/russross/blackfriday
+RUN go install -v github.com/russross/blackfriday
+
 RUN go get -d -u -v gopkg.in/russross/blackfriday.v2
 RUN go install -v gopkg.in/russross/blackfriday.v2
