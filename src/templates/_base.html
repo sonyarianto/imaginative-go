@@ -11,6 +11,7 @@
 .imgo-container {margin-left:1.2em;margin-right:1.2em;}
 .imgo-title {font-size:1.2em;line-height:1.28em;margin-bottom:0.6em !important;}
 .imgo-sample-start {margin-top:1.7em;}
+.imgo-footer {margin-top:20px;}
     </style>
   </head>
   {{- end}}
@@ -23,7 +24,7 @@
     {{- end}}
     {{- block "_content" .}}{{- end}}
     {{- block "_footer" .}}
-    <footer class="footer">
+    <footer class="footer imgo-footer">
       <div class="content has-text-centered">
         <p>
           Copyright &copy; 2018 - All rights reserved.<br><strong>Imaginative Go</strong> by <a target="_blank" href="https://sony-ak.com">Sony Arianto Kurniawan</a> and contributors. The website and source code is <a href="http://opensource.org/licenses/mit-license.php">MIT</a> license.

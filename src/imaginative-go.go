@@ -4,19 +4,19 @@ package main
 // docker/golang/Dockerfile so next time if you recreate all containers
 // it will be installed.
 import (
-	"bytes"
+	//"bytes"
 	"context"
 	"database/sql"
-	"github.com/alecthomas/chroma"
-	"github.com/alecthomas/chroma/formatters/html"
-	"github.com/alecthomas/chroma/lexers"
-	"github.com/alecthomas/chroma/styles"
+	//"github.com/alecthomas/chroma"
+	//"github.com/alecthomas/chroma/formatters/html"
+	//"github.com/alecthomas/chroma/lexers"
+	//"github.com/alecthomas/chroma/styles"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/bson"
-	"github.com/mongodb/mongo-go-driver/bson/objectid"
+	"github.com/mongodb/mongo-go-driver/bson/primitive"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	"gopkg.in/russross/blackfriday.v2"
+	"github.com/gomarkdown/markdown"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -24,7 +24,7 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"strings"
+	//"strings"
 )
 
 type Tag struct {
@@ -32,7 +32,7 @@ type Tag struct {
 }
 
 type Content struct {
-	ID               objectid.ObjectID `bson:"_id" json:"_id"`
+	ID               primitive.ObjectID `bson:"_id" json:"_id"`
 	Title            string            `bson:"title" json:"title"`
 	Slug             string            `bson:"slug" json:"slug"`
 	ShortDescription string            `bson:"short_description" json:"short_description"`
@@ -40,72 +40,72 @@ type Content struct {
 	Tags             []Tag             `json:"tags" json:"tags"`
 }
 
-// Prepare struct for syntax highlighter.
-type ChromaRenderer struct {
-	html  *blackfriday.HTMLRenderer
-	theme string
-}
+// // Prepare struct for syntax highlighter.
+// type ChromaRenderer struct {
+// 	html  *blackfriday.HTMLRenderer
+// 	theme string
+// }
 
-// RenderNode is called with the node being traversed.
-func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-	switch node.Type {
-	// We only care about the pre tag.
-	case blackfriday.CodeBlock:
-		// Set up a lexer.
-		var lexer chroma.Lexer
+// // RenderNode is called with the node being traversed.
+// func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+// 	switch node.Type {
+// 	// We only care about the pre tag.
+// 	case blackfriday.CodeBlock:
+// 		// Set up a lexer.
+// 		var lexer chroma.Lexer
 
-		// Read the language from the annotation.
-		lang := string(node.CodeBlockData.Info)
-		if lang != "" {
-			lexer = lexers.Get(lang)
-		} else {
-			// Analyze when no language annotation is given.
-			lexer = lexers.Analyse(string(node.Literal))
-		}
+// 		// Read the language from the annotation.
+// 		lang := string(node.CodeBlockData.Info)
+// 		if lang != "" {
+// 			lexer = lexers.Get(lang)
+// 		} else {
+// 			// Analyze when no language annotation is given.
+// 			lexer = lexers.Analyse(string(node.Literal))
+// 		}
 
-		// If no annotation was found and couldn't be analyzed, fallback.
-		if lexer == nil {
-			lexer = lexers.Fallback
-		}
+// 		// If no annotation was found and couldn't be analyzed, fallback.
+// 		if lexer == nil {
+// 			lexer = lexers.Fallback
+// 		}
 
-		// Set a syntax highlighting theme
-		style := styles.Get(r.theme)
-		if style == nil {
-			style = styles.Fallback
-		}
+// 		// Set a syntax highlighting theme
+// 		style := styles.Get(r.theme)
+// 		if style == nil {
+// 			style = styles.Fallback
+// 		}
 
-		// Apply highlighting with Chroma.
-		iterator, err := lexer.Tokenise(nil, string(node.Literal))
-		if err != nil {
-			panic(err)
-		}
+// 		// Apply highlighting with Chroma.
+// 		iterator, err := lexer.Tokenise(nil, string(node.Literal))
+// 		if err != nil {
+// 			panic(err)
+// 		}
 
-		// An HTML formatter for the tokenized results.
-		formatter := html.New()
+// 		// An HTML formatter for the tokenized results.
+// 		formatter := html.New()
 
-		// Write out the highlighted code to the io.Writer.
-		err = formatter.Format(w, style, iterator)
-		if err != nil {
-			panic(err)
-		}
+// 		// Write out the highlighted code to the io.Writer.
+// 		err = formatter.Format(w, style, iterator)
+// 		if err != nil {
+// 			panic(err)
+// 		}
 
-		// Move on to the next node.
-		return blackfriday.GoToNext
-	}
+// 		// Move on to the next node.
+// 		return blackfriday.GoToNext
+// 	}
 
-	// Didn't match the CodeBlock type, render it as is.
-	return r.html.RenderNode(w, node, entering)
-}
+// 	// Didn't match the CodeBlock type, render it as is.
+// 	return r.html.RenderNode(w, node, entering)
+// }
 
-func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
-func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
+// func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+// func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
 
-func NewChromaRenderer(theme string) *ChromaRenderer {
-	return &ChromaRenderer{
-		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
-		theme: theme,
-	}
-}
+// func NewChromaRenderer(theme string) *ChromaRenderer {
+// 	return &ChromaRenderer{
+// 		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
+// 		theme: theme,
+// 	}
+// }
 
 func MongoDBConnect() *mongo.Database {
 	// Prepare database.
@@ -185,9 +185,12 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		log.Fatal(err)
 	}
 
-	// Prepare renderer.
-	cr := NewChromaRenderer("perldoc")
-	content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
+	// // Prepare renderer.
+	// cr := NewChromaRenderer("perldoc")
+	// content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
+
+    md := []byte(fileContent)
+    content := string(markdown.ToHTML(md, nil, nil))
 
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
@@ -205,110 +208,110 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 // Handle /content path.
 func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	content, err := ioutil.ReadFile("data/content/sample_hello_world.md")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// content, err := ioutil.ReadFile("data/content/sample_hello_world.md")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	cr := NewChromaRenderer("perldoc")
-	output := blackfriday.Run(content, blackfriday.WithRenderer(cr))
-	output2 := string(output)
+	// cr := NewChromaRenderer("perldoc")
+	// output := blackfriday.Run(content, blackfriday.WithRenderer(cr))
+	// output2 := string(output)
 
-	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
+	// var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
 
-	// Execute templates
-	templates.ExecuteTemplate(w, "_base.html", output2)
+	// // Execute templates
+	// templates.ExecuteTemplate(w, "_base.html", output2)
 }
 
 // Handle /see-code path
 func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// Get the fn parameter (to define starting function name)
-	fns, fnOK := r.URL.Query()["fn"]
+	// // Get the fn parameter (to define starting function name)
+	// fns, fnOK := r.URL.Query()["fn"]
 
-	// Check the fn parameter
-	if !fnOK || len(fns[0]) < 1 {
-		io.WriteString(w, "fn parameter is missing!")
-		return
-	}
+	// // Check the fn parameter
+	// if !fnOK || len(fns[0]) < 1 {
+	// 	io.WriteString(w, "fn parameter is missing!")
+	// 	return
+	// }
 
-	// Start marker
-	start := "func " + fns[0]
-	// End marker
-	end := "// End of " + fns[0]
+	// // Start marker
+	// start := "func " + fns[0]
+	// // End marker
+	// end := "// End of " + fns[0]
 
-	// Read the source code (imaginative-go.go)
-	sourceCode, err := ioutil.ReadFile("imaginative-go.go")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// // Read the source code (imaginative-go.go)
+	// sourceCode, err := ioutil.ReadFile("imaginative-go.go")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	dataSourceCode := string(sourceCode)
+	// dataSourceCode := string(sourceCode)
 
-	// Start searching for function start  -- TODO help us with regex please
-	startIndex := strings.Index(dataSourceCode, start)
-	endIndex := strings.Index(dataSourceCode, end)
-	if startIndex > -1 {
-		// Function name start marker found
+	// // Start searching for function start  -- TODO help us with regex please
+	// startIndex := strings.Index(dataSourceCode, start)
+	// endIndex := strings.Index(dataSourceCode, end)
+	// if startIndex > -1 {
+	// 	// Function name start marker found
 
-		// Start searching for function end -- TODO help us with regex please
-		endIndex = strings.Index(dataSourceCode, end)
-		if endIndex > -1 {
-			// Function name (one block) found
+	// 	// Start searching for function end -- TODO help us with regex please
+	// 	endIndex = strings.Index(dataSourceCode, end)
+	// 	if endIndex > -1 {
+	// 		// Function name (one block) found
 
-			// We got the source code string on imaginative-go.go
-			dataSourceCode = dataSourceCode[startIndex:endIndex]
-		} else {
-			// Function end marker not found
-			io.WriteString(w, "function "+start+" ending not found!")
-			return
-		}
-	} else {
-		// Function start marker not found
-		//io.WriteString(w, "function "+start+" not found!")
-		//return
-		dataSourceCode = ""
-		endIndex = 0
-	}
+	// 		// We got the source code string on imaginative-go.go
+	// 		dataSourceCode = dataSourceCode[startIndex:endIndex]
+	// 	} else {
+	// 		// Function end marker not found
+	// 		io.WriteString(w, "function "+start+" ending not found!")
+	// 		return
+	// 	}
+	// } else {
+	// 	// Function start marker not found
+	// 	//io.WriteString(w, "function "+start+" not found!")
+	// 	//return
+	// 	dataSourceCode = ""
+	// 	endIndex = 0
+	// }
 
-	// Start doing syntax highlight on it
-	lexer := lexers.Get("go")
-	iterator, _ := lexer.Tokenise(nil, dataSourceCode)
-	style := styles.Get("github")
+	// // Start doing syntax highlight on it
+	// lexer := lexers.Get("go")
+	// iterator, _ := lexer.Tokenise(nil, dataSourceCode)
+	// style := styles.Get("github")
 
-	// Do this if you want line number, formatter := html.New(html.WithLineNumbers())
-	formatter := html.New()
+	// // Do this if you want line number, formatter := html.New(html.WithLineNumbers())
+	// formatter := html.New()
 
-	var buffDataSourceCode bytes.Buffer
+	// var buffDataSourceCode bytes.Buffer
 
-	formatter.Format(&buffDataSourceCode, style, iterator)
+	// formatter.Format(&buffDataSourceCode, style, iterator)
 
-	niceSourceCode := buffDataSourceCode.String()
-	niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-	niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
+	// niceSourceCode := buffDataSourceCode.String()
+	// niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
+	// niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
 
-	// Read the source code (src/examples/[fn].go) (stand alone code version)
-	saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// // Read the source code (src/examples/[fn].go) (stand alone code version)
+	// saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	dataSaSourceCode := string(saSourceCode)
+	// dataSaSourceCode := string(saSourceCode)
 
-	// Start doing syntax highlight on it
-	lexer = lexers.Get("go")
-	iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
-	style = styles.Get("github")
+	// // Start doing syntax highlight on it
+	// lexer = lexers.Get("go")
+	// iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
+	// style = styles.Get("github")
 
-	// Do this if you want line number, formatter = html.New(html.WithLineNumbers())
-	formatter = html.New()
+	// // Do this if you want line number, formatter = html.New(html.WithLineNumbers())
+	// formatter = html.New()
 
-	var buffDataSaSourceCode bytes.Buffer
+	// var buffDataSaSourceCode bytes.Buffer
 
-	formatter.Format(&buffDataSaSourceCode, style, iterator)
+	// formatter.Format(&buffDataSaSourceCode, style, iterator)
 
-	niceSaSourceCode := buffDataSaSourceCode.String()
-	niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-	niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
+	// niceSaSourceCode := buffDataSaSourceCode.String()
+	// niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
+	// niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
 
 	// Execute template
 	//templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})

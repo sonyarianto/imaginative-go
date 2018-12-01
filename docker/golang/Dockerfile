@@ -1,7 +1,5 @@
 FROM golang:latest
 
-ENV GOPATH /go
-
 RUN go get -d -u -v github.com/go-sql-driver/mysql
 RUN go install -v github.com/go-sql-driver/mysql
 
@@ -20,8 +18,5 @@ RUN go install -v github.com/alecthomas/chroma/lexers
 RUN go get -d -u -v github.com/alecthomas/chroma/styles
 RUN go install -v github.com/alecthomas/chroma/styles
 
-RUN go get -d -u -v github.com/russross/blackfriday
-RUN go install -v github.com/russross/blackfriday
-
-RUN go get -d -u -v gopkg.in/russross/blackfriday.v2
-RUN go install -v gopkg.in/russross/blackfriday.v2
+RUN go get -d -u -v github.com/gomarkdown/markdown
+RUN go install -v github.com/gomarkdown/markdown
