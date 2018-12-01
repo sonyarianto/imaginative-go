@@ -1,4 +1,4 @@
-package main
+package routing_with_default_mux
 
 import (
     "io"

@@ -1,4 +1,4 @@
-package main
+package hello_world_on_web_2
 
 import (
     "io"

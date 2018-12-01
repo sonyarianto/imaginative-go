@@ -11,7 +11,7 @@ import (
 	//"github.com/alecthomas/chroma/formatters/html"
 	//"github.com/alecthomas/chroma/lexers"
 	//"github.com/alecthomas/chroma/styles"
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
@@ -37,7 +37,7 @@ type Content struct {
 	Slug             string            `bson:"slug" json:"slug"`
 	ShortDescription string            `bson:"short_description" json:"short_description"`
 	ContentFile      string            `bson:"content_file" json:"content_file"`
-	Tags             []Tag             `json:"tags" json:"tags"`
+	Tags             []Tag             `bson:"tags" json:"tags"`
 }
 
 // // Prepare struct for syntax highlighter.
