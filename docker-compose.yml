@@ -10,6 +10,7 @@ services:
     environment:
       - IGO_MONGODB_URI=mongodb://root:mongodbpassword@mongodb:27017
       - IGO_MONGODB_DATABASE=db-imaginative-go
+      - IGO_ENV=test
     ports:
       - "9899:9899"
     depends_on:
