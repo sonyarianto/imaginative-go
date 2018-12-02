@@ -6,16 +6,14 @@
     <div class="row">
       <div class="content">
         <h2>What the hell is this?</h2>
-        <p><strong>Imaginative Go</strong> is a website that created with Go lang. It contains many go lang working samples that for web and non-web application. It demonstrate what Go lang can achieve. You can contribute!</p>
+        <p><strong>Imaginative Go</strong> is a website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!</p>
         <blockquote>I believe that the best way to learn new programming language is by directly implement the knowledge into a project.<br><i><small>-- Sony Arianto Kurniawan, Imaginative Go Project Maintainer</small></i></blockquote>
         <p>This imaginative (but super real) project, we implement our knowledge during learning Go and we want to share with the community. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.</p>
-        <p>So let's start with code samples.</p>
-        <h2>Samples</h2>
         <blockquote><strong>NOTES:</strong><br>
-          All sample codes shown here are located on <code>src/examples</code> directory in the repository.<br>
-          You can also see web code at file <code>imaginative-go.go</code> on <code>src</code> directory.<br>
-          You can fork this website on your local and build with Docker.
+          You can see this web code at file <code>imaginative-go.go</code>.<br>
+          You can fork this website on your local machine and run <code>docker-compose up -d</code> then go to your browser at <code>http://localhost:9899</code>.
         </blockquote>
+        <h2>Samples</h2>
         {{- block "_list_of_sample_home" .}}
         <div class="rows imgo-sample-start">
           {{- range .Content}}

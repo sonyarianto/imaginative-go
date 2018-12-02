@@ -7,7 +7,7 @@ It will show how to do "hello, world" in Go. There is web and non-web sample for
 ### Sample 1
 Display 'hello, world' on console.
 
-File `src\examples\hello-world.go`
+Save as `hello-world.go`
 ```go
 package main
 
@@ -23,7 +23,7 @@ Run with `go run hello-world.go`
 ### Sample 2
 Display 'hello, world' on web browser. Using standard mux.
 
-File `src\examples\hello-world-on-web.go`
+Save as `hello-world-on-web.go`
 
 ```go
 package main
@@ -55,7 +55,7 @@ Run with `go run hello-world-on-web.go` and access on your browser at `http://lo
 ### Sample 3
 Display 'hello, world' on web browser. Using standard mux. Render with Content Type `text/html` so it aware of HTML tags.
 
-File `src\examples\hello-world-on-web-2.go`
+Save as `hello-world-on-web-2.go`
 
 ```go
 package main
