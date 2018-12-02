@@ -1,4 +1,4 @@
-module github.com/sonyarianto/imaginative-go
+module imaginative-go
 
 require (
 	github.com/go-stack/stack v1.8.0 // indirect
