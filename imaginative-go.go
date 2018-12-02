@@ -515,8 +515,6 @@ func main() {
 	mux.GET("/content/:slug", ReadContent)
 	mux.GET("/content", ContentHandler)
 	mux.GET("/see-code/:slug", SeeCode)
-	mux.GET("/result/hello-world", SampleHelloWorld)
-	mux.GET("/result/hello-world-2", SampleHelloWorld2)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)
