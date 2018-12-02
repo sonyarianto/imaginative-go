@@ -4,15 +4,12 @@ package main
 // docker/golang/Dockerfile so next time if you recreate all containers
 // it will be installed.
 import (
-	//"bytes"
 	"context"
 	"database/sql"
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters/html"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
-	//_ "github.com/go-sql-driver/mysql"
-	//"github.com/gomarkdown/markdown"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
@@ -25,7 +22,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	//"strings"
 )
 
 type Tag struct {
@@ -190,9 +186,6 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	cr := NewChromaRenderer("perldoc")
 	content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
 
-	// md := []byte(fileContent)
-	// content := string(markdown.ToHTML(md, nil, nil))
-
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content string
@@ -207,117 +200,6 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
-// Handle /content path.
-func ContentHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// content, err := ioutil.ReadFile("data/content/sample_hello_world.md")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// cr := NewChromaRenderer("perldoc")
-	// output := blackfriday.Run(content, blackfriday.WithRenderer(cr))
-	// output2 := string(output)
-
-	// var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
-
-	// // Execute templates
-	// templates.ExecuteTemplate(w, "_base.html", output2)
-}
-
-// Handle /see-code path
-func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// // Get the fn parameter (to define starting function name)
-	// fns, fnOK := r.URL.Query()["fn"]
-
-	// // Check the fn parameter
-	// if !fnOK || len(fns[0]) < 1 {
-	// 	io.WriteString(w, "fn parameter is missing!")
-	// 	return
-	// }
-
-	// // Start marker
-	// start := "func " + fns[0]
-	// // End marker
-	// end := "// End of " + fns[0]
-
-	// // Read the source code (imaginative-go.go)
-	// sourceCode, err := ioutil.ReadFile("imaginative-go.go")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// dataSourceCode := string(sourceCode)
-
-	// // Start searching for function start  -- TODO help us with regex please
-	// startIndex := strings.Index(dataSourceCode, start)
-	// endIndex := strings.Index(dataSourceCode, end)
-	// if startIndex > -1 {
-	// 	// Function name start marker found
-
-	// 	// Start searching for function end -- TODO help us with regex please
-	// 	endIndex = strings.Index(dataSourceCode, end)
-	// 	if endIndex > -1 {
-	// 		// Function name (one block) found
-
-	// 		// We got the source code string on imaginative-go.go
-	// 		dataSourceCode = dataSourceCode[startIndex:endIndex]
-	// 	} else {
-	// 		// Function end marker not found
-	// 		io.WriteString(w, "function "+start+" ending not found!")
-	// 		return
-	// 	}
-	// } else {
-	// 	// Function start marker not found
-	// 	//io.WriteString(w, "function "+start+" not found!")
-	// 	//return
-	// 	dataSourceCode = ""
-	// 	endIndex = 0
-	// }
-
-	// // Start doing syntax highlight on it
-	// lexer := lexers.Get("go")
-	// iterator, _ := lexer.Tokenise(nil, dataSourceCode)
-	// style := styles.Get("github")
-
-	// // Do this if you want line number, formatter := html.New(html.WithLineNumbers())
-	// formatter := html.New()
-
-	// var buffDataSourceCode bytes.Buffer
-
-	// formatter.Format(&buffDataSourceCode, style, iterator)
-
-	// niceSourceCode := buffDataSourceCode.String()
-	// niceSourceCode = strings.Replace(niceSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-	// niceSourceCode = strings.Replace(niceSourceCode, "</pre>", "</code></pre>", -1)
-
-	// // Read the source code (src/examples/[fn].go) (stand alone code version)
-	// saSourceCode, err := ioutil.ReadFile("examples/" + fns[0] + ".go")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-
-	// dataSaSourceCode := string(saSourceCode)
-
-	// // Start doing syntax highlight on it
-	// lexer = lexers.Get("go")
-	// iterator, _ = lexer.Tokenise(nil, dataSaSourceCode)
-	// style = styles.Get("github")
-
-	// // Do this if you want line number, formatter = html.New(html.WithLineNumbers())
-	// formatter = html.New()
-
-	// var buffDataSaSourceCode bytes.Buffer
-
-	// formatter.Format(&buffDataSaSourceCode, style, iterator)
-
-	// niceSaSourceCode := buffDataSaSourceCode.String()
-	// niceSaSourceCode = strings.Replace(niceSaSourceCode, `<pre style="background-color:#fff">`, `<pre style="background-color:#fff;width:100%;"><code>`, -1)
-	// niceSaSourceCode = strings.Replace(niceSaSourceCode, "</pre>", "</code></pre>", -1)
-
-	// Execute template
-	//templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
-}
-
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	b, err := ioutil.ReadFile("imaginative-go.go")
 	if err != nil {
@@ -325,15 +207,6 @@ func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httpro
 	}
 
 	log.Println(string(b))
-}
-
-func about(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	data := map[string]interface{}{"OK": "PrasBox", "Nama": "Elan"}
-
-	//var templates = template.Must(template.ParseFiles("about.html", "templates/ww.html", "templates/hours.html"))
-	var templates = template.Must(template.ParseFiles("about.html"))
-	//templates.ExecuteTemplate(w, "indexPage", data)
-	templates.ExecuteTemplate(w, "about.html", data)
 }
 
 func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -514,8 +387,6 @@ func main() {
 	// Registers the handler function for the given pattern
 	mux.GET("/", Home)
 	mux.GET("/content/:slug", ReadContent)
-	mux.GET("/content", ContentHandler)
-	mux.GET("/see-code/:slug", SeeCode)
 	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
 	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
 	mux.GET("/mongo-select-rows", mongodbSelectRows)
