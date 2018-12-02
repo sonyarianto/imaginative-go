@@ -17,7 +17,7 @@ services:
       - mongodb
     links:
       - mongodb
-    restart: always
+    #restart: always
     networks:
       - network-imaginative-go
   mongodb:
@@ -29,7 +29,7 @@ services:
       MONGO_INITDB_DATABASE: db-imaginative-go
     networks:
       - network-imaginative-go
-    restart: always
+    #restart: always
     volumes:
       - volume-mongodb-imaginative-go:/data/db
 networks:
