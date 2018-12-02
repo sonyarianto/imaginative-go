@@ -62,20 +62,17 @@ http://localhost:9899
 ## Docker Images Used
 - `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
 
-## Credits
-### Themes
-- [Editorial](https://html5up.net/editorial) from [HTML5 UP](https://html5up.net)
-- [Phantom](https://html5up.net/phantom) from [HTML5 UP](https://html5up.net)
-
 ## Contributors
 - [Sony Arianto Kurniawan](https://github.com/sonyarianto) - sony@sony-ak.com - original author, project maintainer
 - [Prasetyama Hidayat](https://github.com/prasetyama) - prasetyama@gmail.com
 
+Do you want to contribute? Just fork this repository and contribute anything you can (e.g. fix typo, bug fix, add new sample etc.)
+
 ## Screen Shots
 ### Home Page
-![Imaginative Go - Screenshot 1](/src/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
+![Imaginative Go - Screenshot 1](/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
 ### Sample Code List
-![Imaginative Go - Screenshot 2](/src/assets/images/screenshot2.png?raw=true "Imaginative Go - Screenshot 2")
+![Imaginative Go - Screenshot 2](/assets/images/screenshot2.png?raw=true "Imaginative Go - Screenshot 2")
 
 ## License
 This project is licensed under the MIT License.
