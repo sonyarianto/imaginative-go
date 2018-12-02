@@ -4,6 +4,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"strings"
 	"testing"
 )
 
@@ -12,8 +14,10 @@ var (
 )
 
 func TestHome(t *testing.T) {
-	if imaginativeGoEnv != "prod" { return }
-	
+	if imaginativeGoEnv != "prod" {
+		return
+	}
+
 	req, err := http.NewRequest("GET", "/", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -31,8 +35,10 @@ func TestHome(t *testing.T) {
 }
 
 func TestReadContent(t *testing.T) {
-	if imaginativeGoEnv != "prod" { return }
-	
+	if imaginativeGoEnv != "prod" {
+		return
+	}
+
 	req, err := http.NewRequest("GET", "/content/hello-world", nil)
 	if err != nil {
 		t.Fatal(err)
@@ -59,6 +65,6 @@ func newRequestRecorder(req *http.Request, method string, strPath string, fnHand
 	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
 	// directly and pass in our Request and ResponseRecorder.
 	router.ServeHTTP(rr, req)
-	
+
 	return rr
 }

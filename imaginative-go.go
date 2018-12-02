@@ -12,11 +12,11 @@ import (
 	//"github.com/alecthomas/chroma/lexers"
 	//"github.com/alecthomas/chroma/styles"
 	//_ "github.com/go-sql-driver/mysql"
+	"github.com/gomarkdown/markdown"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
 	"github.com/mongodb/mongo-go-driver/mongo"
-	"github.com/gomarkdown/markdown"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -33,11 +33,11 @@ type Tag struct {
 
 type Content struct {
 	ID               primitive.ObjectID `bson:"_id" json:"_id"`
-	Title            string            `bson:"title" json:"title"`
-	Slug             string            `bson:"slug" json:"slug"`
-	ShortDescription string            `bson:"short_description" json:"short_description"`
-	ContentFile      string            `bson:"content_file" json:"content_file"`
-	Tags             []Tag             `bson:"tags" json:"tags"`
+	Title            string             `bson:"title" json:"title"`
+	Slug             string             `bson:"slug" json:"slug"`
+	ShortDescription string             `bson:"short_description" json:"short_description"`
+	ContentFile      string             `bson:"content_file" json:"content_file"`
+	Tags             []Tag              `bson:"tags" json:"tags"`
 }
 
 // // Prepare struct for syntax highlighter.
@@ -189,8 +189,8 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// cr := NewChromaRenderer("perldoc")
 	// content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
 
-    md := []byte(fileContent)
-    content := string(markdown.ToHTML(md, nil, nil))
+	md := []byte(fileContent)
+	content := string(markdown.ToHTML(md, nil, nil))
 
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
