@@ -7,38 +7,46 @@ import (
 	"testing"
 )
 
+var (
+	imaginativeGoEnv string = os.Getenv("IGO_ENV")
+)
+
 func TestHome(t *testing.T) {
-	// req, err := http.NewRequest("GET", "/", nil)
-	// if err != nil {
-	// 	t.Fatal(err)
-	// }
+	if imaginativeGoEnv != "prod" { return }
+	
+	req, err := http.NewRequest("GET", "/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	// rr := newRequestRecorder(req, "GET", "/", Home)
-	// if rr.Code != 200 {
-	// 	t.Error("Expected response code to be 200")
-	// }
+	rr := newRequestRecorder(req, "GET", "/", Home)
+	if rr.Code != 200 {
+		t.Error("Expected response code to be 200")
+	}
 
-	// expected := `Imaginative Go`
-	// if !strings.Contains(rr.Body.String(), expected) {
-	// 	t.Error("Response body does not match")
-	// }
+	expected := `Imaginative Go`
+	if !strings.Contains(rr.Body.String(), expected) {
+		t.Error("Response body does not match")
+	}
 }
 
 func TestReadContent(t *testing.T) {
-	// req, err := http.NewRequest("GET", "/content/hello-world", nil)
-	// if err != nil {
-	// 	t.Fatal(err)
-	// }
+	if imaginativeGoEnv != "prod" { return }
+	
+	req, err := http.NewRequest("GET", "/content/hello-world", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	// rr := newRequestRecorder(req, "GET", "/content/hello-world", ReadContent)
-	// if rr.Code != 200 {
-	// 	t.Error("Expected response code to be 200")
-	// }
+	rr := newRequestRecorder(req, "GET", "/content/hello-world", ReadContent)
+	if rr.Code != 200 {
+		t.Error("Expected response code to be 200")
+	}
 
-	// expected := `Hello World`
-	// if !strings.Contains(rr.Body.String(), expected) {
-	// 	t.Error("Response body does not match")
-	// }
+	expected := `Hello World`
+	if !strings.Contains(rr.Body.String(), expected) {
+		t.Error("Response body does not match")
+	}
 }
 
 func newRequestRecorder(req *http.Request, method string, strPath string, fnHandler func(w http.ResponseWriter, r *http.Request, param httprouter.Params)) *httptest.ResponseRecorder {
