@@ -4,7 +4,7 @@ services:
     container_name: go-imaginative-go
     build: ./docker/golang
     volumes:
-      - ./:/go/src/imaginative-go
+      - ./src:/go/src/imaginative-go
     working_dir: /go/src/imaginative-go
     command: go run imaginative-go.go
     environment:
