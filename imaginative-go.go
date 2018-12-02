@@ -7,16 +7,17 @@ import (
 	//"bytes"
 	"context"
 	"database/sql"
-	//"github.com/alecthomas/chroma"
-	//"github.com/alecthomas/chroma/formatters/html"
-	//"github.com/alecthomas/chroma/lexers"
-	//"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma"
+	"github.com/alecthomas/chroma/formatters/html"
+	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/chroma/styles"
 	//_ "github.com/go-sql-driver/mysql"
-	"github.com/gomarkdown/markdown"
+	//"github.com/gomarkdown/markdown"
 	"github.com/julienschmidt/httprouter"
 	"github.com/mongodb/mongo-go-driver/bson"
 	"github.com/mongodb/mongo-go-driver/bson/primitive"
 	"github.com/mongodb/mongo-go-driver/mongo"
+	"gopkg.in/russross/blackfriday.v2"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -40,72 +41,72 @@ type Content struct {
 	Tags             []Tag              `bson:"tags" json:"tags"`
 }
 
-// // Prepare struct for syntax highlighter.
-// type ChromaRenderer struct {
-// 	html  *blackfriday.HTMLRenderer
-// 	theme string
-// }
+// Prepare struct for syntax highlighter.
+type ChromaRenderer struct {
+	html  *blackfriday.HTMLRenderer
+	theme string
+}
 
-// // RenderNode is called with the node being traversed.
-// func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-// 	switch node.Type {
-// 	// We only care about the pre tag.
-// 	case blackfriday.CodeBlock:
-// 		// Set up a lexer.
-// 		var lexer chroma.Lexer
+// RenderNode is called with the node being traversed.
+func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+	switch node.Type {
+	// We only care about the pre tag.
+	case blackfriday.CodeBlock:
+		// Set up a lexer.
+		var lexer chroma.Lexer
 
-// 		// Read the language from the annotation.
-// 		lang := string(node.CodeBlockData.Info)
-// 		if lang != "" {
-// 			lexer = lexers.Get(lang)
-// 		} else {
-// 			// Analyze when no language annotation is given.
-// 			lexer = lexers.Analyse(string(node.Literal))
-// 		}
+		// Read the language from the annotation.
+		lang := string(node.CodeBlockData.Info)
+		if lang != "" {
+			lexer = lexers.Get(lang)
+		} else {
+			// Analyze when no language annotation is given.
+			lexer = lexers.Analyse(string(node.Literal))
+		}
 
-// 		// If no annotation was found and couldn't be analyzed, fallback.
-// 		if lexer == nil {
-// 			lexer = lexers.Fallback
-// 		}
+		// If no annotation was found and couldn't be analyzed, fallback.
+		if lexer == nil {
+			lexer = lexers.Fallback
+		}
 
-// 		// Set a syntax highlighting theme
-// 		style := styles.Get(r.theme)
-// 		if style == nil {
-// 			style = styles.Fallback
-// 		}
+		// Set a syntax highlighting theme
+		style := styles.Get(r.theme)
+		if style == nil {
+			style = styles.Fallback
+		}
 
-// 		// Apply highlighting with Chroma.
-// 		iterator, err := lexer.Tokenise(nil, string(node.Literal))
-// 		if err != nil {
-// 			panic(err)
-// 		}
+		// Apply highlighting with Chroma.
+		iterator, err := lexer.Tokenise(nil, string(node.Literal))
+		if err != nil {
+			panic(err)
+		}
 
-// 		// An HTML formatter for the tokenized results.
-// 		formatter := html.New()
+		// An HTML formatter for the tokenized results.
+		formatter := html.New()
 
-// 		// Write out the highlighted code to the io.Writer.
-// 		err = formatter.Format(w, style, iterator)
-// 		if err != nil {
-// 			panic(err)
-// 		}
+		// Write out the highlighted code to the io.Writer.
+		err = formatter.Format(w, style, iterator)
+		if err != nil {
+			panic(err)
+		}
 
-// 		// Move on to the next node.
-// 		return blackfriday.GoToNext
-// 	}
+		// Move on to the next node.
+		return blackfriday.GoToNext
+	}
 
-// 	// Didn't match the CodeBlock type, render it as is.
-// 	return r.html.RenderNode(w, node, entering)
-// }
+	// Didn't match the CodeBlock type, render it as is.
+	return r.html.RenderNode(w, node, entering)
+}
 
-// func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
-// func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
+func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
 
-// func NewChromaRenderer(theme string) *ChromaRenderer {
-// 	return &ChromaRenderer{
-// 		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
-// 		theme: theme,
-// 	}
-// }
+func NewChromaRenderer(theme string) *ChromaRenderer {
+	return &ChromaRenderer{
+		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
+		theme: theme,
+	}
+}
 
 func MongoDBConnect() *mongo.Database {
 	// Prepare database.
@@ -185,12 +186,12 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		log.Fatal(err)
 	}
 
-	// // Prepare renderer.
-	// cr := NewChromaRenderer("perldoc")
-	// content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
+	// Prepare renderer.
+	cr := NewChromaRenderer("perldoc")
+	content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
 
-	md := []byte(fileContent)
-	content := string(markdown.ToHTML(md, nil, nil))
+	// md := []byte(fileContent)
+	// content := string(markdown.ToHTML(md, nil, nil))
 
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {

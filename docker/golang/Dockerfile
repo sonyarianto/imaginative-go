@@ -13,3 +13,5 @@ RUN go get -u -v github.com/alecthomas/chroma/lexers
 RUN go get -u -v github.com/alecthomas/chroma/styles
 
 RUN go get -u -v github.com/gomarkdown/markdown
+
+RUN go get -u -v gopkg.in/russross/blackfriday.v2

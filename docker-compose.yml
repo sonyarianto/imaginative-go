@@ -27,6 +27,8 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
       MONGO_INITDB_DATABASE: db-imaginative-go
+    #ports:
+    #  - "127.0.0.1::27017"
     networks:
       - network-imaginative-go
     restart: always
