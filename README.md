@@ -71,8 +71,6 @@ Do you want to contribute? Just fork this repository and contribute anything you
 ## Screen Shots
 ### Home Page
 ![Imaginative Go - Screenshot 1](/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
-### Sample Code List
-![Imaginative Go - Screenshot 2](/assets/images/screenshot2.png?raw=true "Imaginative Go - Screenshot 2")
 
 ## License
 This project is licensed under the MIT License.
