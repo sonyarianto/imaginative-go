@@ -68,10 +68,6 @@ http://localhost:9899
 
 Do you want to contribute? Just fork this repository and contribute anything you can (e.g. fix typo, bug fix, add new sample etc.)
 
-## Screen Shots
-### Home Page
-![Imaginative Go - Screenshot 1](/assets/images/screenshot1.png?raw=true "Imaginative Go - Screenshot 1")
-
 ## License
 This project is licensed under the MIT License.
 

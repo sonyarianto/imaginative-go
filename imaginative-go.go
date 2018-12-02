@@ -317,18 +317,6 @@ func SeeCode(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	//templates.ExecuteTemplate(w, "sample_imaginative_go.html", map[string]interface{}{"sourceCode": niceSourceCode, "standAloneSourceCode": niceSaSourceCode, "id": fns[0]})
 }
 
-// Handle /hello-world path
-func SampleHelloWorld(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	io.WriteString(w, "hello, world")
-} // End of SampleHelloWorld
-
-// Handle /hello-world-2 path
-func SampleHelloWorld2(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	io.WriteString(w, "<h1>hello, world<h1>")
-} // End of SampleHelloWorld2
-
 func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	b, err := ioutil.ReadFile("imaginative-go.go")
 	if err != nil {
@@ -515,9 +503,6 @@ var funcMap = template.FuncMap{
 		return template.HTML(s)
 	},
 }
-
-// Prepare all templates
-//var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
 
 func main() {
 	mux := httprouter.New()
