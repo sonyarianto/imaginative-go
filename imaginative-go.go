@@ -5,7 +5,6 @@ package main
 // it will be installed.
 import (
 	"context"
-	"database/sql"
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters/html"
 	"github.com/alecthomas/chroma/lexers"
@@ -200,155 +199,77 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
-func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	b, err := ioutil.ReadFile("imaginative-go.go")
-	if err != nil {
-		log.Fatal(err)
-	}
+// func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// 	b, err := ioutil.ReadFile("imaginative-go.go")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	log.Println(string(b))
-}
+// 	log.Println(string(b))
+// }
 
-func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	// prepare the function for template
-	funcMap := template.FuncMap{
-		// the name "inc" is what the function will be called in the template text.
-		"inc": func(i int) int {
-			return i + 1
-		},
-	}
+// func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// 	// prepare the function for template
+// 	funcMap := template.FuncMap{
+// 		// the name "inc" is what the function will be called in the template text.
+// 		"inc": func(i int) int {
+// 			return i + 1
+// 		},
+// 	}
 
-	// prepare the template
-	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_multiple_rows.html"))
+// 	// prepare the template
+// 	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_multiple_rows.html"))
 
-	// prepare the structure
-	type Category struct {
-		InternalId       int    `json:"internal_id"`
-		Name             string `json:"name"`
-		Slug             string `json:"slug"`
-		ShortDescription string `json:"short_description"`
-	}
+// 	// prepare the structure
+// 	type Category struct {
+// 		InternalId       int    `json:"internal_id"`
+// 		Name             string `json:"name"`
+// 		Slug             string `json:"slug"`
+// 		ShortDescription string `json:"short_description"`
+// 	}
 
-	type Data struct {
-		Category []Category
-	}
+// 	type Data struct {
+// 		Category []Category
+// 	}
 
-	// prepare the database connection
-	db, err := sql.Open("mysql", mysqlUsername+":"+mysqlPassword+"@"+mysqlProtocol+"("+mysqlHost+":"+mysqlPort+")/"+mysqlDatabaseName)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close()
+// 	// prepare the database connection
+// 	db, err := sql.Open("mysql", mysqlUsername+":"+mysqlPassword+"@"+mysqlProtocol+"("+mysqlHost+":"+mysqlPort+")/"+mysqlDatabaseName)
+// 	if err != nil {
+// 		panic(err.Error())
+// 	}
+// 	defer db.Close()
 
-	// prepare the SQL (using Query)
-	rows, err := db.Query("SELECT id, `name`, slug, short_description FROM content_category ORDER BY `name` ASC")
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-	defer rows.Close()
+// 	// prepare the SQL (using Query)
+// 	rows, err := db.Query("SELECT id, `name`, slug, short_description FROM content_category ORDER BY `name` ASC")
+// 	if err != nil {
+// 		panic(err.Error()) // proper error handling instead of panic in your app
+// 	}
+// 	defer rows.Close()
 
-	// prepare the data
-	rowsData := make([]Category, 0)
+// 	// prepare the data
+// 	rowsData := make([]Category, 0)
 
-	// start loop to selected table
-	for rows.Next() {
-		// prepare the variable
-		var category Category
+// 	// start loop to selected table
+// 	for rows.Next() {
+// 		// prepare the variable
+// 		var category Category
 
-		// scan each row
-		err := rows.Scan(&category.InternalId, &category.Name, &category.Slug, &category.ShortDescription)
-		if err != nil {
-			log.Fatal(err)
-		}
+// 		// scan each row
+// 		err := rows.Scan(&category.InternalId, &category.Name, &category.Slug, &category.ShortDescription)
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		}
 
-		// save to variable
-		rowsData = append(rowsData, category)
-	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
+// 		// save to variable
+// 		rowsData = append(rowsData, category)
+// 	}
+// 	err = rows.Err()
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
-}
-
-func mongodbSelectRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	//var templates = template.Must(template.ParseFiles("mongodb_select_rows.html"))
-
-	// client, _ := mongo.Connect(context.Background(), "mongodb://localhost:27017", nil)
-	// db := client.Database("go_db")
-	// collection := db.Collection("content_category")
-
-	client, err := mongo.NewClient("mongodb://root:mongodbpassword@mongodb:27017")
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = client.Connect(context.TODO())
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	collection := client.Database("go_db").Collection("content_category")
-
-	collection.InsertOne(context.Background(), map[string]string{"name": "Erlang", "slug": "erlang", "short_description": "Resource for learning Erlang language"})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	//collection.InsertOne(nil, map[string]string{"name": "C", "slug": "c", "short_description": "Resource for learning C language"})
-
-	//templates.ExecuteTemplate(w, "mongodb_select_rows.html", nil)
-}
-
-func getQueryHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	keys, ok := r.URL.Query()["key"]
-
-	if !ok || len(keys[0]) < 1 {
-		log.Println("Url Param 'key' is missing")
-		return
-	}
-
-	// Query()["key"] will return an array of items,
-	// we only want the single item.
-	key := keys[0]
-
-	// log.Println("Url Param 'key' is: " + string(key))
-	io.WriteString(w, key)
-}
-
-func mysqlSelectMultiRowsHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	type Category struct {
-		name              string
-		slug              string
-		short_description string
-	}
-
-	db, err := sql.Open("mysql", "root:mysqlpass99!@tcp("+localIpString+":3306)/go_db")
-	if err != nil {
-		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
-	}
-	defer db.Close()
-
-	// Query statement for reading data
-	rows, err := db.Query("SELECT slug, name, short_description FROM content_category ORDER BY name ASC")
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var category Category
-
-		err := rows.Scan(&category.slug, &category.name, &category.short_description)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
+// 	templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
+// }
 
 func GetOutboundIP() net.IP {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
@@ -387,11 +308,6 @@ func main() {
 	// Registers the handler function for the given pattern
 	mux.GET("/", Home)
 	mux.GET("/content/:slug", ReadContent)
-	mux.GET("/display-imaginative-go-source", displayImaginativeGoSource)
-	mux.GET("/mysql-select-multiple-rows", mysqlSelectMultipleRows)
-	mux.GET("/mongo-select-rows", mongodbSelectRows)
-	mux.GET("/get-query", getQueryHandler)
-	mux.GET("/mysql-select-multi-rows", mysqlSelectMultiRowsHandler)
 
 	// Start listen and serve
 	log.Fatal(http.ListenAndServe(":9899", mux))
