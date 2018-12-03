@@ -187,13 +187,13 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
-		Content string
+		Content template.HTML
 	}
 
-	templateData := TemplateData{Content: content}
+	templateData := TemplateData{Content: template.HTML(content)}
 
 	// Parse templates.
-	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/_base.html", "templates/read-content.html"))
+	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/read-content.html"))
 
 	// Execute template.
 	templates.ExecuteTemplate(w, "_base.html", templateData)
