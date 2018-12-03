@@ -68,6 +68,20 @@ http://localhost:9899
 
 Do you want to contribute? Just fork this repository and contribute anything you can (e.g. fix typo, bug fix, add new sample etc.)
 
+## Community/Contributing
+Imaginative Go maintains a mailing list, [Imaginative Go][imaginative-go], where you should feel
+welcome to ask questions about the project (no matter how simple!) or to talk about Imaginative Go more
+generally. Imaginative Go's author (Sony Arianto Kurniawan) also loves to hear from users directly
+at his personal email address, which is available on his GitHub profile page.
+
+Contributions to Imaginative Go are welcome.
+
+All interactions in the Imaginative Go community will be held to the high standard of the
+broader Go community's [Code of Conduct][conduct].
+
+[imaginative-go]: https://groups.google.com/forum/#!forum/imaginative-go
+[conduct]: https://golang.org/conduct
+
 ## License
 This project is licensed under the MIT License.
 
