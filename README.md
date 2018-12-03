@@ -4,9 +4,6 @@
 
 Imaginative Go is a website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
-> I believe that the best way to learn new programming language is by directly implement the knowledge into a project.<br>
-> -- Sony Arianto Kurniawan, Imaginative Go Project Maintainer
-
 This imaginative project will show doing web application in Go lang as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since it just give you an idea how to achieve something in Go lang.
 
 ## Why Imaginative Go?
