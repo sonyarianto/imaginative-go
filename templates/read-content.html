@@ -1,0 +1,13 @@
+{{template "_base.html" .}}
+
+{{- block "_content" .}}
+<div class="imgo-container">
+  <div class="rows">
+    <div class="row">
+      <div class="content">
+        {{- toHTML .Content}}
+      </div>
+    </div>
+  </div>
+</div>
+{{- end}}

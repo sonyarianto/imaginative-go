@@ -1,0 +1,43 @@
+{{template "_base.html" .}}
+
+{{- block "_content" .}}
+<div class="imgo-container">
+  <div class="rows">
+    <div class="row">
+      <div class="content">
+        <h2>Hi, I'm Imaginative Go!</h2>
+        <p><strong>Imaginative Go</strong> is a website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!</p>
+        <blockquote>I believe that the best way to learn new programming language is by directly implement the knowledge into a project.<br><i><small>-- Sony Arianto Kurniawan, Imaginative Go Project Maintainer</small></i></blockquote>
+        <p>This imaginative (but super real) project, we implement our knowledge during learning Go and we want to share with the community. We don't use any framework and forgive us if the code still not efficient or optimal, since this project will just give you an idea how to achieve something in Go language.</p>
+        <blockquote><strong>NOTES:</strong><br>
+          You can see this web code at file <code>imaginative-go.go</code>.<br>
+          You can fork this website on your local machine and run <code>docker-compose up -d</code> then go to your browser at <code>http://localhost:9899</code>.
+        </blockquote>
+        <h2>Samples</h2>
+        {{- block "_list_of_sample_home" .}}
+        <div class="rows imgo-sample-start">
+          {{- range .Content}}
+          <div class="row">
+            <div class="content">
+              <p class="imgo-title"><a href="/content/{{.Slug}}"><strong>{{.Title}}</strong></a></p>
+              <p>{{.ShortDescription}}</p>
+              {{- /*<div class="buttons">
+                <a class="button is-small is-link" href="hello-world">See Result</a>
+                <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
+              </div>*/}}
+              <div class="tags">
+                {{- range .Tags}}
+                <span class="tag">{{.Tag}}</span>
+                {{- end}}
+              </div>
+            </div>
+          </div>
+          <hr/>
+          {{- end}}
+        </div>
+        {{- end}}
+      </div>
+    </div>
+  </div>
+</div>
+{{- end}}
