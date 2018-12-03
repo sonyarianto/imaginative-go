@@ -157,7 +157,7 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	templateData := TemplateData{Content: content}
 
 	// Parse templates.
-	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/index.html"))
+	var templates = template.Must(template.New("").ParseFiles("web/templates/_base.html", "web/templates/index.html"))
 
 	// Execute template.
 	templates.ExecuteTemplate(w, "_base.html", templateData)
@@ -176,7 +176,7 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result)
 
 	// Get content file (in markdown format).
-	fileContent, err := ioutil.ReadFile("data/content/" + result.ContentFile)
+	fileContent, err := ioutil.ReadFile("web/content/samples/" + result.ContentFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -193,7 +193,7 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	templateData := TemplateData{Content: template.HTML(content)}
 
 	// Parse templates.
-	var templates = template.Must(template.New("").ParseFiles("templates/_base.html", "templates/read-content.html"))
+	var templates = template.Must(template.New("").ParseFiles("web/templates/_base.html", "web/templates/read-content.html"))
 
 	// Execute template.
 	templates.ExecuteTemplate(w, "_base.html", templateData)
@@ -271,39 +271,39 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 // 	templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
 // }
 
-func GetOutboundIP() net.IP {
-	conn, err := net.Dial("udp", "8.8.8.8:80")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer conn.Close()
+// func GetOutboundIP() net.IP {
+// 	conn, err := net.Dial("udp", "8.8.8.8:80")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer conn.Close()
 
-	localAddr := conn.LocalAddr().(*net.UDPAddr)
+// 	localAddr := conn.LocalAddr().(*net.UDPAddr)
 
-	return localAddr.IP
-}
+// 	return localAddr.IP
+// }
 
-// Some global vars
-var localIpString string = GetOutboundIP().String()
-var mysqlHost string = "mysql"
-var mysqlUsername string = "root"
-var mysqlPassword string = "mysqlpassword"
-var mysqlProtocol string = "tcp"
-var mysqlDatabaseName string = "go_db"
-var mysqlPort string = "3306"
+// // Some global vars
+// var localIpString string = GetOutboundIP().String()
+// var mysqlHost string = "mysql"
+// var mysqlUsername string = "root"
+// var mysqlPassword string = "mysqlpassword"
+// var mysqlProtocol string = "tcp"
+// var mysqlDatabaseName string = "go_db"
+// var mysqlPort string = "3306"
 
-// Define function for template
-var funcMap = template.FuncMap{
-	"toHTML": func(s string) template.HTML {
-		return template.HTML(s)
-	},
-}
+// // Define function for template
+// var funcMap = template.FuncMap{
+// 	"toHTML": func(s string) template.HTML {
+// 		return template.HTML(s)
+// 	},
+// }
 
 func main() {
 	mux := httprouter.New()
 
 	// Serve static files
-	mux.ServeFiles("/assets/*filepath", http.Dir("assets/"))
+	mux.ServeFiles("/assets/*filepath", http.Dir("web/assets/"))
 
 	// Registers the handler function for the given pattern
 	mux.GET("/", Home)
