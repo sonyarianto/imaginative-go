@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script defer src="/assets/js/all.min.js"></script>
     <style>
-.imgo-header{background-color:#ffdd57;display:flex;align-items:center;margin-top:0.5em;font-weight:bold;font-size:1.3em;line-height:1.3em;justify-content:left;padding-left:1.5em;box-shadow:0 2px 2px #ddd;}
+.imgo-header{background-color:#ffdd57;justify-content:left;padding-left:1.2em;padding-bottom:10px;padding-top:7px;box-shadow:0 2px 2px #ddd;padding-right:1.2em;}
 .imgo-container {margin-left:1.2em;margin-right:1.2em;}
 .imgo-title {font-size:1.2em;line-height:1.28em;margin-bottom:0.6em !important;}
 .imgo-sample-start {margin-top:1.7em;}
@@ -18,9 +18,13 @@
   <body>
     {{- block "_after_body" .}}
     <a href="https://github.com/sonyarianto/imaginative-go"><img style="position:absolute;top:0;right:0;border:0;width:149px;height:149px;" src="/assets/images/right-chocolate@2x.png" alt="Fork me on GitHub"></a>
-    <div class="columns">
-      <div class="column imgo-header"><a href="/" style="color:#363636;">Imaginative Go</a></div>
-    </div>
+    <nav class="level">
+      <div class="level-item has-text-centered imgo-header">
+        <div>
+          <p class="title">Imaginative Go</p>
+        </div>
+      </div>
+    </nav>
     {{- end}}
     {{- block "_content" .}}{{- end}}
     {{- block "_footer" .}}
