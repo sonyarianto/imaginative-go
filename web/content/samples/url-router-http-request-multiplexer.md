@@ -50,7 +50,13 @@ func main() {
 Run with `go run web-routing-default-mux.go` and access on your browser at `http://localhost:3000`
 
 ### Sample 2
-Using `gorilla/mux`. 
+Using `gorilla/mux`. More detail at [gorilla/mux](https://github.com/gorilla/mux) website.
+
+First install the package.
+
+```
+go get -u github.com/gorilla/mux
+```
 
 Save as `web-routing-gorilla-mux.go`
 
@@ -93,10 +99,14 @@ func main() {
 
 Run with `go run web-routing-gorilla-mux.go` and access on your browser at `http://localhost:3000`.
 
-More detail at [gorilla/mux](https://github.com/gorilla/mux) website.
-
 ### Sample 3
-Using `httprouter` mux.
+Using `httprouter` mux. More detail at [httprouter](https://github.com/julienschmidt/httprouter) website.
+
+First install the package.
+
+```
+go get -u github.com/julienschmidt/httprouter
+```
 
 Save as `web-routing-httprouter-mux.go`
 
@@ -134,10 +144,14 @@ func main() {
 
 Run with `go run web-routing-httprouter-mux.go` and access on your browser at `http://localhost:3000`.
 
-More detail at [httprouter](https://github.com/julienschmidt/httprouter) website.
-
 ### Sample 4
-Using `Goji` mux.
+Using `Goji` mux. More detail at [Goji](https://github.com/goji/goji) website.
+
+First install the package.
+
+```
+go get -u goji.io
+```
 
 Save as `web-routing-goji-mux.go`
 
@@ -171,5 +185,3 @@ func main() {
 ```
 
 Run with `go run web-routing-goji-mux.go` and access on your browser at `http://localhost:3000`.
-
-More detail at [Goji](https://github.com/goji/goji) website.
