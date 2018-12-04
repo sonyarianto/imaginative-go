@@ -8,6 +8,7 @@ It will show how to do URL routing using several multiplexer (mux) libraries. No
 For more detail of each mux library sample, maybe we will put it on separate article.
 
 ### Sample 1
+
 Using default mux of `net/http`.
 
 Save as `web-routing-default-mux.go`
@@ -50,6 +51,7 @@ func main() {
 Run with `go run web-routing-default-mux.go` and access on your browser at `http://localhost:3000`
 
 ### Sample 2
+
 Using `gorilla/mux`. More detail at [gorilla/mux](https://github.com/gorilla/mux) website.
 
 First install the package.
@@ -100,6 +102,7 @@ func main() {
 Run with `go run web-routing-gorilla-mux.go` and access on your browser at `http://localhost:3000`.
 
 ### Sample 3
+
 Using `httprouter` mux. More detail at [httprouter](https://github.com/julienschmidt/httprouter) website.
 
 First install the package.
@@ -145,6 +148,7 @@ func main() {
 Run with `go run web-routing-httprouter-mux.go` and access on your browser at `http://localhost:3000`.
 
 ### Sample 4
+
 Using `Goji` mux. More detail at [Goji](https://github.com/goji/goji) website.
 
 First install the package.

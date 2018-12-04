@@ -4,6 +4,8 @@
 
 It will show how to load a text file and display it on console.
 
+### Sample
+
 Suppose a text file `my-text-file.txt`.
 
 ```
