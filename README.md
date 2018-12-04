@@ -21,7 +21,9 @@ Docker is useful if you want to run this website with all its content on your lo
 
 For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/).
 
-> **NOTE:** `sudo` used throughout this doc, since mainly we use Linux/MacOS during the development. We test running on Windows 10 as well with Docker for Windows and Docker Toolbox and seems no problem.
+> **NOTE:** `sudo` used throughout this doc, since mainly we use Linux/MacOS during the development. We test running on Windows 10 as well with Docker for Windows and Docker Toolbox.
+
+> **NOTE:** For user that using Windows 10 Home that run with Docker Toolbox, I think you should modify IP on `docker-compose.yml` from 127.0.0.1 to your Docker Machine IP. Docker Machine IP can be known by typing `docker-machine ip`.
 
 ## Usage
 #### Linux/MacOS/Windows
