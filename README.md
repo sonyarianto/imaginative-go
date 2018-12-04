@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go)
 
-Imaginative Go is a website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
+A beautiful website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
-This imaginative project will show doing web application in Go lang as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since it just give you an idea how to achieve something in Go lang.
+In this imaginative (but real) project, we implement our knowledge during learning Go and we want to share with the community. We don't use any Go framework and forgive us if the code still not efficient or optimal, since we are still learning too in Go language. Any suggestions are welcomed.
 
 ## Why Imaginative Go?
 - Ideas about achieve something with Go language
