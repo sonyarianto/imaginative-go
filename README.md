@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go)
 
-Imaginative Go is a website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
+A beautiful website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
-This imaginative project will show doing web application in Go lang as well as other samples that not related to web. We don't use any framework and forgive us if the code still not efficient or optimal, since it just give you an idea how to achieve something in Go lang.
+In this imaginative (but real) project, we implement our knowledge during learning Go and we want to share with the community. We don't use any Go framework and forgive us if the code still not efficient or optimal, since we are still learning too in Go language. Any suggestions are welcomed.
 
 ## Why Imaginative Go?
 - Ideas about achieve something with Go language
@@ -21,7 +21,9 @@ Docker is useful if you want to run this website with all its content on your lo
 
 For those who need documentation of Docker installation, please refer to [Docker CE](https://store.docker.com/search?type=edition&offering=community) and [Docker Compose](https://docs.docker.com/compose/install/).
 
-> **NOTE:** `sudo` used throughout this doc, since mainly we use Linux/MacOS during the development. We test running on Windows 10 as well with Docker for Windows and Docker Toolbox and seems no problem.
+> **NOTE:** `sudo` used throughout this doc, since mainly we use Linux/MacOS during the development. We test running on Windows 10 as well with Docker for Windows and Docker Toolbox.
+
+> **NOTE:** For user that using Windows 10 Home that run with Docker Toolbox, I think you should modify IP on `docker-compose.yml` from 127.0.0.1 to your Docker Machine IP. Docker Machine IP can be known by typing `docker-machine ip`.
 
 ## Usage
 #### Linux/MacOS/Windows
