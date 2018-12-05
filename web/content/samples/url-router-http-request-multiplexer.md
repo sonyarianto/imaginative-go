@@ -7,50 +7,17 @@ It will show how to do URL routing using several multiplexer (mux) libraries. No
 
 For more detail of each mux library sample, maybe we will put it on separate article.
 
-### Sample 1
+### Sample 1 (using net/http)
 
 Using default mux of `net/http`.
 
 Save as `web-routing-default-mux.go`
 
-```go
-package main
-
-import (
-    "io"
-    "log"
-    "net/http"
-)
-
-func serviceDefault(w http.ResponseWriter, r *http.Request) {
-    if r.URL.Path != "/" {
-        http.NotFound(w, r)
-        return
-    }
-
-    io.WriteString(w, "this is the / path")
-}
-
-func service1(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "this is the /service1 path")
-}
-
-func service2(w http.ResponseWriter, r *http.Request) {
-    io.WriteString(w, "this is the /service2 path")
-}
-
-func main() {
-    http.HandleFunc("/", serviceDefault)
-    http.HandleFunc("/service1", service1)
-    http.HandleFunc("/service2", service2)
-
-    log.Fatal(http.ListenAndServe(":3000", nil))
-}
-```
+<script src="https://gist.github.com/sonyarianto/45feb2da543ba038a6ae7413f496666e.js"></script>
 
 Run with `go run web-routing-default-mux.go` and access on your browser at `http://localhost:3000`
 
-### Sample 2
+### Sample 2 (using gorilla/mux)
 
 Using `gorilla/mux`. More detail at [gorilla/mux](https://github.com/gorilla/mux) website.
 
@@ -62,46 +29,11 @@ go get -u github.com/gorilla/mux
 
 Save as `web-routing-gorilla-mux.go`
 
-```go
-package main
-
-import (
-    "fmt"
-    "github.com/gorilla/mux"
-    "log"
-    "net/http"
-)
-
-func Home(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprint(w, "This is the home page")
-}
-
-func Article(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-
-    fmt.Fprintf(w, "Article id is %s", vars["id"])
-}
-
-func Number(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-
-    fmt.Fprintf(w, "This is number %s", vars["id"])
-}
-
-func main() {
-    r := mux.NewRouter()
-
-    r.HandleFunc("/", Home)
-    r.HandleFunc("/article/{id}", Article)      // {id} can be anything
-    r.HandleFunc("/number/{id:[0-9]+}", Number) // only match numeric pattern
-
-    log.Fatal(http.ListenAndServe(":3000", r))
-}
-```
+<script src="https://gist.github.com/sonyarianto/47b2e2fd4c3103bf699c3c3b1b86040f.js"></script>
 
 Run with `go run web-routing-gorilla-mux.go` and access on your browser at `http://localhost:3000`.
 
-### Sample 3
+### Sample 3 (using httprouter)
 
 Using `httprouter` mux. More detail at [httprouter](https://github.com/julienschmidt/httprouter) website.
 
@@ -114,40 +46,12 @@ go get -u github.com/julienschmidt/httprouter
 Save as `web-routing-httprouter-mux.go`
 
 ```go
-package main
-
-import (
-    "fmt"
-    "github.com/julienschmidt/httprouter"
-    "log"
-    "net/http"
-)
-
-func homeHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-    fmt.Fprint(w, "This is path / handled by httprouter!\n")
-}
-
-func numberHandler(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-    number := params.ByName("number")
-
-    w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-    fmt.Fprint(w, "This is number <strong>"+number+"</strong>")
-}
-
-func main() {
-    router := httprouter.New()
-
-    router.GET("/", homeHandler)
-    router.GET("/this/:number", numberHandler)
-
-    log.Fatal(http.ListenAndServe(":3000", router))
-}
+<script src="https://gist.github.com/sonyarianto/2e608ceea148e371f72f4bf5eca0f309.js"></script>
 ```
 
 Run with `go run web-routing-httprouter-mux.go` and access on your browser at `http://localhost:3000`.
 
-### Sample 4
+### Sample 4 (using Goji)
 
 Using `Goji` mux. More detail at [Goji](https://github.com/goji/goji) website.
 
@@ -159,33 +63,6 @@ go get -u goji.io
 
 Save as `web-routing-goji-mux.go`
 
-```go
-package main
-
-import (
-    "fmt"
-    "goji.io"
-    "goji.io/pat"
-    "net/http"
-)
-
-func home(w http.ResponseWriter, r *http.Request) {
-    fmt.Fprintf(w, "This is the %s!", "homepage")
-}
-
-func hello(w http.ResponseWriter, r *http.Request) {
-    name := pat.Param(r, "name")
-    fmt.Fprintf(w, "Hello, %s!", name)
-}
-
-func main() {
-    mux := goji.NewMux()
-
-    mux.HandleFunc(pat.Get("/"), home)
-    mux.HandleFunc(pat.Get("/hello/:name"), hello)
-
-    http.ListenAndServe("localhost:3000", mux)
-}
-```
+<script src="https://gist.github.com/sonyarianto/a2cdf7f40e77ed44fe492c9cc1a2d306.js"></script>
 
 Run with `go run web-routing-goji-mux.go` and access on your browser at `http://localhost:3000`.
