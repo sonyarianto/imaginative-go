@@ -18,6 +18,13 @@ db.sample_content.insertMany(
 	"content_file": "url-router-http-request-multiplexer.md"
    },
    {
+	"title": "Template",
+	"slug": "template",
+	"short_description": "Use template for your web application.",
+	"tags": [{"tag": "beginner"},{"tag": "template"},{"tag": "web"}],
+	"content_file": "template.md"
+   },
+   {
 	"title": "Load a text file",
 	"slug": "load-a-text-file",
 	"short_description": "Load a text file is easy task but maybe useful for you.",
