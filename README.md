@@ -1,8 +1,6 @@
 # Imaginative Go
 
-[![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go)
-
-[![Go Report Card](https://goreportcard.com/badge/github.com/sonyarianto/imaginative-go)](https://goreportcard.com/report/github.com/sonyarianto/imaginative-go)
+[![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go) [![Go Report Card](https://goreportcard.com/badge/github.com/sonyarianto/imaginative-go)](https://goreportcard.com/report/github.com/sonyarianto/imaginative-go)
 
 A beautiful website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
