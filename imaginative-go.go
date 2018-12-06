@@ -22,10 +22,12 @@ import (
 	"os"
 )
 
+// Tag is for tag on Content struct.
 type Tag struct {
 	Tag string `bson:"tag" json:"tag"`
 }
 
+// Content is struct for content on this web project.
 type Content struct {
 	ID               primitive.ObjectID `bson:"_id" json:"_id"`
 	Title            string             `bson:"title" json:"title"`
@@ -35,7 +37,7 @@ type Content struct {
 	Tags             []Tag              `bson:"tags" json:"tags"`
 }
 
-// Prepare struct for syntax highlighter.
+// ChromaRenderer is struct for syntax highlighter.
 type ChromaRenderer struct {
 	html  *blackfriday.HTMLRenderer
 	theme string
@@ -121,7 +123,7 @@ func MongoDBConnect() *mongo.Database {
 	return db
 }
 
-// Handle / path.
+// Home is handler for / path.
 func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Do the connection and select database.
 	db := MongoDBConnect()
@@ -162,6 +164,7 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
+// ReadContent is handler for reading content on this web.
 func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Get the parameter.
 	slug := ps.ByName("slug")
