@@ -1,6 +1,6 @@
 # Imaginative Go
 
-[![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go)
+[![Build Status](https://travis-ci.org/sonyarianto/imaginative-go.svg?branch=master)](https://travis-ci.org/sonyarianto/imaginative-go) [![Go Report Card](https://goreportcard.com/badge/github.com/sonyarianto/imaginative-go)](https://goreportcard.com/report/github.com/sonyarianto/imaginative-go) [![Maintainability](https://api.codeclimate.com/v1/badges/e8d5f5483ea4c87df280/maintainability)](https://codeclimate.com/github/sonyarianto/imaginative-go/maintainability)
 
 A beautiful website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
@@ -45,6 +45,8 @@ http://localhost:9899
 > sudo docker-compose down && sudo docker volume rm imaginative-go_volume-mongodb-imaginative-go && sudo docker-compose pull && sudo docker-compose build && sudo docker-compose up -d --build --force-recreate
 > ```
 > Above command will make sure you will create and run fresh all containers needed to run Imaginative Go web project. This is usualy useful after you are doing `git pull` on Imaginative Go repository.
+> 
+> Above command will error if volume `imaginative-go_volume-mongodb-imaginative-go` doesn't exists. You can remove the delete volume part if you encounter that error
 
 > **Note 2**
 > 
