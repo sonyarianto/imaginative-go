@@ -45,6 +45,8 @@ http://localhost:9899
 > sudo docker-compose down && sudo docker volume rm imaginative-go_volume-mongodb-imaginative-go && sudo docker-compose pull && sudo docker-compose build && sudo docker-compose up -d --build --force-recreate
 > ```
 > Above command will make sure you will create and run fresh all containers needed to run Imaginative Go web project. This is usualy useful after you are doing `git pull` on Imaginative Go repository.
+> 
+> Above command will error if volume `imaginative-go_volume-mongodb-imaginative-go` doesn't exists. You can remove the delete volume part if you encounter that error
 
 > **Note 2**
 > 
