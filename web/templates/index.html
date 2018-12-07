@@ -1,0 +1,46 @@
+{{template "_base.html" .}}
+
+{{- block "_content" .}}
+<div class="imgo-container">
+  <div class="rows">
+    <div class="row">
+      <div class="content">
+        <h2>Welcome to Imaginative Go!</h2>
+        <p>A beautiful website that created with Go. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!</p>
+        <p>In this imaginative (but real) project, we implement our knowledge during learning Go and we want to share it with the community.</p>
+        <p>We don't use any Go framework and forgive us if the code still not efficient or optimal, since we are still learning too in Go language. Any suggestions are welcomed.</p>
+        <iframe src="https://ghbtns.com/github-btn.html?user=sonyarianto&repo=imaginative-go&type=star&count=true&size=large" frameborder="0" scrolling="0" width="120px" height="30px"></iframe>
+        <iframe src="https://ghbtns.com/github-btn.html?user=sonyarianto&repo=imaginative-go&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="120px" height="30px"></iframe>
+        <h2>Samples</h2>
+        {{- block "_list_of_sample_home" .}}
+        <div class="rows imgo-sample-start">
+          {{- range .Content}}
+          <div class="row">
+            <div class="content">
+              <p class="imgo-title"><a href="/content/{{.Slug}}"><strong>{{.Title}}</strong></a></p>
+              <p>{{.ShortDescription}}</p>
+              {{- /*<div class="buttons">
+                <a class="button is-small is-link" href="hello-world">See Result</a>
+                <a class="button is-small is-link" href="see-code/hello-world">See Code</a>
+              </div>*/}}
+              <div class="tags">
+                {{- range .Tags}}
+                <span class="tag">{{.Tag}}</span>
+                {{- end}}
+              </div>
+            </div>
+          </div>
+          <hr/>
+          {{- end}}
+        </div>
+        {{- end}}
+        <blockquote><strong>NOTES:</strong><br>
+          This web code at file <code>imaginative-go.go</code>.<br>
+          All web data and assets are on <code>web</code> directory.<br>
+          Fork this website and run <code>docker-compose up -d</code> then go to your browser at <code>http://localhost:9899</code>.
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+{{- end}}
