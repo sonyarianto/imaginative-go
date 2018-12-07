@@ -64,8 +64,9 @@ http://localhost:9899
 - `mongodb:latest` (see `docker-compose.yml` for default credential, port exposed to host is using random port, see on `docker ps` command)
 
 ## Contributors
-- [Sony Arianto Kurniawan](https://github.com/sonyarianto) - sony@sony-ak.com - original author, project maintainer
-- [Prasetyama Hidayat](https://github.com/prasetyama) - prasetyama@gmail.com
+- [Sony Arianto Kurniawan](https://github.com/sonyarianto) - sony at sony-ak.com - original author, project maintainer
+- [Prasetyama Hidayat](https://github.com/prasetyama) - prasetyama at gmail.com
+- [Waladi Abdauh](https://github.com/dauhpublic) - waladi.abdauh at gmail.com
 
 Do you want to contribute? Just fork this repository and contribute anything you can (e.g. fix typo, bug fix, add new sample etc.)
 
