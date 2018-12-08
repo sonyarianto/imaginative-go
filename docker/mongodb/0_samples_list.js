@@ -18,9 +18,9 @@ db.sample_content.insertMany(
 	"content_file": "url-router-http-request-multiplexer.md"
    },
    {
-	"title": "Template",
-	"slug": "template",
-	"short_description": "Use template for your web application.",
+	"title": "Simple template and passing data to template",
+	"slug": "simple-template-and-passing-data-to-template",
+	"short_description": "How to parse simple template and passing data to a template.",
 	"tags": [{"tag": "beginner"},{"tag": "template"},{"tag": "web"}],
 	"content_file": "template.md"
    },
@@ -30,5 +30,12 @@ db.sample_content.insertMany(
 	"short_description": "Load a text file is easy task but maybe useful for you.",
 	"tags": [{"tag": "beginner"},{"tag": "io"},{"tag": "file"}],
 	"content_file": "load-a-text-file.md"
+   },
+   {
+	"title": "Get local IP address",
+	"slug": "get-local-ip-address",
+	"short_description": "Get local IP address.",
+	"tags": [{"tag": "beginner"},{"tag": "network"},{"tag": "internet"}],
+	"content_file": "get-local-ip-address.md"
    }]
 )

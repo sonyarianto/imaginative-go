@@ -22,10 +22,12 @@ import (
 	"os"
 )
 
+// Tag is for tag on Content struct.
 type Tag struct {
 	Tag string `bson:"tag" json:"tag"`
 }
 
+// Content is struct for content on this web project.
 type Content struct {
 	ID               primitive.ObjectID `bson:"_id" json:"_id"`
 	Title            string             `bson:"title" json:"title"`
@@ -35,7 +37,7 @@ type Content struct {
 	Tags             []Tag              `bson:"tags" json:"tags"`
 }
 
-// Prepare struct for syntax highlighter.
+// ChromaRenderer is struct for syntax highlighter.
 type ChromaRenderer struct {
 	html  *blackfriday.HTMLRenderer
 	theme string
@@ -92,9 +94,13 @@ func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, enterin
 	return r.html.RenderNode(w, node, entering)
 }
 
+// RenderHeader is used for render header
 func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+
+// RenderFooter is used for render footer
 func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
 
+// NewChromaRenderer is used for renderer.
 func NewChromaRenderer(theme string) *ChromaRenderer {
 	return &ChromaRenderer{
 		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
@@ -102,6 +108,7 @@ func NewChromaRenderer(theme string) *ChromaRenderer {
 	}
 }
 
+// MongoDBConnet is used to connect to MongoDB.
 func MongoDBConnect() *mongo.Database {
 	// Prepare database.
 	client, err := mongo.NewClient(os.Getenv("IGO_MONGODB_URI"))
@@ -121,7 +128,7 @@ func MongoDBConnect() *mongo.Database {
 	return db
 }
 
-// Handle / path.
+// Home is handler for / path.
 func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Do the connection and select database.
 	db := MongoDBConnect()
@@ -162,6 +169,7 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
+// ReadContent is handler for reading content on this web.
 func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Get the parameter.
 	slug := ps.ByName("slug")
@@ -172,7 +180,10 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	result := Content{}
 
 	// Do the query to a collection on database.
-	db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result)
+	if err := db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result); err != nil {
+		http.NotFound(w, r)
+		return
+	}
 
 	// Get content file (in markdown format).
 	fileContent, err := ioutil.ReadFile("web/content/samples/" + result.ContentFile)
