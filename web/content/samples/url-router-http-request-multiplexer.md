@@ -1,4 +1,3 @@
-
 # URL router a.k.a HTTP request multiplexer
 
 ## Scenario
@@ -29,7 +28,7 @@ go get -u github.com/gorilla/mux
 
 Save as `web-routing-gorilla-mux.go`
 
-<script src="https://gist.github.com/sonyarianto/47b2e2fd4c3103bf699c3c3b1b86040f.js"></script>
+<script src="https://gist.github.com/sonyarianto/2e608ceea148e371f72f4bf5eca0f309.js"></script>
 
 Run with `go run web-routing-gorilla-mux.go` and access on your browser at `http://localhost:3000`.
 
@@ -45,9 +44,7 @@ go get -u github.com/julienschmidt/httprouter
 
 Save as `web-routing-httprouter-mux.go`
 
-```go
 <script src="https://gist.github.com/sonyarianto/2e608ceea148e371f72f4bf5eca0f309.js"></script>
-```
 
 Run with `go run web-routing-httprouter-mux.go` and access on your browser at `http://localhost:3000`.
 
