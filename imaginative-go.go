@@ -108,7 +108,7 @@ func NewChromaRenderer(theme string) *ChromaRenderer {
 	}
 }
 
-// MongoDBConnet is used to connect to MongoDB.
+// MongoDBConnect is used to connect to MongoDB.
 func MongoDBConnect() *mongo.Database {
 	// Prepare database.
 	client, err := mongo.NewClient(os.Getenv("IGO_MONGODB_URI"))
