@@ -94,9 +94,13 @@ func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, enterin
 	return r.html.RenderNode(w, node, entering)
 }
 
+// RenderHeader is used for render header
 func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+
+// RenderFooter is used for render footer
 func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
 
+// NewChromaRenderer is used for renderer.
 func NewChromaRenderer(theme string) *ChromaRenderer {
 	return &ChromaRenderer{
 		html:  blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{}),
@@ -104,6 +108,7 @@ func NewChromaRenderer(theme string) *ChromaRenderer {
 	}
 }
 
+// MongoDBConnet is used to connect to MongoDB.
 func MongoDBConnect() *mongo.Database {
 	// Prepare database.
 	client, err := mongo.NewClient(os.Getenv("IGO_MONGODB_URI"))
@@ -175,7 +180,10 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	result := Content{}
 
 	// Do the query to a collection on database.
-	db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result)
+	if err := db.Collection("sample_content").FindOne(nil, bson.D{{"slug", slug}}).Decode(&result); err != nil {
+		http.NotFound(w, r)
+		return
+	}
 
 	// Get content file (in markdown format).
 	fileContent, err := ioutil.ReadFile("web/content/samples/" + result.ContentFile)
