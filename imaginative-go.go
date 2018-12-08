@@ -206,10 +206,11 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content template.HTML
+		Slug string
 		Env string
 	}
 
-	templateData := TemplateData{Content: template.HTML(content), Env: os.Getenv("IGO_ENV")}
+	templateData := TemplateData{Content: template.HTML(content), Slug: slug, Env: os.Getenv("IGO_ENV")}
 
 	// Parse templates.
 	var templates = template.Must(template.New("").ParseFiles("web/templates/_base.html", "web/templates/read-content.html"))
