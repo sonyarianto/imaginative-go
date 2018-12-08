@@ -2,6 +2,17 @@
 <html>
   {{- block "_head" .}}
   <head>
+    {{- if eq .Env "prod"}}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130633823-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-130633823-1');
+    </script>
+    {{- end}}
     <title>Imaginative Go</title>
     <link rel="stylesheet" href="/assets/css/bulma.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">

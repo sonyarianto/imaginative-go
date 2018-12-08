@@ -128,8 +128,8 @@ func MongoDBConnect() *mongo.Database {
 	return db
 }
 
-// Home is handler for / path.
-func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+// GetAllContent is to get all active content for the website.
+func GetAllContent() []Content {
 	// Do the connection and select database.
 	db := MongoDBConnect()
 
@@ -155,12 +155,20 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		content = append(content, eachContent)
 	}
 
+	return content
+}
+
+// Home is handler for / path.
+func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	content := GetAllContent()
+
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content []Content
+		Env string
 	}
 
-	templateData := TemplateData{Content: content}
+	templateData := TemplateData{Content: content, Env: os.Getenv("IGO_ENV")}
 
 	// Parse templates.
 	var templates = template.Must(template.New("").ParseFiles("web/templates/_base.html", "web/templates/index.html"))
@@ -192,15 +200,16 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 
 	// Prepare renderer.
-	cr := NewChromaRenderer("perldoc")
+	cr := NewChromaRenderer("paraiso-light")
 	content := string(blackfriday.Run(fileContent, blackfriday.WithRenderer(cr)))
 
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content template.HTML
+		Env string
 	}
 
-	templateData := TemplateData{Content: template.HTML(content)}
+	templateData := TemplateData{Content: template.HTML(content), Env: os.Getenv("IGO_ENV")}
 
 	// Parse templates.
 	var templates = template.Must(template.New("").ParseFiles("web/templates/_base.html", "web/templates/read-content.html"))
@@ -208,15 +217,6 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Execute template.
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
-
-// func displayImaginativeGoSource(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-// 	b, err := ioutil.ReadFile("imaginative-go.go")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	log.Println(string(b))
-// }
 
 // func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 // 	// prepare the function for template
@@ -281,33 +281,16 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 // 	templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
 // }
 
-// func GetOutboundIP() net.IP {
-// 	conn, err := net.Dial("udp", "8.8.8.8:80")
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer conn.Close()
-
-// 	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
-// 	return localAddr.IP
-// }
-
-// // Some global vars
-// var localIpString string = GetOutboundIP().String()
-// var mysqlHost string = "mysql"
-// var mysqlUsername string = "root"
-// var mysqlPassword string = "mysqlpassword"
-// var mysqlProtocol string = "tcp"
-// var mysqlDatabaseName string = "go_db"
-// var mysqlPort string = "3306"
-
 // // Define function for template
 // var funcMap = template.FuncMap{
 // 	"toHTML": func(s string) template.HTML {
 // 		return template.HTML(s)
 // 	},
 // }
+
+var (
+	Env string = os.Getenv("IGO_ENV")
+)
 
 func main() {
 	mux := httprouter.New()
