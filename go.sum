@@ -18,6 +18,8 @@ github.com/mongodb/mongo-go-driver v0.0.18 h1:VdItX4LNE6/vXaKPeQtAs7K7zp6N7RyeN3
 github.com/mongodb/mongo-go-driver v0.0.18/go.mod h1:NK/HWDIIZkaYsnYa0hmtP443T5ELr0KDecmIioVuuyU=
 github.com/mongodb/mongo-go-driver v0.0.19-0.20181130153013-a29da95dd69c h1:ckj8/Sy57T2XeHkdYIxEXnwcAE+OCt8YEIr/FPE/8nM=
 github.com/mongodb/mongo-go-driver v0.0.19-0.20181130153013-a29da95dd69c/go.mod h1:NK/HWDIIZkaYsnYa0hmtP443T5ELr0KDecmIioVuuyU=
+github.com/mongodb/mongo-go-driver v0.1.0 h1:LcpPFw0tNumIAakvNrkI9S9wdX0iOxvMLw/+hcAdHaU=
+github.com/mongodb/mongo-go-driver v0.1.0/go.mod h1:NK/HWDIIZkaYsnYa0hmtP443T5ELr0KDecmIioVuuyU=
 github.com/russross/blackfriday v2.0.0+incompatible h1:cBXrhZNUf9C+La9/YpS+UHpUT8YD6Td9ZMSU9APFcsk=
 github.com/russross/blackfriday v2.0.0+incompatible/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/russross/blackfriday/v2 v2.0.1 h1:lPqVAte+HuHNfhJ/0LC98ESWRz8afy9tM/0RK8m9o+Q=
