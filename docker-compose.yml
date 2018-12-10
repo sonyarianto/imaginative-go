@@ -12,7 +12,7 @@ services:
       - IGO_MONGODB_DATABASE=db-imaginative-go
       - IGO_ENV=prod
     ports:
-      - "9899:9899"
+      - "127.0.0.1:9899:9899"
     depends_on:
       - mongodb
     links:
