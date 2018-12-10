@@ -15,3 +15,5 @@ RUN go get -u -v github.com/alecthomas/chroma/styles
 RUN go get -u -v github.com/gomarkdown/markdown
 
 RUN go get -u -v gopkg.in/russross/blackfriday.v2
+
+RUN go get -u -v golang.org/x/lint/golint

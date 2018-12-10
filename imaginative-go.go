@@ -165,7 +165,7 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content []Content
-		Env string
+		Env     string
 	}
 
 	templateData := TemplateData{Content: content, Env: os.Getenv("IGO_ENV")}
@@ -206,8 +206,8 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content template.HTML
-		Slug string
-		Env string
+		Slug    string
+		Env     string
 	}
 
 	templateData := TemplateData{Content: template.HTML(content), Slug: slug, Env: os.Getenv("IGO_ENV")}
@@ -288,10 +288,6 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 // 		return template.HTML(s)
 // 	},
 // }
-
-var (
-	Env string = os.Getenv("IGO_ENV")
-)
 
 func main() {
 	mux := httprouter.New()

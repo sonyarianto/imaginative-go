@@ -9,12 +9,8 @@ import (
 	"testing"
 )
 
-var (
-	imaginativeGoEnv string = os.Getenv("IGO_ENV")
-)
-
 func TestHome(t *testing.T) {
-	if imaginativeGoEnv != "prod" {
+	if os.Getenv("IGO_ENV") != "prod" {
 		return
 	}
 
@@ -35,7 +31,7 @@ func TestHome(t *testing.T) {
 }
 
 func TestReadContent(t *testing.T) {
-	if imaginativeGoEnv != "prod" {
+	if os.Getenv("IGO_ENV") != "prod" {
 		return
 	}
 
