@@ -94,10 +94,10 @@ func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, enterin
 	return r.html.RenderNode(w, node, entering)
 }
 
-// RenderHeader is used for render header
+// RenderHeader is used for render header.
 func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
 
-// RenderFooter is used for render footer
+// RenderFooter is used for render footer.
 func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
 
 // NewChromaRenderer is used for renderer.
@@ -165,7 +165,7 @@ func Home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content []Content
-		Env string
+		Env     string
 	}
 
 	templateData := TemplateData{Content: content, Env: os.Getenv("IGO_ENV")}
@@ -206,8 +206,8 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	// Prepare data structure for data passed to template.
 	type TemplateData struct {
 		Content template.HTML
-		Slug string
-		Env string
+		Slug    string
+		Env     string
 	}
 
 	templateData := TemplateData{Content: template.HTML(content), Slug: slug, Env: os.Getenv("IGO_ENV")}
@@ -219,90 +219,16 @@ func ReadContent(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	templates.ExecuteTemplate(w, "_base.html", templateData)
 }
 
-// func mysqlSelectMultipleRows(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-// 	// prepare the function for template
-// 	funcMap := template.FuncMap{
-// 		// the name "inc" is what the function will be called in the template text.
-// 		"inc": func(i int) int {
-// 			return i + 1
-// 		},
-// 	}
-
-// 	// prepare the template
-// 	var templates = template.Must(template.New("").Funcs(funcMap).ParseFiles("templates/phantom/mysql_select_multiple_rows.html"))
-
-// 	// prepare the structure
-// 	type Category struct {
-// 		InternalId       int    `json:"internal_id"`
-// 		Name             string `json:"name"`
-// 		Slug             string `json:"slug"`
-// 		ShortDescription string `json:"short_description"`
-// 	}
-
-// 	type Data struct {
-// 		Category []Category
-// 	}
-
-// 	// prepare the database connection
-// 	db, err := sql.Open("mysql", mysqlUsername+":"+mysqlPassword+"@"+mysqlProtocol+"("+mysqlHost+":"+mysqlPort+")/"+mysqlDatabaseName)
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	defer db.Close()
-
-// 	// prepare the SQL (using Query)
-// 	rows, err := db.Query("SELECT id, `name`, slug, short_description FROM content_category ORDER BY `name` ASC")
-// 	if err != nil {
-// 		panic(err.Error()) // proper error handling instead of panic in your app
-// 	}
-// 	defer rows.Close()
-
-// 	// prepare the data
-// 	rowsData := make([]Category, 0)
-
-// 	// start loop to selected table
-// 	for rows.Next() {
-// 		// prepare the variable
-// 		var category Category
-
-// 		// scan each row
-// 		err := rows.Scan(&category.InternalId, &category.Name, &category.Slug, &category.ShortDescription)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-
-// 		// save to variable
-// 		rowsData = append(rowsData, category)
-// 	}
-// 	err = rows.Err()
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-
-// 	templates.ExecuteTemplate(w, "mysql_select_multiple_rows.html", Data{Category: rowsData})
-// }
-
-// // Define function for template
-// var funcMap = template.FuncMap{
-// 	"toHTML": func(s string) template.HTML {
-// 		return template.HTML(s)
-// 	},
-// }
-
-var (
-	Env string = os.Getenv("IGO_ENV")
-)
-
 func main() {
 	mux := httprouter.New()
 
-	// Serve static files
+	// Serve static files.
 	mux.ServeFiles("/assets/*filepath", http.Dir("web/assets/"))
 
-	// Registers the handler function for the given pattern
+	// Registers the handler function for the given pattern.
 	mux.GET("/", Home)
 	mux.GET("/content/:slug", ReadContent)
 
-	// Start listen and serve
+	// Start listen and serve.
 	log.Fatal(http.ListenAndServe(":9899", mux))
 }
