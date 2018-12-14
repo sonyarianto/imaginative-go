@@ -94,6 +94,12 @@ func (r *ChromaRenderer) RenderNode(w io.Writer, node *blackfriday.Node, enterin
 	return r.html.RenderNode(w, node, entering)
 }
 
+// RenderHeader is used for render header.
+func (r *ChromaRenderer) RenderHeader(w io.Writer, ast *blackfriday.Node) {}
+
+// RenderFooter is used for render footer.
+func (r *ChromaRenderer) RenderFooter(w io.Writer, ast *blackfriday.Node) {}
+
 // NewChromaRenderer is used for renderer.
 func NewChromaRenderer(theme string) *ChromaRenderer {
 	return &ChromaRenderer{
