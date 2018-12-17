@@ -4,10 +4,9 @@ language: go
 # Force-enable Go modules. This will be unnecessary when Go 1.12 lands.
 env:
   - GO111MODULE=on
-  - CODECOV_TOKEN="b772f736-e465-48fc-970f-f9385daa00b1"
 
 go:
-  - 1.11.x
+  - tip
 
 git:
   depth: 1
@@ -19,6 +18,15 @@ install: true
 # Don't email me the results of the test runs.
 notifications:
   email: false
+  
+before_install:
+  - go get -t -v ./...
+
+script:
+  - go test -race -coverprofile=coverage.txt -covermode=atomic
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
 # Anything in before_script that returns a nonzero exit code will flunk the
 # build and immediately stop. It's sorta like having set -e enabled in bash.
