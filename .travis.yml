@@ -4,6 +4,7 @@ language: go
 # Force-enable Go modules. This will be unnecessary when Go 1.12 lands.
 env:
   - GO111MODULE=on
+  - COVERALLS_TOKEN=vK21004U6mkvHJQCVpL8xKcUDFf4CMcx9
 
 go:
   - tip
@@ -13,7 +14,10 @@ git:
 
 # Skip the install step. Don't `go get` dependencies. Only build with the code
 # in vendor/
-install: true
+#install: true
+install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
 
 # Don't email me the results of the test runs.
 notifications:
@@ -39,3 +43,5 @@ script:
 #  - go test -v -race ./...  # Run all the tests with the race detector enabled
 #  - go test -v -race ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+  - go test -v -covermode=count -coverprofile=coverage.out
+  - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
