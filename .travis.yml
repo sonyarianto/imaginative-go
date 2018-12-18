@@ -4,7 +4,7 @@ language: go
 # Force-enable Go modules. This will be unnecessary when Go 1.12 lands.
 env:
   - GO111MODULE=on
-  - COVERALLS_TOKEN=vK21004U6mkvHJQCVpL8xKcUDFf4CMcx9
+  - COVERALLS_REPO_TOKEN=vK21004U6mkvHJQCVpL8xKcUDFf4CMcx9
 
 go:
   - tip
@@ -43,4 +43,4 @@ script:
 #  - go test -v -race ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
   - go test -v -covermode=count -coverprofile=coverage.out
-  #- $HOME/go/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+  #- $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
