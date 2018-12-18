@@ -19,11 +19,13 @@ install: true
 # Don't email me the results of the test runs.
 notifications:
   email: false
-  
+
+before_script:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+
 before_install:
   - go get -t -v ./...
-  #- go get golang.org/x/tools/cmd/cover
-  #- go get github.com/mattn/goveralls
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
@@ -43,4 +45,4 @@ script:
 #  - go test -v -race ./...
   - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
   - go test -v -covermode=count -coverprofile=coverage.out
-  #- $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_REPO_TOKEN
