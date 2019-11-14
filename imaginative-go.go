@@ -2,7 +2,7 @@ package main
 
 // If you add an external package here, make sure it also added on
 // docker/golang/Dockerfile so next time if you recreate all containers
-// it will be installed.
+// it will be installed
 import (
 	"context"
 	"github.com/alecthomas/chroma"
