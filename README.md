@@ -5,6 +5,8 @@
 ## Status
 Work in Progress
 
+## What it is?
+
 A beautiful open source website that created with Go language. It contains many Go working samples code that useful for web and non-web application. It mainly demonstrate what Go can achieve. You can contribute!
 
 In this imaginative (but real) project, we implement our knowledge during learning Go and we want to share with the community. We don't use any Go framework and forgive us if the code still not efficient or optimal, since we are still learning too in Go language. Any suggestions are welcomed.
